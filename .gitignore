@@ -1,0 +1,74 @@
+# =========================
+# Unity generated folders
+# =========================
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+
+# Unity Asset Server cache
+/Assets/AssetStoreTools*
+
+# Addressables cache
+/Assets/AddressableAssetsData/*/*.bin*
+
+# =========================
+# Visual Studio / Rider / VSCode
+# =========================
+.vs/
+.idea/
+.vscode/
+
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+
+# =========================
+# OS generated
+# =========================
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =========================
+# Crash reports & logs
+# =========================
+sysinfo.txt
+*.stackdump
+
+# =========================
+# Build artifacts
+# =========================
+*.apk
+*.aab
+*.exe
+*.app
+*.ipa
+*.xcodeproj
+*.xcworkspace
+
+# =========================
+# Unity meta handling
+# =========================
+# Keep meta files
+!*.meta
+
+# Exclude meta files for ignored folders
+[Ll]ibrary/**/*.meta
+[Tt]emp/**/*.meta
+[Oo]bj/**/*.meta
+[Bb]uild/**/*.meta
+[Bb]uilds/**/*.meta
+[Ll]ogs/**/*.meta
+[Mm]emoryCaptures/**/*.meta
