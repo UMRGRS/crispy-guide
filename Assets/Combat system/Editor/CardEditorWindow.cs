@@ -26,8 +26,8 @@ namespace NueGames.NueDeck.Editor
         private List<CardData> AllCardDataList { get; set; }
         private CardData SelectedCardData { get; set; }
         private string CardId { get; set; }
-        private string CardName{ get; set; }
-        private int ManaCost{ get; set; }
+        private string CardName { get; set; }
+        private List<CostData> CostDataList { get; set; }
         private Sprite CardSprite{ get; set; }
         private bool UsableWithoutTarget{ get; set; }
         private bool ExhaustAfterPlay{ get; set; }
@@ -42,7 +42,7 @@ namespace NueGames.NueDeck.Editor
         {
             CardId = SelectedCardData.Id;
             CardName = SelectedCardData.CardName;
-            ManaCost = SelectedCardData.ManaCost;
+            CostDataList = SelectedCardData.CostDataList;
             CardSprite = SelectedCardData.CardSprite;
             UsableWithoutTarget = SelectedCardData.UsableWithoutTarget;
             ExhaustAfterPlay = SelectedCardData.ExhaustAfterPlay;
@@ -57,7 +57,7 @@ namespace NueGames.NueDeck.Editor
         {
             CardId = String.Empty;
             CardName = String.Empty;
-            ManaCost = 0;
+            CostDataList?.Clear();
             CardSprite = null;
             UsableWithoutTarget = false;
             ExhaustAfterPlay = false;
@@ -180,6 +180,7 @@ namespace NueGames.NueDeck.Editor
             if (!SelectedCardData)
             {
                 EditorGUILayout.LabelField("Select card");
+                EditorGUILayout.EndVertical();
                 return;
             }
             GUILayout.Space(10);
@@ -188,6 +189,8 @@ namespace NueGames.NueDeck.Editor
            
             
             ChangeGeneralSettings();
+
+            ChangeCostDataList();
            
             ChangeCardActionDataList();
             ChangeCardDescriptionDataList();
@@ -221,9 +224,56 @@ namespace NueGames.NueDeck.Editor
         {
             CardName = EditorGUILayout.TextField("Card Name:", CardName);
         }
-        private void ChangeManaCost()
+        private bool _isCardCostDataListFolded;
+        private Vector2 _cardCostDataScrollPos;
+        private void ChangeCostDataList()
         {
-            ManaCost = EditorGUILayout.IntField("Mana Cost:", ManaCost);
+            _isCardCostDataListFolded =EditorGUILayout.BeginFoldoutHeaderGroup(_isCardCostDataListFolded, "Card cost");
+            if (_isCardCostDataListFolded)
+            {
+                _cardCostDataScrollPos = EditorGUILayout.BeginScrollView(_cardCostDataScrollPos,GUILayout.ExpandWidth(true));
+                EditorGUILayout.BeginHorizontal();
+                List<CostData> _removedList = new List<CostData>();
+                for (var i = 0; i < CostDataList.Count; i++)
+                {
+                    var cardCostData = CostDataList[i];
+                    EditorGUILayout.BeginVertical("box", GUILayout.Width(150), GUILayout.MaxHeight(50));
+                
+                    EditorGUILayout.BeginHorizontal();
+                    GUIStyle idStyle = new GUIStyle();
+                    idStyle.fontSize = 16;
+                    idStyle.fixedWidth = 25;
+                    idStyle.fixedHeight = 25;
+                    idStyle.fontStyle = FontStyle.Bold;
+                    idStyle.normal.textColor = Color.white;
+                    EditorGUILayout.LabelField($"Action Index: {i}",idStyle);
+                    
+                    GUILayout.FlexibleSpace();
+                    
+                    if (GUILayout.Button("X", GUILayout.MaxWidth(25), GUILayout.MaxHeight(25)))
+                        _removedList.Add(cardCostData);
+                    
+                    EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.Separator();
+                    var newCostType = (EnergyColor)EditorGUILayout.EnumPopup("Cost Type",cardCostData.CostColor,GUILayout.Width(250));                    
+                    var newQuantityCost = EditorGUILayout.IntField("Quantity: ",cardCostData.Quantity);
+                    
+                    cardCostData.EditCostType(newCostType);
+                    cardCostData.EditQuantityCost(newQuantityCost);
+                    EditorGUILayout.EndVertical();
+                }
+
+                foreach (var cardCostData in _removedList)
+                    CostDataList.Remove(cardCostData);
+
+                if (GUILayout.Button("+",GUILayout.Width(50),GUILayout.Height(50)))
+                    CostDataList.Add(new CostData());
+                
+                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.EndScrollView();
+            }
+            
+            EditorGUILayout.EndFoldoutHeaderGroup();
         }
         
         private void ChangeRarity()
@@ -233,7 +283,12 @@ namespace NueGames.NueDeck.Editor
         private void ChangeCardSprite()
         {
             EditorGUILayout.BeginHorizontal();
-            CardSprite = (Sprite)EditorGUILayout.ObjectField("Card Sprite:", CardSprite,typeof(Sprite));
+            CardSprite = (Sprite)EditorGUILayout.ObjectField(
+                "Card Sprite:",
+                CardSprite,
+                typeof(Sprite),
+                false
+            );
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
         }
@@ -262,7 +317,7 @@ namespace NueGames.NueDeck.Editor
             _generalSettingsScrollPos = EditorGUILayout.BeginScrollView(_generalSettingsScrollPos,GUILayout.ExpandWidth(true));
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.BeginVertical();
-            ChangeManaCost();
+            //ChangeCostDataList();
             ChangeRarity();
             ChangeUsableWithoutTarget();
             ChangeExhaustAfterPlay();
@@ -336,13 +391,13 @@ namespace NueGames.NueDeck.Editor
             EditorGUILayout.EndFoldoutHeaderGroup();
         }
         
-        private bool _isDescriptonDataListFolded;
+        private bool _isDescriptionDataListFolded;
         private Vector2 _descriptionDataScrollPos;
       
         private void ChangeCardDescriptionDataList()
         {
-            _isDescriptonDataListFolded =EditorGUILayout.BeginFoldoutHeaderGroup(_isDescriptonDataListFolded, "Description");
-            if (_isDescriptonDataListFolded)
+            _isDescriptionDataListFolded =EditorGUILayout.BeginFoldoutHeaderGroup(_isDescriptionDataListFolded, "Description");
+            if (_isDescriptionDataListFolded)
             {
                 _descriptionDataScrollPos = EditorGUILayout.BeginScrollView(_descriptionDataScrollPos,GUILayout.ExpandWidth(true));
                 EditorGUILayout.BeginHorizontal();
@@ -506,7 +561,7 @@ namespace NueGames.NueDeck.Editor
             
             SelectedCardData.EditId(CardId);
             SelectedCardData.EditCardName(CardName);
-            SelectedCardData.EditManaCost(ManaCost);
+            SelectedCardData.EditManaCost(CostDataList);
             SelectedCardData.EditCardSprite(CardSprite);
             SelectedCardData.EditUsableWithoutTarget(UsableWithoutTarget);
             SelectedCardData.EditExhaustAfterPlay(ExhaustAfterPlay);

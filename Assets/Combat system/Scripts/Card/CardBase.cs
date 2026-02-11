@@ -61,7 +61,10 @@ namespace NueGames.NueDeck.Scripts.Card
             IsPlayable = isPlayable;
             nameTextField.text = CardData.CardName;
             descTextField.text = CardData.MyDescription;
-            manaTextField.text = CardData.ManaCost.ToString();
+             // ---------------
+            // Change to display the cost correctly
+             // ---------------
+            manaTextField.text = CardData.CostDataList.ToString();
             cardImage.sprite = CardData.CardSprite;
             foreach (var rarityRoot in RarityRootList)
                 rarityRoot.gameObject.SetActive(rarityRoot.Rarity == CardData.Rarity);
@@ -79,8 +82,10 @@ namespace NueGames.NueDeck.Scripts.Card
 
         private IEnumerator CardUseRoutine(CharacterBase self,CharacterBase targetCharacter, List<EnemyBase> allEnemies, List<AllyBase> allAllies)
         {
-            SpendMana(CardData.ManaCost);
-            
+            /*
+            //Modify to spend the cost from the pool
+            //SpendMana(CardData.ManaCost);
+
             foreach (var playerAction in CardData.CardActionDataList)
             {
                 yield return new WaitForSeconds(playerAction.ActionDelay);
@@ -92,6 +97,9 @@ namespace NueGames.NueDeck.Scripts.Card
                             target,self,CardData,this));
             }
             CollectionManager.OnCardPlayed(this);
+            */
+
+            throw new NotImplementedException();
         }
 
         private static List<CharacterBase> DetermineTargets(CharacterBase targetCharacter, List<EnemyBase> allEnemies, List<AllyBase> allAllies,
@@ -167,7 +175,10 @@ namespace NueGames.NueDeck.Scripts.Card
             CardData.UpdateDescription();
             nameTextField.text = CardData.CardName;
             descTextField.text = CardData.MyDescription;
-            manaTextField.text = CardData.ManaCost.ToString();
+            // ---------------
+            // Modify to show the text correctly
+             // ---------------
+            manaTextField.text = CardData.CostDataList.ToString();
         }
         
         #endregion
