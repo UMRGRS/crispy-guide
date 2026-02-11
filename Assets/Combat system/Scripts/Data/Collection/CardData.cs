@@ -8,13 +8,13 @@ using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Collection
 {
-    [CreateAssetMenu(fileName = "Card Data",menuName = "NueDeck/Collection/Card",order = 0)]
+    [CreateAssetMenu(fileName = "New card data",menuName = "NueDeck/Collection/Card",order = 0)]
     public class CardData : ScriptableObject
     {
         [Header("Card Profile")] 
         [SerializeField] private string id;
         [SerializeField] private string cardName;
-        [SerializeField] private int manaCost;
+        [SerializeField] private List<CostData> costDataList;
         [SerializeField] private Sprite cardSprite;
         [SerializeField] private RarityType rarity;
         
@@ -30,10 +30,10 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [Header("Fx")]
         [SerializeField] private AudioActionType audioType;
 
-        #region Cache
+        #region public getters
         public string Id => id;
         public bool UsableWithoutTarget => usableWithoutTarget;
-        public int ManaCost => manaCost;
+        public List<CostData> CostDataList => costDataList;
         public string CardName => cardName;
         public Sprite CardSprite => cardSprite;
         public List<CardActionData> CardActionDataList => cardActionDataList;
@@ -64,10 +64,10 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         #endregion
 
         #region Editor Methods
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         public void EditCardName(string newName) => cardName = newName;
         public void EditId(string newId) => id = newId;
-        public void EditManaCost(int newCost) => manaCost = newCost;
+        public void EditManaCost(List<CostData> newCostDataList) => costDataList = newCostDataList;
         public void EditRarity(RarityType targetRarity) => rarity = targetRarity;
         public void EditCardSprite(Sprite newSprite) => cardSprite = newSprite;
         public void EditUsableWithoutTarget(bool newStatus) => usableWithoutTarget = newStatus;
@@ -79,10 +79,29 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public void EditSpecialKeywordsList(List<SpecialKeywords> newSpecialKeywordsList) =>
             specialKeywordsList = newSpecialKeywordsList;
         public void EditAudioType(AudioActionType newAudioActionType) => audioType = newAudioActionType;
-#endif
+        #endif
 
         #endregion
 
+    }
+
+    [Serializable]
+    public class CostData
+    {
+        [SerializeField] private EnergyColor costColor;
+        [SerializeField] private int quantity;
+    
+        public EnergyColor CostColor => costColor;
+        public int Quantity => quantity;
+
+                #region Editor
+
+#if UNITY_EDITOR
+        public void EditCostType(EnergyColor newColor) =>  costColor = newColor;
+        public void EditQuantityCost(int newQuantity) => quantity = newQuantity;
+
+#endif
+        #endregion
     }
 
     [Serializable]
@@ -107,8 +126,6 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public void EditActionDelay(float newValue) => actionDelay = newValue;
 
 #endif
-
-
         #endregion
     }
 

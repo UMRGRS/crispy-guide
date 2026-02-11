@@ -16,7 +16,7 @@ namespace NueGames.NueDeck.Scripts.Utils
                     SceneManager.LoadScene("NueCore", LoadSceneMode.Additive);
                 Destroy(gameObject);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Debug.LogError("You should add NueCore scene to build settings!");
                 throw;
