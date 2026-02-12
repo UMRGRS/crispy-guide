@@ -2,7 +2,7 @@
 using NueGames.NueDeck.Scripts.Managers;
 using UnityEngine;
 
-namespace NueGames.NueDeck.Scripts.Card.CardActions
+namespace NueGames.NueDeck.Scripts.Card.CardActions.Energy
 {
     public class EarnManaAction : CardActionBase
     {

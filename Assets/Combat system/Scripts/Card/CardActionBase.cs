@@ -32,7 +32,7 @@ namespace NueGames.NueDeck.Scripts.Card
         protected GameManager GameManager => GameManager.Instance;
         protected CombatManager CombatManager => CombatManager.Instance;
         protected CollectionManager CollectionManager => CollectionManager.Instance;
-        
+        protected EnergyPoolManager EnergyPoolManager => EnergyPoolManager.Instance;
     }
     
     

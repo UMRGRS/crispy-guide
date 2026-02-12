@@ -39,7 +39,7 @@ namespace NueGames.NueDeck.Scripts.Characters
             
         }
         
-        public  CharacterBase GetCharacterBase()
+        public CharacterBase GetCharacterBase()
         {
             return this;
         }

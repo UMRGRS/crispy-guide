@@ -18,7 +18,7 @@ using Random = UnityEngine.Random;
 
 namespace NueGames.NueDeck.Scripts.Card
 {
-    public class CardBase : MonoBehaviour,I2DTooltipTarget, IPointerDownHandler, IPointerUpHandler
+    public class CardBase : MonoBehaviour, I2DTooltipTarget, IPointerDownHandler, IPointerUpHandler
     {
         [Header("Base References")]
         [SerializeField] protected Transform descriptionRoot;

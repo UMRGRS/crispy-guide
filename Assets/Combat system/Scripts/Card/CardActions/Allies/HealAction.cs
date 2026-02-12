@@ -2,23 +2,24 @@
 using NueGames.NueDeck.Scripts.Managers;
 using UnityEngine;
 
-namespace NueGames.NueDeck.Scripts.Card.CardActions
+namespace NueGames.NueDeck.Scripts.Card.CardActions.Allies
 {
-    public class IncreaseMaxHealthAction : CardActionBase
+    public class HealAction: CardActionBase
     {
-        public override CardActionType ActionType => CardActionType.IncreaseMaxHealth;
+        public override CardActionType ActionType => CardActionType.Heal;
+
         public override void DoAction(CardActionParameters actionParameters)
         {
             var newTarget = actionParameters.TargetCharacter
                 ? actionParameters.TargetCharacter
                 : actionParameters.SelfCharacter;
-            
+
             if (!newTarget) return;
             
-            newTarget.CharacterStats.IncreaseMaxHealth(Mathf.RoundToInt(actionParameters.Value));
+            newTarget.CharacterStats.Heal(Mathf.RoundToInt(actionParameters.Value));
 
             if (FxManager != null) 
-                FxManager.PlayFx(newTarget.transform, FxType.Buff);
+                FxManager.PlayFx(newTarget.transform, FxType.Heal);
             
             if (AudioManager != null) 
                 AudioManager.PlayOneShot(actionParameters.CardData.AudioType);

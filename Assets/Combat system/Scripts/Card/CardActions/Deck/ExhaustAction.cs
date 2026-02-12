@@ -1,7 +1,7 @@
 ﻿using NueGames.NueDeck.Scripts.Enums;
 using UnityEngine;
 
-namespace NueGames.NueDeck.Scripts.Card.CardActions
+namespace NueGames.NueDeck.Scripts.Card.CardActions.Deck
 {
     //Thanks to Borjan#1804
     public class ExhaustAction : CardActionBase

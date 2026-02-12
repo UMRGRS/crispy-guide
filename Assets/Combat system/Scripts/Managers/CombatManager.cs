@@ -55,7 +55,6 @@ namespace NueGames.NueDeck.Scripts.Managers
 
         #endregion
         
-        
         #region Setup
         private void Awake()
         {
@@ -63,7 +62,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             {
                 Destroy(gameObject);
                 return;
-            } 
+            }
             else
             {
                 Instance = this;
