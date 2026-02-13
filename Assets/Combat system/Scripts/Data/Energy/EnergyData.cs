@@ -13,9 +13,11 @@ namespace NueGames.NueDeck.Scripts.Data.Energy
         [SerializeField] private EnergyBase energyPrefab;
         [SerializeField] private EnergyColor energyType;
         [SerializeField] private EnergyStrength startingStrength;
+        [SerializeField] private Color energyColor;
 
         public EnergyBase EnergyPrefab => energyPrefab;
         public EnergyColor EnergyType => energyType;
         public EnergyStrength StartingStrength => startingStrength;
+        public Color EnergyColor => energyColor;
     } 
 }
