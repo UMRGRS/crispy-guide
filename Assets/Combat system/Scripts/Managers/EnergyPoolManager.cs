@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using NueGames.NueDeck.Scripts.Data.Energy;
 using NueGames.NueDeck.Scripts.Energy;
+using NueGames.NueDeck.Scripts.Enums;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Managers
@@ -30,6 +33,25 @@ namespace NueGames.NueDeck.Scripts.Managers
             {
                 Instance = this;
             }
+        }
+        #endregion
+
+        #region Public methods
+        //return a list of the specified energies if they exist on the pool
+        //ej. if a card lists (red, blue) returns (red, blue) otherwise an empty array
+        public List<EnergyBase> FindEnergy(Dictionary<int, EnergyColor> energies)
+        {
+            throw new NotImplementedException();
+        }
+        //create new energy based on the passed data and add it to the pool
+        public void CreateEnergy(List<EnergyData> energies)
+        {
+            //call build energy to get the required object
+            throw new NotImplementedException();
+        }
+        public void ConvertColor()
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }

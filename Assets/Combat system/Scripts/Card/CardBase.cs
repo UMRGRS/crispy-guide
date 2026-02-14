@@ -64,7 +64,7 @@ namespace NueGames.NueDeck.Scripts.Card
              // ---------------
             // Change to display the cost correctly
              // ---------------
-            manaTextField.text = CardData.CostDataList.ToString();
+            //manaTextField.text = CardData.CostDataList.ToString();
             cardImage.sprite = CardData.CardSprite;
             foreach (var rarityRoot in RarityRootList)
                 rarityRoot.gameObject.SetActive(rarityRoot.Rarity == CardData.Rarity);
