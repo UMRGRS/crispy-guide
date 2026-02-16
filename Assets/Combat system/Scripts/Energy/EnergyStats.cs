@@ -9,6 +9,7 @@ namespace NueGames.NueDeck.Scripts.Energy
     {
         public EnergyColor EnergyColor { get; private set; }
         public EnergyStrength EnergyStrength { get; private set; }
+        public Action OnInert;
 
         #region setup
         public EnergyStats(EnergyColor energyColor, EnergyStrength energyStrength)
@@ -19,9 +20,11 @@ namespace NueGames.NueDeck.Scripts.Energy
         #endregion
 
         #region public methods
-        public void ModifyStrength()
+        public void ModifyStrength(EnergyStrength newEnergyStrength)
         {
-            throw new NotImplementedException();
+            EnergyStrength = newEnergyStrength;
+            if(EnergyStrength == EnergyStrength.Inert)
+                OnInert?.Invoke();
         }
         #endregion
 

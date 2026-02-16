@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NueGames.NueDeck.Scripts.Data.Energy;
+using NueGames.NueDeck.Scripts.Enums;
 using NueGames.NueDeck.Scripts.Managers;
 using UnityEngine;
 
@@ -18,12 +19,21 @@ namespace NueGames.NueDeck.Scripts.Energy
 
         public void BuildEnergy()
         {
-            throw new NotImplementedException();
+            EnergyStats = new EnergyStats(activeEnergyData.EnergyType, activeEnergyData.StartingStrength);
+            EnergyStats.OnInert += OnDestroy;
         }
 
-        public void OnEnergyDestroy()
+        public void BuildEnergy(EnergyStrength startingStrength)
         {
-            throw new NotImplementedException();
+            EnergyStats = new EnergyStats(activeEnergyData.EnergyType, startingStrength);
+            EnergyStats.OnInert += OnDestroy;
+        }
+
+        public void OnDestroy()
+        {
+            //Add sound if necessary
+            EnergyPoolManager.RemoveEnergyFromPool(this);
+            Destroy(gameObject);
         }
     }
 }

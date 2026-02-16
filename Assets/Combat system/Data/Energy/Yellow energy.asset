@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   energyPrefab: {fileID: 3781920585121005902, guid: 6e47f3805d2f18feea59ebf676267de8, type: 3}
   energyType: 3
-  startingStrength: 0
+  startingStrength: 2
   energyColor: {r: 1, g: 0.9957261, b: 0, a: 0}

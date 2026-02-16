@@ -27,7 +27,7 @@ namespace NueGames.NueDeck.Editor
         private CardData SelectedCardData { get; set; }
         private string CardId { get; set; }
         private string CardName { get; set; }
-        private List<CostData> CostDataList { get; set; }
+        private List<EnergyQuantityData> CostDataList { get; set; }
         private Sprite CardSprite{ get; set; }
         private bool UsableWithoutTarget{ get; set; }
         private bool ExhaustAfterPlay{ get; set; }
@@ -233,7 +233,7 @@ namespace NueGames.NueDeck.Editor
             {
                 _cardCostDataScrollPos = EditorGUILayout.BeginScrollView(_cardCostDataScrollPos,GUILayout.ExpandWidth(true));
                 EditorGUILayout.BeginHorizontal();
-                List<CostData> _removedList = new List<CostData>();
+                List<EnergyQuantityData> _removedList = new List<EnergyQuantityData>();
                 for (var i = 0; i < CostDataList.Count; i++)
                 {
                     var cardCostData = CostDataList[i];
@@ -255,7 +255,7 @@ namespace NueGames.NueDeck.Editor
                     
                     EditorGUILayout.EndHorizontal();
                     EditorGUILayout.Separator();
-                    var newCostType = (EnergyColor)EditorGUILayout.EnumPopup("Cost Type",cardCostData.CostColor,GUILayout.Width(250));                    
+                    var newCostType = (EnergyColor)EditorGUILayout.EnumPopup("Cost Type",cardCostData.EnergyColor,GUILayout.Width(250));                    
                     var newQuantityCost = EditorGUILayout.IntField("Quantity: ",cardCostData.Quantity);
                     
                     cardCostData.EditCostType(newCostType);
@@ -267,7 +267,7 @@ namespace NueGames.NueDeck.Editor
                     CostDataList.Remove(cardCostData);
 
                 if (GUILayout.Button("+",GUILayout.Width(50),GUILayout.Height(50)))
-                    CostDataList.Add(new CostData());
+                    CostDataList.Add(new EnergyQuantityData());
                 
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.EndScrollView();

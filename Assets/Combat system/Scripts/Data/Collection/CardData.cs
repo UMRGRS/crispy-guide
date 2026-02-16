@@ -14,7 +14,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [Header("Card Profile")] 
         [SerializeField] private string id;
         [SerializeField] private string cardName;
-        [SerializeField] private List<CostData> costDataList;
+        [SerializeField] private List<EnergyQuantityData> costDataList;
         [SerializeField] private Sprite cardSprite;
         [SerializeField] private RarityType rarity;
         
@@ -33,7 +33,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         #region public getters
         public string Id => id;
         public bool UsableWithoutTarget => usableWithoutTarget;
-        public List<CostData> CostDataList => costDataList;
+        public List<EnergyQuantityData> CostDataList => costDataList;
         public string CardName => cardName;
         public Sprite CardSprite => cardSprite;
         public List<CardActionData> CardActionDataList => cardActionDataList;
@@ -67,7 +67,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         #if UNITY_EDITOR
         public void EditCardName(string newName) => cardName = newName;
         public void EditId(string newId) => id = newId;
-        public void EditManaCost(List<CostData> newCostDataList) => costDataList = newCostDataList;
+        public void EditManaCost(List<EnergyQuantityData> newCostDataList) => costDataList = newCostDataList;
         public void EditRarity(RarityType targetRarity) => rarity = targetRarity;
         public void EditCardSprite(Sprite newSprite) => cardSprite = newSprite;
         public void EditUsableWithoutTarget(bool newStatus) => usableWithoutTarget = newStatus;
@@ -86,21 +86,28 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     }
 
     [Serializable]
-    public class CostData
+    public class EnergyQuantityData
     {
-        [SerializeField] private EnergyColor costColor;
+        [SerializeField] private EnergyColor energyColor;
         [SerializeField] private int quantity;
     
-        public EnergyColor CostColor => costColor;
+        public EnergyColor EnergyColor => energyColor;
         public int Quantity => quantity;
+        
+        public EnergyQuantityData(){}     
+        public EnergyQuantityData(EnergyColor newColor, int newQuantity)
+        {
+            energyColor = newColor;
+            quantity = newQuantity;
+        }
+           
+        #region Editor
 
-                #region Editor
+        #if UNITY_EDITOR
+                public void EditCostType(EnergyColor newColor) =>  energyColor = newColor;
+                public void EditQuantityCost(int newQuantity) => quantity = newQuantity;
 
-#if UNITY_EDITOR
-        public void EditCostType(EnergyColor newColor) =>  costColor = newColor;
-        public void EditQuantityCost(int newQuantity) => quantity = newQuantity;
-
-#endif
+        #endif
         #endregion
     }
 
