@@ -22,6 +22,9 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [SerializeField] private bool usableWithoutTarget;
         [SerializeField] private bool exhaustAfterPlay;
         [SerializeField] private List<CardActionData> cardActionDataList;
+
+        [Header("Energy Actions Settings")]
+        [SerializeField] private List<CardEnergyActionData> cardEnergyActionDataList;
         
         [Header("Description")]
         [SerializeField] private List<CardDescriptionData> cardDescriptionDataList;
@@ -37,12 +40,12 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public string CardName => cardName;
         public Sprite CardSprite => cardSprite;
         public List<CardActionData> CardActionDataList => cardActionDataList;
+        public List<CardEnergyActionData> CardEnergyActionDataList => cardEnergyActionDataList;
         public List<CardDescriptionData> CardDescriptionDataList => cardDescriptionDataList;
         public List<SpecialKeywords> KeywordsList => specialKeywordsList;
         public AudioActionType AudioType => audioType;
         public string MyDescription { get; set; }
         public RarityType Rarity => rarity;
-
         public bool ExhaustAfterPlay => exhaustAfterPlay;
 
         #endregion
@@ -67,13 +70,15 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         #if UNITY_EDITOR
         public void EditCardName(string newName) => cardName = newName;
         public void EditId(string newId) => id = newId;
-        public void EditManaCost(List<EnergyQuantityData> newCostDataList) => costDataList = newCostDataList;
+        public void EditCostDataList(List<EnergyQuantityData> newCostDataList) => costDataList = newCostDataList;
         public void EditRarity(RarityType targetRarity) => rarity = targetRarity;
         public void EditCardSprite(Sprite newSprite) => cardSprite = newSprite;
         public void EditUsableWithoutTarget(bool newStatus) => usableWithoutTarget = newStatus;
         public void EditExhaustAfterPlay(bool newStatus) => exhaustAfterPlay = newStatus;
         public void EditCardActionDataList(List<CardActionData> newCardActionDataList) =>
             cardActionDataList = newCardActionDataList;
+        public void EditCardEnergyActionDataList(List<CardEnergyActionData> newCardEnergyActionDataList) =>
+            cardEnergyActionDataList = newCardEnergyActionDataList;
         public void EditCardDescriptionDataList(List<CardDescriptionData> newCardDescriptionDataList) =>
             cardDescriptionDataList = newCardDescriptionDataList;
         public void EditSpecialKeywordsList(List<SpecialKeywords> newSpecialKeywordsList) =>
@@ -126,13 +131,71 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
         #region Editor
 
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         public void EditActionType(CardActionType newType) =>  cardActionType = newType;
         public void EditActionTarget(ActionTargetType newTargetType) => actionTargetType = newTargetType;
         public void EditActionValue(float newValue) => actionValue = newValue;
         public void EditActionDelay(float newValue) => actionDelay = newValue;
+    
+        #endif
+        #endregion
+    }
 
-#endif
+    [Serializable]
+    public class CardEnergyActionData
+    {
+        [SerializeField] private CardActionType cardActionType;
+        [SerializeField] private List<EnergyQuantityData> energyToCreate;
+        [SerializeField] private List<EnergyConversion> energyToConvert;
+        [SerializeField] private List<EnergyStrengthModification> energyToModifyStrength;
+
+        public CardActionType CardActionType => cardActionType;
+        public List<EnergyQuantityData> EnergyToCreate => energyToCreate;
+        public List<EnergyConversion> EnergyToConvert => energyToConvert;
+        public List<EnergyStrengthModification> EnergyToModifyStrength => energyToModifyStrength;
+
+        #region Editor
+        #if UNITY_EDITOR
+        public void EditActionType(CardActionType newCardActionType) => cardActionType = newCardActionType;
+        public void EditEnergyToCreate(List<EnergyQuantityData> newEnergyToCreate) => energyToCreate = newEnergyToCreate;
+        public void EditEnergyToConvert(List<EnergyConversion>  newEnergyToConvert) => energyToConvert = newEnergyToConvert;
+        public void EditEnergyToModifyStrength(List<EnergyStrengthModification> newEnergyToModifyStrength) => energyToModifyStrength = newEnergyToModifyStrength;
+        #endif
+        #endregion
+    }
+
+    [Serializable]
+    public class EnergyConversion
+    {
+        [SerializeField] private EnergyQuantityData from;
+        [SerializeField] private EnergyQuantityData to;
+
+        public EnergyQuantityData From => from;
+        public EnergyQuantityData To => to;
+
+        #region Editor
+        #if UNITY_EDITOR
+        public void EditFrom(EnergyQuantityData newFrom) => from = newFrom;
+        public void EditTo(EnergyQuantityData newTo) => to = newTo;
+        #endif
+        #endregion
+    }
+
+
+    [Serializable]
+    public class EnergyStrengthModification
+    {
+        [SerializeField] private EnergyQuantityData from;
+        [SerializeField] private EnergyStrength to;
+
+        public EnergyQuantityData From => from;
+        public EnergyStrength To => to;
+
+        #region Editor
+        #if UNITY_EDITOR
+        public void EditFrom(EnergyQuantityData newFrom) => from = newFrom;
+        public void EditTo(EnergyStrength newTo) => to = newTo;
+        #endif
         #endregion
     }
 
@@ -226,7 +289,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         }
 
         #region Editor
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         
         public string GetDescriptionEditor()
         {
@@ -277,7 +340,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public void EditPrefixOnModifiedValues(string newText) => modifiedValuePrefix = newText;
         public void EditOverrideColorOnValueScaled(bool newStatus) => overrideColorOnValueScaled = newStatus;
 
-#endif
+        #endif
         #endregion
     }
 }

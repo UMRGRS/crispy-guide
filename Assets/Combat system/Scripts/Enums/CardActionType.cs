@@ -12,7 +12,8 @@
         LifeSteal,
         Stun,
         Exhaust,
+        CreateEnergy,
         ConvertEnergy,
-        ModifyEnergyStrength
+        ModifyEnergyStrength,
     }
 }
