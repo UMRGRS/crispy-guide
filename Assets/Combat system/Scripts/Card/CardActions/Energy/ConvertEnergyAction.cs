@@ -5,10 +5,10 @@ using NueGames.NueDeck.Scripts.Enums;
 
 namespace NueGames.NueDeck.Scripts.Card.CardActions.Energy
 {
-    public class ConvertEnergyAction : CardActionBase
+    public class ConvertEnergyAction : CardActionBase<CardEnergyActionParameters>
     {
         public override CardActionType ActionType => CardActionType.ConvertEnergy;
-        public override void DoAction(CardActionParameters actionParameters)
+        public override void DoAction(CardEnergyActionParameters actionParameters)
         {
             throw new System.NotImplementedException();
         }

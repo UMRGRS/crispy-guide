@@ -20,6 +20,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         
         [Header("Action Settings")]
         [SerializeField] private bool usableWithoutTarget;
+        [SerializeField] private bool usableWithoutCost;
         [SerializeField] private bool exhaustAfterPlay;
         [SerializeField] private List<CardActionData> cardActionDataList;
 
@@ -36,6 +37,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         #region public getters
         public string Id => id;
         public bool UsableWithoutTarget => usableWithoutTarget;
+        public bool UsableWithoutCost => usableWithoutCost;
         public List<EnergyQuantityData> CostDataList => costDataList;
         public string CardName => cardName;
         public Sprite CardSprite => cardSprite;
@@ -74,6 +76,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public void EditRarity(RarityType targetRarity) => rarity = targetRarity;
         public void EditCardSprite(Sprite newSprite) => cardSprite = newSprite;
         public void EditUsableWithoutTarget(bool newStatus) => usableWithoutTarget = newStatus;
+        public void EditUsableWithoutCost(bool newStatus) => usableWithoutCost = newStatus;
         public void EditExhaustAfterPlay(bool newStatus) => exhaustAfterPlay = newStatus;
         public void EditCardActionDataList(List<CardActionData> newCardActionDataList) =>
             cardActionDataList = newCardActionDataList;

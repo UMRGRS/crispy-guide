@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Card.CardActions.Allies
 {
-    public class IncreaseStrengthAction : CardActionBase
+    public class IncreaseStrengthAction : CardActionBase<CardActionParameters>
     {
         public override CardActionType ActionType => CardActionType.IncreaseStrength;
         public override void DoAction(CardActionParameters actionParameters)

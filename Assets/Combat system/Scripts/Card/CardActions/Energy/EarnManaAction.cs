@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Card.CardActions.Energy
 {
-    public class EarnManaAction : CardActionBase
+    public class EarnManaAction : CardActionBase<CardActionParameters>
     {
         public override CardActionType ActionType => CardActionType.EarnMana;
         public override void DoAction(CardActionParameters actionParameters)

@@ -8,8 +8,8 @@ namespace NueGames.NueDeck.Scripts.Card
 { 
     public static class CardActionProcessor
     {
-        private static readonly Dictionary<CardActionType, CardActionBase> CardActionDict =
-            new Dictionary<CardActionType, CardActionBase>();
+        private static readonly Dictionary<CardActionType, ICardAction> CardActionDict =
+            new Dictionary<CardActionType, ICardAction>();
 
         public static bool IsInitialized { get; private set; }
 
@@ -17,19 +17,19 @@ namespace NueGames.NueDeck.Scripts.Card
         {
             CardActionDict.Clear();
 
-            var allActionCards = Assembly.GetAssembly(typeof(CardActionBase)).GetTypes()
-                .Where(t => typeof(CardActionBase).IsAssignableFrom(t) && t.IsAbstract == false);
+            var allActionCards = Assembly.GetAssembly(typeof(ICardAction)).GetTypes()
+                .Where(t => typeof(ICardAction).IsAssignableFrom(t) && t.IsAbstract == false);
 
             foreach (var actionCard in allActionCards)
             {
-                CardActionBase action = Activator.CreateInstance(actionCard) as CardActionBase;
+                ICardAction action = Activator.CreateInstance(actionCard) as ICardAction;
                 if (action != null) CardActionDict.Add(action.ActionType, action);
             }
 
             IsInitialized = true;
         }
 
-        public static CardActionBase GetAction(CardActionType targetAction) =>
+        public static ICardAction GetAction(CardActionType targetAction) =>
             CardActionDict[targetAction];
 
     }

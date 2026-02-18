@@ -79,18 +79,27 @@ namespace NueGames.NueDeck.Scripts.Managers
         {
             CurrentEnergyInPool.Remove(targetEnergy);
             //Insert energy deplete win condition
-        }
+        } 
 
         //This is part of the next tickets
         //return a list of the specified energies if they exist on the pool
         //ej. if a card lists (red, blue) returns (red, blue) otherwise an empty array
-        public List<EnergyBase> FindEnergy(Dictionary<int, EnergyColor> energies)
+        public bool IsEnergyOnPool(List<EnergyQuantityData> energiesToFind)
         {
-            throw new NotImplementedException();
+            List<EnergyBase> foundEnergies = FindEnergyOnPool(energiesToFind);
+            return foundEnergies?.Any() ?? false;
         }
+
         public void ConvertColor(EnergyBase target)
         {
             //Destroy the previous color by setting strength to inert, create new one with second buildEnergy and add it to the list
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region Private methods
+        private List<EnergyBase> FindEnergyOnPool(List<EnergyQuantityData> energiesToFind)
+        {
             throw new NotImplementedException();
         }
         #endregion

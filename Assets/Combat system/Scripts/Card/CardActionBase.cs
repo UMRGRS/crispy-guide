@@ -1,4 +1,5 @@
-﻿using NueGames.NueDeck.Scripts.Characters;
+﻿using System.Collections.Generic;
+using NueGames.NueDeck.Scripts.Characters;
 using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Enums;
 using NueGames.NueDeck.Scripts.Managers;
@@ -21,12 +22,31 @@ namespace NueGames.NueDeck.Scripts.Card
             CardBase = cardBase;
         }
     }
-    public abstract class CardActionBase
+
+    public class CardEnergyActionParameters
+    {
+        public readonly List<EnergyQuantityData> EnergyCreationList;
+        public readonly List<EnergyConversion> EnergyConversionList;
+        public readonly List<EnergyStrengthModification> EnergyStrengthModificationList;
+
+        public CardEnergyActionParameters(List<EnergyQuantityData> energyCreationList, List<EnergyConversion> energyConversionList, List<EnergyStrengthModification> energyStrengthModificationList)
+        {
+            EnergyCreationList = energyCreationList;
+            EnergyConversionList = energyConversionList;
+            EnergyStrengthModificationList = energyStrengthModificationList;
+        }
+    }
+
+    public abstract class CardActionBase<TParameters> : ICardAction
     {
         protected CardActionBase(){}
         public abstract CardActionType ActionType { get;}
-        public abstract void DoAction(CardActionParameters actionParameters);
-        
+        public abstract void DoAction(TParameters parameters);
+        public void DoAction(object parameters)
+        {
+            DoAction((TParameters)parameters);
+        }
+
         protected FxManager FxManager => FxManager.Instance;
         protected AudioManager AudioManager => AudioManager.Instance;
         protected GameManager GameManager => GameManager.Instance;

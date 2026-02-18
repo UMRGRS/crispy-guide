@@ -30,6 +30,7 @@ namespace NueGames.NueDeck.Editor
         private List<EnergyQuantityData> CostDataList { get; set; }
         private Sprite CardSprite{ get; set; }
         private bool UsableWithoutTarget{ get; set; }
+        private bool UsableWithoutCost{ get; set; }
         private bool ExhaustAfterPlay{ get; set; }
         private List<CardActionData> CardActionDataList{ get; set; }
         private List<CardEnergyActionData> CardEnergyActionDataList { get; set; }
@@ -46,6 +47,7 @@ namespace NueGames.NueDeck.Editor
             CostDataList = SelectedCardData.CostDataList;
             CardSprite = SelectedCardData.CardSprite;
             UsableWithoutTarget = SelectedCardData.UsableWithoutTarget;
+            UsableWithoutCost = SelectedCardData.UsableWithoutCost;
             ExhaustAfterPlay = SelectedCardData.ExhaustAfterPlay;
             CardActionDataList = SelectedCardData.CardActionDataList.Count>0 ? new List<CardActionData>(SelectedCardData.CardActionDataList) : new List<CardActionData>();
             CardEnergyActionDataList = SelectedCardData.CardEnergyActionDataList.Count>0 ? new List<CardEnergyActionData>(SelectedCardData.CardEnergyActionDataList) : new List<CardEnergyActionData>();
@@ -62,6 +64,7 @@ namespace NueGames.NueDeck.Editor
             CostDataList?.Clear();
             CardSprite = null;
             UsableWithoutTarget = false;
+            UsableWithoutCost = false;
             ExhaustAfterPlay = false;
             CardActionDataList?.Clear();
             CardEnergyActionDataList?.Clear();
@@ -493,6 +496,11 @@ namespace NueGames.NueDeck.Editor
         {
             UsableWithoutTarget = EditorGUILayout.Toggle("Usable Without Target:", UsableWithoutTarget);
         }
+
+        private void ChangeUsableWithoutCost()
+        {
+            UsableWithoutCost = EditorGUILayout.Toggle("Usable Without Cost:", UsableWithoutCost);
+        }
         
         private void ChangeExhaustAfterPlay()
         {
@@ -516,6 +524,7 @@ namespace NueGames.NueDeck.Editor
             EditorGUILayout.BeginVertical();
             ChangeRarity();
             ChangeUsableWithoutTarget();
+            ChangeUsableWithoutCost();
             ChangeExhaustAfterPlay();
             ChangeAudioActionType();
             EditorGUILayout.EndVertical();
@@ -760,6 +769,7 @@ namespace NueGames.NueDeck.Editor
             SelectedCardData.EditCostDataList(CostDataList);
             SelectedCardData.EditCardSprite(CardSprite);
             SelectedCardData.EditUsableWithoutTarget(UsableWithoutTarget);
+            SelectedCardData.EditUsableWithoutCost(UsableWithoutCost);
             SelectedCardData.EditExhaustAfterPlay(ExhaustAfterPlay);
             SelectedCardData.EditCardActionDataList(CardActionDataList);
             SelectedCardData.EditCardEnergyActionDataList(CardEnergyActionDataList);
