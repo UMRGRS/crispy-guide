@@ -64,7 +64,7 @@ namespace NueGames.NueDeck.Scripts.Managers
                 }
             }
         }
-        public void DecayEnergy()
+        public void DecayAllEnergy()
         {
             for (int i = CurrentEnergyInPool.Count - 1; i >= 0; i--)
             {
@@ -81,7 +81,6 @@ namespace NueGames.NueDeck.Scripts.Managers
             //Insert energy deplete win condition
         } 
 
-        //This is part of the next tickets
         //return a list of the specified energies if they exist on the pool
         //ej. if a card lists (red, blue) returns (red, blue) otherwise an empty array
         public bool IsEnergyOnPool(List<EnergyQuantityData> energiesToFind)
@@ -90,9 +89,15 @@ namespace NueGames.NueDeck.Scripts.Managers
             return foundEnergies?.Any() ?? false;
         }
 
-        public void ConvertColor(EnergyBase target)
+        public void ConvertEnergy(List<EnergyConversion> energyToConvert)
         {
             //Destroy the previous color by setting strength to inert, create new one with second buildEnergy and add it to the list
+            throw new NotImplementedException();
+        }
+
+        public void ModifyEnergyStrength(List<EnergyStrengthModification> energyToModifyStrength)
+        {
+            //Modify the strength of the passed energies
             throw new NotImplementedException();
         }
         #endregion
@@ -100,6 +105,13 @@ namespace NueGames.NueDeck.Scripts.Managers
         #region Private methods
         private List<EnergyBase> FindEnergyOnPool(List<EnergyQuantityData> energiesToFind)
         {
+            List<EnergyBase> targetEnergies = new List<EnergyBase>();
+            foreach(EnergyQuantityData energyData in energiesToFind)
+            {
+                CurrentEnergyInPool.Where(energy => energy.EnergyStats.EnergyColor == energyData.EnergyColor);
+
+            }
+
             throw new NotImplementedException();
         }
         #endregion
