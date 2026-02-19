@@ -537,6 +537,14 @@ namespace NueGames.NueDeck.Editor
         
         private bool _isCardActionDataListFolded;
         private Vector2 _cardActionScrollPos;
+        private static readonly HashSet<CardActionType> _noTargetActions =
+        new()
+        {
+            CardActionType.Exhaust,
+            CardActionType.CreateEnergy,
+            CardActionType.ConvertEnergy,
+            CardActionType.ModifyEnergyStrength
+        };
         private void ChangeCardActionDataList()
         {
             _isCardActionDataListFolded =EditorGUILayout.BeginFoldoutHeaderGroup(_isCardActionDataListFolded, "Card Actions");
@@ -568,17 +576,23 @@ namespace NueGames.NueDeck.Editor
                     EditorGUILayout.Separator();
                     var newActionType = (CardActionType)EditorGUILayout.EnumPopup("Action Type",cardActionData.CardActionType,GUILayout.Width(250));
 
-                    if (newActionType != CardActionType.Exhaust)
+                    if (!_noTargetActions.Contains(newActionType))
                     {
                         var newActionTarget = (ActionTargetType)EditorGUILayout.EnumPopup("Target Type",cardActionData.ActionTargetType,GUILayout.Width(250));
                         var newActionValue = EditorGUILayout.FloatField("Action Value: ",cardActionData.ActionValue);
+                        var newActionDelay = EditorGUILayout.FloatField("Action Delay: ",cardActionData.ActionDelay);
                         cardActionData.EditActionValue(newActionValue);
                         cardActionData.EditActionTarget(newActionTarget);
+                        cardActionData.EditActionDelay(newActionDelay);
+                    }
+                    else
+                    {
+                        EditorGUILayout.LabelField("INVALID ACTION TYPE FOR NORMAL ACTIONS", EditorStyles.boldLabel);
+                        cardActionData.EditActionValue(0);
+                        cardActionData.EditActionTarget(ActionTargetType.Enemy);
+                        cardActionData.EditActionDelay(100);
                     }
                     
-                    var newActionDelay = EditorGUILayout.FloatField("Action Delay: ",cardActionData.ActionDelay);
-                    
-                    cardActionData.EditActionDelay(newActionDelay);
                     cardActionData.EditActionType(newActionType);
                     EditorGUILayout.EndVertical();
                 }
