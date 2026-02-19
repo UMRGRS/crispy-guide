@@ -78,27 +78,45 @@ namespace NueGames.NueDeck.Scripts.Managers
         public void RemoveEnergyFromPool(EnergyBase targetEnergy)
         {
             CurrentEnergyInPool.Remove(targetEnergy);
-            //Insert energy deplete win condition
+            //Insert energy depleted win condition
         } 
-
-        //return a list of the specified energies if they exist on the pool
-        //ej. if a card lists (red, blue) returns (red, blue) otherwise an empty array
         public bool IsEnergyOnPool(List<EnergyQuantityData> energiesToFind)
         {
             List<EnergyBase> foundEnergies = FindEnergyOnPool(energiesToFind);
             return foundEnergies?.Any() ?? false;
         }
 
-        public void ConvertEnergy(List<EnergyConversion> energyToConvert)
+        public void ConvertEnergy(List<EnergyConversion> energyToConvertList)
         {
-            //Destroy the previous color by setting strength to inert, create new one with second buildEnergy and add it to the list
-            throw new NotImplementedException();
+            foreach(EnergyConversion energyConversionData in energyToConvertList)
+            {
+                List<EnergyBase> energyToConvert = FindEnergyOnPool(new List<EnergyQuantityData> {energyConversionData.From});
+
+                foreach(EnergyBase energy in energyToConvert)
+                {
+                    EnergyStrength energyStrength = energy.EnergyStats.EnergyStrength;
+                    Transform spawnPos = energy.transform;
+                    energy.OnDestroy();
+
+                    EnergyData energyData = availableEnergies.FirstOrDefault(energy => energy.EnergyType == energyConversionData.To.EnergyColor);
+                    var clone = Instantiate(energyData.EnergyPrefab, spawnPos);
+                    clone.BuildEnergy(energyStrength);
+                    CurrentEnergyInPool.Add(clone);
+                }
+            }
         }
 
         public void ModifyEnergyStrength(List<EnergyStrengthModification> energyToModifyStrength)
         {
-            //Modify the strength of the passed energies
-            throw new NotImplementedException();
+            foreach(EnergyStrengthModification energyModificationData in energyToModifyStrength)
+            {
+                List<EnergyBase> energyToModify = FindEnergyOnPool(new List<EnergyQuantityData> {energyModificationData.From});
+
+                foreach(EnergyBase energy in energyToModify)
+                {
+                    energy.EnergyStats.ModifyStrength(energyModificationData.To);
+                }
+            }
         }
         #endregion
 
@@ -108,11 +126,16 @@ namespace NueGames.NueDeck.Scripts.Managers
             List<EnergyBase> targetEnergies = new List<EnergyBase>();
             foreach(EnergyQuantityData energyData in energiesToFind)
             {
-                CurrentEnergyInPool.Where(energy => energy.EnergyStats.EnergyColor == energyData.EnergyColor);
-
+                List<EnergyBase> foundEnergies = CurrentEnergyInPool.
+                    Where(energy => energy.EnergyStats.EnergyColor == energyData.EnergyColor)
+                    .OrderBy(energy => energy.EnergyStats.EnergyStrength).ToList();
+                
+                if(foundEnergies.Count < energyData.Quantity)
+                    break;
+                
+                targetEnergies.AddRange(foundEnergies.Take(energyData.Quantity).ToList());
             }
-
-            throw new NotImplementedException();
+            return targetEnergies;
         }
         #endregion
     }
