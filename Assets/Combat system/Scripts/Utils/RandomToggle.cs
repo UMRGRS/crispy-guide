@@ -12,7 +12,7 @@ namespace NueGames.NueDeck.Scripts.Utils
         public void CheckToggle()
         {
             GameManager.PersistentGameplayData.IsRandomHand = toggle.isOn;
-            GameManager.SetInitalHand();
+            GameManager.SetInitialHand();
         }
     }
 }

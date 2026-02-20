@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NueGames.NueDeck.Scripts.Data.Containers;
 using NueGames.NueDeck.Scripts.Managers;
 using UnityEngine;
 
@@ -10,12 +11,12 @@ namespace NueGames.NueDeck.Scripts.Utils.Background
         [SerializeField] private List<BackgroundRoot> backgroundRootList;
         public List<BackgroundRoot> BackgroundRootList => backgroundRootList;
         
-        private CombatManager CombatManager => CombatManager.Instance;
+        private GameManager GameManager => GameManager.Instance;
         
         public void OpenSelectedBackground()
         {
-            var encounter = CombatManager.CurrentEncounter;
-            foreach (var backgroundRoot in BackgroundRootList)
+            EnemyEncounter encounter = GameManager.PersistentGameplayData.CurrentEncounter;
+            foreach (BackgroundRoot backgroundRoot in BackgroundRootList)
                 backgroundRoot.gameObject.SetActive(encounter.TargetBackgroundType == backgroundRoot.BackgroundType);
         }
     }

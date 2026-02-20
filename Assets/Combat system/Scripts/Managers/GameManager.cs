@@ -1,11 +1,13 @@
+using System.Collections.Generic;
 using NueGames.NueDeck.Scripts.Card;
 using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Data.Containers;
 using NueGames.NueDeck.Scripts.Data.Settings;
 using NueGames.NueDeck.Scripts.EnemyBehaviour;
+using NueGames.NueDeck.Scripts.Enums;
+using NueGames.NueDeck.Scripts.Floors;
 using NueGames.NueDeck.Scripts.NueExtentions;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace NueGames.NueDeck.Scripts.Managers
 {
@@ -17,13 +19,13 @@ namespace NueGames.NueDeck.Scripts.Managers
         
         [Header("Settings")]
         [SerializeField] private GameplayData gameplayData;
-        [SerializeField] private EncounterData encounterData;
+        [SerializeField] private List<EncounterData> encounterData;
         [SerializeField] private SceneData sceneData;
 
 
         #region Cache
         public SceneData SceneData => sceneData;
-        public EncounterData EncounterData => encounterData;
+        public List<EncounterData> EncounterData => encounterData;
         public GameplayData GameplayData => gameplayData;
         public PersistentGameplayData PersistentGameplayData { get; private set; }
         protected UIManager UIManager => UIManager.Instance;
@@ -46,7 +48,7 @@ namespace NueGames.NueDeck.Scripts.Managers
                 CardActionProcessor.Initialize();
                 EnemyActionProcessor.Initialize();
                 InitGameplayData();
-                SetInitalHand();
+                SetInitialHand();
             }
         }
         #endregion
@@ -65,7 +67,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             clone.SetCard(targetData);
             return clone;
         }
-        public void SetInitalHand()
+        public void SetInitialHand()
         {
             PersistentGameplayData.CurrentCardsList.Clear();
             
@@ -76,14 +78,9 @@ namespace NueGames.NueDeck.Scripts.Managers
                 foreach (var cardData in GameplayData.InitalDeck.CardList)
                     PersistentGameplayData.CurrentCardsList.Add(cardData);
         }
-        public void NextEncounter()
+        public void NextFloor()
         {
-            PersistentGameplayData.CurrentEncounterId++;
-            if (PersistentGameplayData.CurrentEncounterId>=EncounterData.EnemyEncounterList[PersistentGameplayData.CurrentStageId].EnemyEncounterList.Count)
-            {
-                PersistentGameplayData.CurrentEncounterId = Random.Range(0,
-                    EncounterData.EnemyEncounterList[PersistentGameplayData.CurrentStageId].EnemyEncounterList.Count);
-            }
+            PersistentGameplayData.CurrentFloor = FloorIdHelper.GetNewFloorId(PersistentGameplayData.CurrentFloor, FloorDirection.Up);   
         }
         public void OnExitApp()
         {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NueGames.NueDeck.Scripts.Data.Collection;
+using NueGames.NueDeck.Scripts.Data.Containers;
 using NueGames.NueDeck.Scripts.Data.Energy;
 using NueGames.NueDeck.Scripts.Energy;
 using NueGames.NueDeck.Scripts.Enums;
@@ -22,6 +23,7 @@ namespace NueGames.NueDeck.Scripts.Managers
         #region Cache
         public List<EnergyBase> CurrentEnergyInPool {get; private set;} = new List<EnergyBase>();
         public List<Transform> EnergyPostList => energyPosList;
+        private GameManager GameManager => GameManager.Instance;
         #endregion
 
         #region Setup
@@ -42,10 +44,12 @@ namespace NueGames.NueDeck.Scripts.Managers
         #region Public methods
         public void CreateStartOfTurnEnergy()
         {
+            EnemyEncounter currentEncounterData = GameManager.PersistentGameplayData.CurrentEncounter;
+
             List<EnergyQuantityData> energyCreationData = new();
-            foreach(EnergyData data in availableEnergies)
+            foreach(EnergyData data in currentEncounterData.AvailableEnergies)
             {
-                int energyQuantity = UnityEngine.Random.Range(1,5); 
+                int energyQuantity = UnityEngine.Random.Range(currentEncounterData.MinEnergySpawn, currentEncounterData.MaxEnergySpawn); 
                 energyCreationData.Add(new EnergyQuantityData(data.EnergyType, energyQuantity));
             }
             CreateEnergy(energyCreationData);

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using NueGames.NueDeck.Scripts.Characters;
 using NueGames.NueDeck.Scripts.Data.Collection;
+using NueGames.NueDeck.Scripts.Data.Containers;
+using NueGames.NueDeck.Scripts.Enums;
+using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Settings
@@ -19,8 +22,8 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
         [SerializeField] private bool canSelectCards;
         [SerializeField] private bool isRandomHand;
         [SerializeField] private List<AllyBase> allyList;
-        [SerializeField] private int currentStageId;
-        [SerializeField] private int currentEncounterId;
+        [SerializeField] private FloorId currentFloor;
+        [SerializeField] private EnemyEncounter currentEncounter;
         [SerializeField] private bool isFinalEncounter;
         [SerializeField] private List<CardData> currentCardsList;
         [SerializeField] private List<AllyHealthData> allyHealthDataDataList;
@@ -58,8 +61,8 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
             CanSelectCards = true;
             IsRandomHand = _gameplayData.IsRandomHand;
             AllyList = new List<AllyBase>(_gameplayData.InitalAllyList);
-            CurrentEncounterId = 0;
-            CurrentStageId = 0;
+            currentEncounter = new EnemyEncounter();
+            currentFloor = FloorId.firstFloor;
             CurrentGold = 0;
             CurrentCardsList = new List<CardData>();
             IsFinalEncounter = false;
@@ -109,19 +112,16 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
             get => allyList;
             set => allyList = value;
         }
-
-        public int CurrentStageId
+        public EnemyEncounter CurrentEncounter
         {
-            get => currentStageId;
-            set => currentStageId = value;
+            get => currentEncounter;
+            set => currentEncounter = value;
         }
-
-        public int CurrentEncounterId
+        public FloorId CurrentFloor
         {
-            get => currentEncounterId;
-            set => currentEncounterId = value;
+            get => currentFloor;
+            set => currentFloor = value;
         }
-
         public bool IsFinalEncounter
         {
             get => isFinalEncounter;
