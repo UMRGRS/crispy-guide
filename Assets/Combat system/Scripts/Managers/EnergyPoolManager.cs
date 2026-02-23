@@ -49,7 +49,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             List<EnergyQuantityData> energyCreationData = new();
             foreach(EnergyData data in currentEncounterData.AvailableEnergies)
             {
-                int energyQuantity = UnityEngine.Random.Range(currentEncounterData.MinEnergySpawn, currentEncounterData.MaxEnergySpawn); 
+                int energyQuantity = UnityEngine.Random.Range(currentEncounterData.MinEnergySpawn, currentEncounterData.MaxEnergySpawn + 1); 
                 energyCreationData.Add(new EnergyQuantityData(data.EnergyType, energyQuantity));
             }
             CreateEnergy(energyCreationData);

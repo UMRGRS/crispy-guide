@@ -13,10 +13,12 @@ namespace NueGames.NueDeck.Scripts.Data.Containers
     {
         [Header("Settings")]
         [SerializeField] private FloorId floor;
+        [SerializeField] private string floorName;
         [SerializeField] private List<EnemyEncounter> enemyEncounterList;
         [SerializeField] private List<EnemyEncounter> bossEncounterList;
 
         public FloorId Floor => floor;
+        public string FloorName => floorName;
         public List<EnemyEncounter> EnemyEncounterList => enemyEncounterList;
         public List<EnemyEncounter> BossEncounterList => bossEncounterList;
 
@@ -31,7 +33,6 @@ namespace NueGames.NueDeck.Scripts.Data.Containers
     [Serializable]
     public class EnemyEncounter
     {
-        [SerializeField] private string name;
         [Header("Possible enemies settings")]
         [SerializeField] private List<EnemyCharacterData> availableEnemies;
         [SerializeField] private int minEnemiesSpawn;
@@ -42,7 +43,6 @@ namespace NueGames.NueDeck.Scripts.Data.Containers
         [SerializeField] private int maxEnergySpawn;
         [Header("Background settings")]
         [SerializeField] private BackgroundTypes targetBackgroundType;
-        public string Name => name;
         public List<EnemyCharacterData> AvailableEnemies => availableEnemies;
         public int MinEnemiesSpawn => minEnemiesSpawn;
         public int MaxEnemiesSpawn => maxEnemiesSpawn;
