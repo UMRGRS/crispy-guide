@@ -105,7 +105,7 @@ namespace NueGames.NueDeck.Scripts.Managers
                         return;
                     }
                     
-                    GameManager.PersistentGameplayData.CurrentMana = GameManager.PersistentGameplayData.MaxMana;
+                    //GameManager.PersistentGameplayData.CurrentMana = GameManager.PersistentGameplayData.MaxMana;
                    
                     CollectionManager.DrawCards(GameManager.PersistentGameplayData.DrawCount);
                     
@@ -166,7 +166,7 @@ namespace NueGames.NueDeck.Scripts.Managers
         }
         public void IncreaseMana(int target)
         {
-            GameManager.PersistentGameplayData.CurrentMana += target;
+            //GameManager.PersistentGameplayData.CurrentMana += target;
             UIManager.CombatCanvas.SetPileTexts();
         }
         public void HighlightCardTarget(ActionTargetType targetTypeTargetType)

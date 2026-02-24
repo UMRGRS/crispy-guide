@@ -39,6 +39,7 @@ namespace NueGames.NueDeck.Scripts.Managers
                 Instance = this;
             }
         }
+        
         #endregion
 
         #region Public methods
@@ -62,7 +63,7 @@ namespace NueGames.NueDeck.Scripts.Managers
                 {
                     EnergyData energyData = availableEnergies.FirstOrDefault(energy => energy.EnergyType == data.EnergyColor);
                     int spawnPosition = UnityEngine.Random.Range(0, energyPosList.Count-1);
-                    var clone = Instantiate(energyData.EnergyPrefab, energyPosList[spawnPosition]);
+                    EnergyBase clone = Instantiate(energyData.EnergyPrefab, energyPosList[spawnPosition]);
                     clone.BuildEnergy();
                     CurrentEnergyInPool.Add(clone);
                 }
@@ -79,17 +80,6 @@ namespace NueGames.NueDeck.Scripts.Managers
                 energy.EnergyStats.ModifyStrength(newStrength);
             }
         }
-        public void RemoveEnergyFromPool(EnergyBase targetEnergy)
-        {
-            CurrentEnergyInPool.Remove(targetEnergy);
-            //Insert energy depleted win condition
-        } 
-        public bool IsEnergyOnPool(List<EnergyQuantityData> energiesToFind)
-        {
-            List<EnergyBase> foundEnergies = FindEnergyOnPool(energiesToFind);
-            return foundEnergies?.Any() ?? false;
-        }
-
         public void ConvertEnergy(List<EnergyConversion> energyToConvertList)
         {
             foreach(EnergyConversion energyConversionData in energyToConvertList)
@@ -109,7 +99,6 @@ namespace NueGames.NueDeck.Scripts.Managers
                 }
             }
         }
-
         public void ModifyEnergyStrength(List<EnergyStrengthModification> energyToModifyStrength)
         {
             foreach(EnergyStrengthModification energyModificationData in energyToModifyStrength)
@@ -122,12 +111,30 @@ namespace NueGames.NueDeck.Scripts.Managers
                 }
             }
         }
+        public void ConsumeEnergyCost(List<EnergyQuantityData> cost)
+        {
+            List<EnergyBase> targetEnergies = FindEnergyOnPool(cost);
+            foreach(EnergyBase energy in targetEnergies)
+            {
+                energy.OnDestroy();    
+            }
+        }
+        public void RemoveEnergyFromPool(EnergyBase targetEnergy)
+        {
+            CurrentEnergyInPool.Remove(targetEnergy);
+            //Insert energy depleted win condition
+        } 
+        public bool IsEnergyOnPool(List<EnergyQuantityData> energiesToFind)
+        {
+            List<EnergyBase> foundEnergies = FindEnergyOnPool(energiesToFind);
+            return foundEnergies?.Any() ?? false;
+        }
         #endregion
 
         #region Private methods
         private List<EnergyBase> FindEnergyOnPool(List<EnergyQuantityData> energiesToFind)
         {
-            List<EnergyBase> targetEnergies = new List<EnergyBase>();
+            List<EnergyBase> targetEnergies = new();
             foreach(EnergyQuantityData energyData in energiesToFind)
             {
                 List<EnergyBase> foundEnergies = CurrentEnergyInPool.
@@ -135,9 +142,12 @@ namespace NueGames.NueDeck.Scripts.Managers
                     .OrderBy(energy => energy.EnergyStats.EnergyStrength).ToList();
                 
                 if(foundEnergies.Count < energyData.Quantity)
+                {
+                    targetEnergies.Clear();
                     break;
-                
-                targetEnergies.AddRange(foundEnergies.Take(energyData.Quantity).ToList());
+                }
+                    
+                targetEnergies.AddRange(foundEnergies.Take(energyData.Quantity));
             }
             return targetEnergies;
         }

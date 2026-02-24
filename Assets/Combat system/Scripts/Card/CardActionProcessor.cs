@@ -9,7 +9,7 @@ namespace NueGames.NueDeck.Scripts.Card
     public static class CardActionProcessor
     {
         private static readonly Dictionary<CardActionType, ICardAction> CardActionDict =
-            new Dictionary<CardActionType, ICardAction>();
+            new();
 
         public static bool IsInitialized { get; private set; }
 

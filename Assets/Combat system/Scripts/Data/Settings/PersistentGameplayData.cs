@@ -16,8 +16,6 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
         
         [SerializeField] private int currentGold;
         [SerializeField] private int drawCount;
-        [SerializeField] private int maxMana;
-        [SerializeField] private int currentMana;
         [SerializeField] private bool canUseCards;
         [SerializeField] private bool canSelectCards;
         [SerializeField] private bool isRandomHand;
@@ -55,8 +53,6 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
         private void InitData()
         {
             DrawCount = _gameplayData.DrawCount;
-            MaxMana = _gameplayData.MaxMana;
-            CurrentMana = MaxMana;
             CanUseCards = true;
             CanSelectCards = true;
             IsRandomHand = _gameplayData.IsRandomHand;
@@ -75,18 +71,6 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
         {
             get => drawCount;
             set => drawCount = value;
-        }
-
-        public int MaxMana
-        {
-            get => maxMana;
-            set => maxMana = value;
-        }
-
-        public int CurrentMana
-        {
-            get => currentMana;
-            set => currentMana = value;
         }
 
         public bool CanUseCards

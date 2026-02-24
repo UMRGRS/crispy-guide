@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using NueGames.NueDeck.Scripts.Enums;
 using NueGames.NueDeck.Scripts.Managers;
@@ -65,6 +66,35 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             }
             
             MyDescription = str.ToString();
+        }
+
+        public List<EnergyQuantityData> GatherEnergyCosts()
+        {
+            Dictionary<EnergyColor, int> totals = new();
+
+            void AddCost(EnergyQuantityData cost)
+            {
+                if (cost == null) return;
+        
+                totals.TryGetValue(cost.EnergyColor, out var current);
+                totals[cost.EnergyColor] = current + cost.Quantity;
+            }
+
+            if (costDataList != null && !UsableWithoutCost)
+                foreach (EnergyQuantityData cost in CostDataList)
+                    AddCost(cost);
+
+            if (cardEnergyActionDataList != null)
+                foreach (CardEnergyActionData action in CardEnergyActionDataList)
+                    foreach (EnergyQuantityData cost in action.GetEnergyCosts())
+                        AddCost(cost);
+
+            List<EnergyQuantityData> results = new(totals.Count);
+
+            foreach(var kvp in totals)
+                results.Add(new EnergyQuantityData(kvp.Key, kvp.Value));
+
+            return results;
         }
         #endregion
 
@@ -165,6 +195,21 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public void EditEnergyToModifyStrength(List<EnergyStrengthModification> newEnergyToModifyStrength) => energyToModifyStrength = newEnergyToModifyStrength;
         #endif
         #endregion
+
+        public IEnumerable<EnergyQuantityData> GetEnergyCosts()
+        {
+            if (energyToCreate != null)
+                foreach (var energy in energyToCreate)
+                    yield return energy;
+
+            if (energyToConvert != null)
+                foreach (var conversion in energyToConvert)
+                    yield return conversion.From;
+
+            if (energyToModifyStrength != null)
+                foreach (var modification in energyToModifyStrength)
+                    yield return modification.From;
+        }
     }
 
     [Serializable]

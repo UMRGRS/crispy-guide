@@ -20,7 +20,7 @@ namespace NueGames.NueDeck.Scripts.Data.Containers
         {
             rewardData = CardRewardDataList.RandomItem();
             
-            List<CardData> cardList = new List<CardData>();
+            List<CardData> cardList = new();
             
             foreach (var cardData in rewardData.RewardCardList)
                 cardList.Add(cardData);
