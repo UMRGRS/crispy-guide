@@ -2,9 +2,9 @@
 using NueGames.NueDeck.Scripts.Managers;
 using UnityEngine;
 
-namespace NueGames.NueDeck.Scripts.Card.CardActions
+namespace NueGames.NueDeck.Scripts.Card.CardActions.Enemies
 {
-    public class LifeStealAction : CardActionBase
+    public class LifeStealAction : CardActionBase<CardActionParameters>
     {
         public override CardActionType ActionType => CardActionType.LifeSteal;
         public override void DoAction(CardActionParameters actionParameters)

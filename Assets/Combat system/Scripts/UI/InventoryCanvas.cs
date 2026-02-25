@@ -17,7 +17,7 @@ namespace NueGames.NueDeck.Scripts.UI
         public TextMeshProUGUI TitleTextField => titleTextField;
         public LayoutGroup CardSpawnRoot => cardSpawnRoot;
 
-        private List<CardBase> _spawnedCardList = new List<CardBase>();
+        private List<CardBase> _spawnedCardList = new();
 
         public void ChangeTitle(string newTitle) => TitleTextField.text = newTitle;
         

@@ -9,7 +9,7 @@ namespace NueGames.NueDeck.Scripts.EnemyBehaviour
     public static class EnemyActionProcessor
     {
         private static readonly Dictionary<EnemyActionType, EnemyActionBase> EnemyActionDict =
-            new Dictionary<EnemyActionType, EnemyActionBase>();
+            new();
 
         public static bool IsInitialized { get; private set; }
 

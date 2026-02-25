@@ -27,7 +27,7 @@ namespace NueGames.NueDeck.Scripts.Characters
         
         #region Cache
 
-        protected Dictionary<StatusType, StatusIconBase> StatusDict = new Dictionary<StatusType, StatusIconBase>();
+        protected Dictionary<StatusType, StatusIconBase> StatusDict = new();
 
         protected Canvas TargetCanvas;
         

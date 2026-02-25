@@ -27,11 +27,13 @@ namespace NueGames.NueDeck.Editor
         private CardData SelectedCardData { get; set; }
         private string CardId { get; set; }
         private string CardName { get; set; }
-        private List<CostData> CostDataList { get; set; }
+        private List<EnergyQuantityData> CostDataList { get; set; }
         private Sprite CardSprite{ get; set; }
         private bool UsableWithoutTarget{ get; set; }
+        private bool UsableWithoutCost{ get; set; }
         private bool ExhaustAfterPlay{ get; set; }
         private List<CardActionData> CardActionDataList{ get; set; }
+        private List<CardEnergyActionData> CardEnergyActionDataList { get; set; }
         private List<CardDescriptionData> CardDescriptionDataList{ get; set; }
         private List<SpecialKeywords> SpecialKeywordsList{ get; set; }
         private AudioActionType AudioType{ get; set; }
@@ -45,8 +47,10 @@ namespace NueGames.NueDeck.Editor
             CostDataList = SelectedCardData.CostDataList;
             CardSprite = SelectedCardData.CardSprite;
             UsableWithoutTarget = SelectedCardData.UsableWithoutTarget;
+            UsableWithoutCost = SelectedCardData.UsableWithoutCost;
             ExhaustAfterPlay = SelectedCardData.ExhaustAfterPlay;
             CardActionDataList = SelectedCardData.CardActionDataList.Count>0 ? new List<CardActionData>(SelectedCardData.CardActionDataList) : new List<CardActionData>();
+            CardEnergyActionDataList = SelectedCardData.CardEnergyActionDataList.Count>0 ? new List<CardEnergyActionData>(SelectedCardData.CardEnergyActionDataList) : new List<CardEnergyActionData>();
             CardDescriptionDataList = SelectedCardData.CardDescriptionDataList.Count>0 ? new List<CardDescriptionData>(SelectedCardData.CardDescriptionDataList) : new List<CardDescriptionData>();
             SpecialKeywordsList = SelectedCardData.KeywordsList.Count>0 ? new List<SpecialKeywords>(SelectedCardData.KeywordsList) : new List<SpecialKeywords>();
             AudioType = SelectedCardData.AudioType;
@@ -60,8 +64,10 @@ namespace NueGames.NueDeck.Editor
             CostDataList?.Clear();
             CardSprite = null;
             UsableWithoutTarget = false;
+            UsableWithoutCost = false;
             ExhaustAfterPlay = false;
             CardActionDataList?.Clear();
+            CardEnergyActionDataList?.Clear();
             CardDescriptionDataList?.Clear();
             SpecialKeywordsList?.Clear();
             AudioType = AudioActionType.Attack;
@@ -162,6 +168,7 @@ namespace NueGames.NueDeck.Editor
             clone.EditId(str.ToString());
             clone.EditCardName(str.ToString());
             clone.EditCardActionDataList(new List<CardActionData>());
+            clone.EditCardEnergyActionDataList(new List<CardEnergyActionData>());
             clone.EditCardDescriptionDataList(new List<CardDescriptionData>());
             clone.EditSpecialKeywordsList(new List<SpecialKeywords>());
             clone.EditRarity(RarityType.Common);
@@ -190,9 +197,10 @@ namespace NueGames.NueDeck.Editor
             
             ChangeGeneralSettings();
 
-            ChangeCostDataList();
-           
+            ChangeCostDataList(); 
+            ChangeEnergyActionsDataList();
             ChangeCardActionDataList();
+            
             ChangeCardDescriptionDataList();
             ChangeSpecialKeywords();
             
@@ -225,20 +233,30 @@ namespace NueGames.NueDeck.Editor
             CardName = EditorGUILayout.TextField("Card Name:", CardName);
         }
         private bool _isCardCostDataListFolded;
-        private Vector2 _cardCostDataScrollPos;
         private void ChangeCostDataList()
         {
             _isCardCostDataListFolded =EditorGUILayout.BeginFoldoutHeaderGroup(_isCardCostDataListFolded, "Card cost");
             if (_isCardCostDataListFolded)
             {
-                _cardCostDataScrollPos = EditorGUILayout.BeginScrollView(_cardCostDataScrollPos,GUILayout.ExpandWidth(true));
+                CostDataList = DrawEnergyQuantityList(CostDataList);    
+            }
+            EditorGUILayout.EndFoldoutHeaderGroup();
+        }
+
+        private bool _isEnergyActionsDataListFolded;
+        private Vector2 _energyActionsDataListScrollPos;
+        private void ChangeEnergyActionsDataList()
+        {
+            _isEnergyActionsDataListFolded =EditorGUILayout.BeginFoldoutHeaderGroup(_isEnergyActionsDataListFolded, "Card energy actions");
+            if (_isEnergyActionsDataListFolded)
+            {
+                _energyActionsDataListScrollPos = EditorGUILayout.BeginScrollView(_energyActionsDataListScrollPos,GUILayout.ExpandWidth(true));
                 EditorGUILayout.BeginHorizontal();
-                List<CostData> _removedList = new List<CostData>();
-                for (var i = 0; i < CostDataList.Count; i++)
+                List<CardEnergyActionData> _removedList = new List<CardEnergyActionData>();
+                for (var i = 0; i < CardEnergyActionDataList.Count; i++)
                 {
-                    var cardCostData = CostDataList[i];
+                    CardEnergyActionData cardEnergyActionData = CardEnergyActionDataList[i];
                     EditorGUILayout.BeginVertical("box", GUILayout.Width(150), GUILayout.MaxHeight(50));
-                
                     EditorGUILayout.BeginHorizontal();
                     GUIStyle idStyle = new GUIStyle();
                     idStyle.fontSize = 16;
@@ -246,34 +264,224 @@ namespace NueGames.NueDeck.Editor
                     idStyle.fixedHeight = 25;
                     idStyle.fontStyle = FontStyle.Bold;
                     idStyle.normal.textColor = Color.white;
-                    EditorGUILayout.LabelField($"Action Index: {i}",idStyle);
+                    EditorGUILayout.LabelField($"Energy action Index: {i}",idStyle);
                     
                     GUILayout.FlexibleSpace();
                     
                     if (GUILayout.Button("X", GUILayout.MaxWidth(25), GUILayout.MaxHeight(25)))
-                        _removedList.Add(cardCostData);
+                        _removedList.Add(cardEnergyActionData);
                     
                     EditorGUILayout.EndHorizontal();
                     EditorGUILayout.Separator();
-                    var newCostType = (EnergyColor)EditorGUILayout.EnumPopup("Cost Type",cardCostData.CostColor,GUILayout.Width(250));                    
-                    var newQuantityCost = EditorGUILayout.IntField("Quantity: ",cardCostData.Quantity);
+
+                    CardActionType previousType = cardEnergyActionData.CardActionType;
+                    CardActionType newEnergyActionType = (CardActionType)EditorGUILayout.EnumPopup("Action Type",cardEnergyActionData.CardActionType,GUILayout.Width(250));
+
+                    switch (newEnergyActionType)
+                    {
+                        case CardActionType.CreateEnergy:
+                            DrawCreateEnergy(cardEnergyActionData);
+                            break;
+                        
+                        case CardActionType.ConvertEnergy:
+                            DrawConvertEnergy(cardEnergyActionData);
+                            break;
+
+                        case CardActionType.ModifyEnergyStrength:
+                            DrawModifyEnergyStrength(cardEnergyActionData);
+                            break;
+
+                        default:
+                            EditorGUILayout.LabelField("INVALID ACTION TYPE FOR ENERGY ACTIONS", EditorStyles.boldLabel);
+                            break;
+                    }
                     
-                    cardCostData.EditCostType(newCostType);
-                    cardCostData.EditQuantityCost(newQuantityCost);
+                    if (newEnergyActionType != previousType)
+                    {
+                        CleanEnergyActions(cardEnergyActionData);
+                        cardEnergyActionData.EditActionType(newEnergyActionType);
+                    }
                     EditorGUILayout.EndVertical();
                 }
 
-                foreach (var cardCostData in _removedList)
-                    CostDataList.Remove(cardCostData);
+                foreach (var cardEnergyActionData in _removedList)
+                    CardEnergyActionDataList.Remove(cardEnergyActionData);
 
                 if (GUILayout.Button("+",GUILayout.Width(50),GUILayout.Height(50)))
-                    CostDataList.Add(new CostData());
+                    CardEnergyActionDataList.Add(new CardEnergyActionData());
                 
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.EndScrollView();
             }
             
             EditorGUILayout.EndFoldoutHeaderGroup();
+        }
+
+        private CardEnergyActionData CleanEnergyActions(CardEnergyActionData cardEnergyActionData)
+        {
+            cardEnergyActionData.EditEnergyToCreate(new List<EnergyQuantityData>());
+            cardEnergyActionData.EditEnergyToConvert(new List<EnergyConversion>());
+            cardEnergyActionData.EditEnergyToModifyStrength(new List<EnergyStrengthModification>());
+            return cardEnergyActionData;
+        }
+
+        private void DrawCreateEnergy(CardEnergyActionData cardEnergyActionData)
+        {
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Energy To Create", EditorStyles.boldLabel);
+        
+            cardEnergyActionData.EditEnergyToCreate(DrawEnergyQuantityList(cardEnergyActionData.EnergyToCreate));
+            float newActionDelay = EditorGUILayout.FloatField("Action Delay: ",cardEnergyActionData.ActionDelay);
+            cardEnergyActionData.EditActionDelay(newActionDelay);
+        }
+
+        private void DrawConvertEnergy(CardEnergyActionData cardEnergyActionData)
+        {
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Energy To Convert", EditorStyles.boldLabel);
+        
+            if (cardEnergyActionData.EnergyToConvert == null)
+                cardEnergyActionData.EditEnergyToConvert(new List<EnergyConversion>());
+        
+            List<EnergyConversion> _removeConversionList = new List<EnergyConversion>();
+        
+            for (int i = 0; i < cardEnergyActionData.EnergyToConvert.Count; i++)
+            {
+                EnergyConversion energyConversionData = cardEnergyActionData.EnergyToConvert[i];
+        
+                EditorGUILayout.BeginHorizontal("box");
+                EditorGUILayout.BeginHorizontal();
+        
+                
+                EditorGUILayout.BeginVertical();
+
+                EditorGUILayout.LabelField("From",EditorStyles.boldLabel, GUILayout.Width(100));
+                EnergyQuantityData newFrom = DrawEnergyQuantitySingle(energyConversionData.From);
+
+                EditorGUILayout.LabelField("To",EditorStyles.boldLabel, GUILayout.Width(100));
+                EnergyQuantityData newTo = DrawEnergyQuantitySingle(energyConversionData.To);
+
+                float newActionDelay = EditorGUILayout.FloatField("Action Delay: ",cardEnergyActionData.ActionDelay);
+                
+                EditorGUILayout.EndVertical(); 
+
+                if (GUILayout.Button("X", GUILayout.Width(20)))
+                {
+                    _removeConversionList.Add(energyConversionData);
+                }
+
+                EditorGUILayout.EndHorizontal();
+
+                energyConversionData.EditFrom(newFrom);
+                energyConversionData.EditTo(newTo);
+                cardEnergyActionData.EditActionDelay(newActionDelay);
+        
+                EditorGUILayout.EndHorizontal();
+            }
+
+            foreach (var energy in _removeConversionList)
+                cardEnergyActionData.EnergyToConvert.Remove(energy);
+
+            if (GUILayout.Button("+"))
+                cardEnergyActionData.EnergyToConvert.Add(new EnergyConversion());
+        }
+
+        private void DrawModifyEnergyStrength(CardEnergyActionData cardEnergyActionData)
+        {
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Energy To Modify Strength", EditorStyles.boldLabel);
+        
+            if (cardEnergyActionData.EnergyToModifyStrength == null)
+                cardEnergyActionData.EditEnergyToModifyStrength(new List<EnergyStrengthModification>());
+        
+            List<EnergyStrengthModification> removeEnergyList = new List<EnergyStrengthModification>();
+        
+            for (int i = 0; i < cardEnergyActionData.EnergyToModifyStrength.Count; i++)
+            {
+                var energyStrengthModificationData = cardEnergyActionData.EnergyToModifyStrength[i];
+        
+                EditorGUILayout.BeginHorizontal("box");
+                EditorGUILayout.BeginHorizontal();
+        
+                EditorGUILayout.BeginVertical();
+
+                EditorGUILayout.LabelField("From",EditorStyles.boldLabel, GUILayout.Width(100));
+                EnergyQuantityData newFrom = DrawEnergyQuantitySingle(energyStrengthModificationData.From);
+
+                EditorGUILayout.LabelField("To",EditorStyles.boldLabel, GUILayout.Width(100));
+                EnergyStrength newTo = (EnergyStrength)EditorGUILayout.EnumPopup(energyStrengthModificationData.To);
+
+                float newActionDelay = EditorGUILayout.FloatField("Action Delay: ",cardEnergyActionData.ActionDelay);
+            
+                EditorGUILayout.EndVertical(); 
+        
+                if (GUILayout.Button("X", GUILayout.Width(20)))
+                {
+                    removeEnergyList.Add(energyStrengthModificationData);
+                }
+                    
+                EditorGUILayout.EndHorizontal();
+
+                energyStrengthModificationData.EditFrom(newFrom);
+                energyStrengthModificationData.EditTo(newTo);
+                cardEnergyActionData.EditActionDelay(newActionDelay);
+        
+                EditorGUILayout.EndHorizontal();
+            }
+
+            foreach (var energy in removeEnergyList)
+                cardEnergyActionData.EnergyToModifyStrength.Remove(energy);
+
+            if (GUILayout.Button("+"))
+                cardEnergyActionData.EnergyToModifyStrength.Add(new EnergyStrengthModification());
+        }
+
+        private List<EnergyQuantityData> DrawEnergyQuantityList(List<EnergyQuantityData> energyQuantityDataList)
+        {        
+            if (energyQuantityDataList == null)
+                energyQuantityDataList = new List<EnergyQuantityData>();
+        
+            List<EnergyQuantityData> removeEnergyList = new();
+        
+            for (int i = 0; i < energyQuantityDataList.Count; i++)
+            {
+                GUILayout.BeginHorizontal("Box");
+                var energyQuantityData = energyQuantityDataList[i];
+                energyQuantityData = DrawEnergyQuantitySingle(energyQuantityData);
+                
+                if (GUILayout.Button("X", GUILayout.Width(20)))
+                {
+                    removeEnergyList.Add(energyQuantityData);
+                }
+                GUILayout.EndHorizontal();
+            }
+
+            foreach (var energy in removeEnergyList)
+                energyQuantityDataList.Remove(energy);
+
+            if (GUILayout.Button("+"))
+                energyQuantityDataList.Add(new EnergyQuantityData());
+
+            return energyQuantityDataList;
+        }
+
+        private EnergyQuantityData DrawEnergyQuantitySingle(EnergyQuantityData energyQuantityData)
+        {
+            if (energyQuantityData == null)
+                energyQuantityData = new EnergyQuantityData();
+
+            EditorGUILayout.BeginHorizontal();
+    
+            EditorGUILayout.LabelField($"Energy", GUILayout.Width(70));
+            
+            EditorGUILayout.EndHorizontal();
+            var newEnergyType = (EnergyColor)EditorGUILayout.EnumPopup(energyQuantityData.EnergyColor);     
+            var newEnergyQuantity = EditorGUILayout.IntField("Quantity", energyQuantityData.Quantity);
+            
+            energyQuantityData.EditCostType(newEnergyType);
+            energyQuantityData.EditQuantityCost(newEnergyQuantity);
+
+            return energyQuantityData;
         }
         
         private void ChangeRarity()
@@ -296,6 +504,11 @@ namespace NueGames.NueDeck.Editor
         {
             UsableWithoutTarget = EditorGUILayout.Toggle("Usable Without Target:", UsableWithoutTarget);
         }
+
+        private void ChangeUsableWithoutCost()
+        {
+            UsableWithoutCost = EditorGUILayout.Toggle("Usable Without Cost:", UsableWithoutCost);
+        }
         
         private void ChangeExhaustAfterPlay()
         {
@@ -317,9 +530,9 @@ namespace NueGames.NueDeck.Editor
             _generalSettingsScrollPos = EditorGUILayout.BeginScrollView(_generalSettingsScrollPos,GUILayout.ExpandWidth(true));
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.BeginVertical();
-            //ChangeCostDataList();
             ChangeRarity();
             ChangeUsableWithoutTarget();
+            ChangeUsableWithoutCost();
             ChangeExhaustAfterPlay();
             ChangeAudioActionType();
             EditorGUILayout.EndVertical();
@@ -332,6 +545,14 @@ namespace NueGames.NueDeck.Editor
         
         private bool _isCardActionDataListFolded;
         private Vector2 _cardActionScrollPos;
+        private static readonly HashSet<CardActionType> _noTargetActions =
+        new()
+        {
+            CardActionType.Exhaust,
+            CardActionType.CreateEnergy,
+            CardActionType.ConvertEnergy,
+            CardActionType.ModifyEnergyStrength
+        };
         private void ChangeCardActionDataList()
         {
             _isCardActionDataListFolded =EditorGUILayout.BeginFoldoutHeaderGroup(_isCardActionDataListFolded, "Card Actions");
@@ -363,17 +584,23 @@ namespace NueGames.NueDeck.Editor
                     EditorGUILayout.Separator();
                     var newActionType = (CardActionType)EditorGUILayout.EnumPopup("Action Type",cardActionData.CardActionType,GUILayout.Width(250));
 
-                    if (newActionType != CardActionType.Exhaust)
+                    if (!_noTargetActions.Contains(newActionType))
                     {
                         var newActionTarget = (ActionTargetType)EditorGUILayout.EnumPopup("Target Type",cardActionData.ActionTargetType,GUILayout.Width(250));
                         var newActionValue = EditorGUILayout.FloatField("Action Value: ",cardActionData.ActionValue);
+                        var newActionDelay = EditorGUILayout.FloatField("Action Delay: ",cardActionData.ActionDelay);
                         cardActionData.EditActionValue(newActionValue);
                         cardActionData.EditActionTarget(newActionTarget);
+                        cardActionData.EditActionDelay(newActionDelay);
+                    }
+                    else
+                    {
+                        EditorGUILayout.LabelField("INVALID ACTION TYPE FOR NORMAL ACTIONS", EditorStyles.boldLabel);
+                        cardActionData.EditActionValue(0);
+                        cardActionData.EditActionTarget(ActionTargetType.Enemy);
+                        cardActionData.EditActionDelay(100);
                     }
                     
-                    var newActionDelay = EditorGUILayout.FloatField("Action Delay: ",cardActionData.ActionDelay);
-                    
-                    cardActionData.EditActionDelay(newActionDelay);
                     cardActionData.EditActionType(newActionType);
                     EditorGUILayout.EndVertical();
                 }
@@ -561,11 +788,13 @@ namespace NueGames.NueDeck.Editor
             
             SelectedCardData.EditId(CardId);
             SelectedCardData.EditCardName(CardName);
-            SelectedCardData.EditManaCost(CostDataList);
+            SelectedCardData.EditCostDataList(CostDataList);
             SelectedCardData.EditCardSprite(CardSprite);
             SelectedCardData.EditUsableWithoutTarget(UsableWithoutTarget);
+            SelectedCardData.EditUsableWithoutCost(UsableWithoutCost);
             SelectedCardData.EditExhaustAfterPlay(ExhaustAfterPlay);
             SelectedCardData.EditCardActionDataList(CardActionDataList);
+            SelectedCardData.EditCardEnergyActionDataList(CardEnergyActionDataList);
             SelectedCardData.EditCardDescriptionDataList(CardDescriptionDataList);
             SelectedCardData.EditSpecialKeywordsList(SpecialKeywordsList);
             SelectedCardData.EditAudioType(AudioType);

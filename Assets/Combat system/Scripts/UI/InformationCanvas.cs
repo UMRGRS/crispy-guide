@@ -42,7 +42,7 @@ namespace NueGames.NueDeck.Scripts.UI
             RandomizedDeckObject.SetActive(GameManager.PersistentGameplayData.IsRandomHand);
             SetHealthText(GameManager.PersistentGameplayData.AllyList[0].AllyCharacterData.MaxHealth,GameManager.PersistentGameplayData.AllyList[0].AllyCharacterData.MaxHealth);
             SetNameText(GameManager.GameplayData.DefaultName);
-            SetRoomText(GameManager.PersistentGameplayData.CurrentEncounterId+1,GameManager.GameplayData.UseStageSystem,GameManager.PersistentGameplayData.CurrentStageId+1);
+            //SetRoomText(GameManager.PersistentGameplayData.CurrentEncounterId+1,GameManager.GameplayData.UseStageSystem,GameManager.PersistentGameplayData.CurrentStageId+1);
             UIManager.InformationCanvas.SetGoldText(GameManager.PersistentGameplayData.CurrentGold);
         }
         #endregion

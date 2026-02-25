@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using NueGames.NueDeck.Scripts.Characters;
 using NueGames.NueDeck.Scripts.Data.Characters;
+using NueGames.NueDeck.Scripts.Data.Energy;
 using NueGames.NueDeck.Scripts.Enums;
 using NueGames.NueDeck.Scripts.NueExtentions;
 using UnityEngine;
@@ -12,52 +11,44 @@ namespace NueGames.NueDeck.Scripts.Data.Containers
     [CreateAssetMenu(fileName = "Encounter Data", menuName = "NueDeck/Containers/EncounterData", order = 4)]
     public class EncounterData : ScriptableObject
     {
-        [Header("Settings")] 
-        [SerializeField] private bool encounterRandomlyAtStage;
-        [SerializeField] private List<EnemyEncounterStage> enemyEncounterList;
-
-        public bool EncounterRandomlyAtStage => encounterRandomlyAtStage;
-        public List<EnemyEncounterStage> EnemyEncounterList => enemyEncounterList;
-
-        public EnemyEncounter GetEnemyEncounter(int stageId = 0,int encounterId =0,bool isFinal = false)
-        {
-            var selectedStage = EnemyEncounterList.First(x => x.StageId == stageId);
-            if (isFinal) return selectedStage.BossEncounterList.RandomItem();
-           
-            return EncounterRandomlyAtStage
-                ? selectedStage.EnemyEncounterList.RandomItem()
-                : selectedStage.EnemyEncounterList[encounterId] ?? selectedStage.EnemyEncounterList.RandomItem();
-        }
-        
-    }
-
-
-    [Serializable]
-    public class EnemyEncounterStage
-    {
-        [SerializeField] private string name;
-        [SerializeField] private int stageId;
-        [SerializeField] private List<EnemyEncounter> bossEncounterList;
+        [Header("Settings")]
+        [SerializeField] private FloorId floor;
+        [SerializeField] private string floorName;
         [SerializeField] private List<EnemyEncounter> enemyEncounterList;
-        public string Name => name;
-        public int StageId => stageId;
-        public List<EnemyEncounter> BossEncounterList => bossEncounterList;
-        public List<EnemyEncounter> EnemyEncounterList => enemyEncounterList;
-    }
-    
-    
-    [Serializable]
-    public class EnemyEncounter : EncounterBase
-    {
-        [SerializeField] private List<EnemyCharacterData> enemyList;
-        public List<EnemyCharacterData> EnemyList => enemyList;
-    }
-    
-    [Serializable]
-    public abstract class EncounterBase
-    {
-        [SerializeField] private BackgroundTypes targetBackgroundType;
+        [SerializeField] private List<EnemyEncounter> bossEncounterList;
 
+        public FloorId Floor => floor;
+        public string FloorName => floorName;
+        public List<EnemyEncounter> EnemyEncounterList => enemyEncounterList;
+        public List<EnemyEncounter> BossEncounterList => bossEncounterList;
+
+        public EnemyEncounter GetEnemyEncounter(bool isBoss = false)
+        {
+            if (isBoss) return bossEncounterList.RandomItem();
+           
+            return enemyEncounterList.RandomItem();
+        }
+    }
+
+    [Serializable]
+    public class EnemyEncounter
+    {
+        [Header("Possible enemies settings")]
+        [SerializeField] private List<EnemyCharacterData> availableEnemies;
+        [SerializeField] private int minEnemiesSpawn;
+        [SerializeField] private int maxEnemiesSpawn;
+        [Header("Energy pool settings")]
+        [SerializeField] private List<EnergyData> availableEnergies;
+        [SerializeField] private int minEnergySpawn;
+        [SerializeField] private int maxEnergySpawn;
+        [Header("Background settings")]
+        [SerializeField] private BackgroundTypes targetBackgroundType;
+        public List<EnemyCharacterData> AvailableEnemies => availableEnemies;
+        public int MinEnemiesSpawn => minEnemiesSpawn;
+        public int MaxEnemiesSpawn => maxEnemiesSpawn;
+        public List<EnergyData> AvailableEnergies => availableEnergies;
+        public int MinEnergySpawn => minEnergySpawn;
+        public int MaxEnergySpawn => maxEnergySpawn;
         public BackgroundTypes TargetBackgroundType => targetBackgroundType;
     }
 }

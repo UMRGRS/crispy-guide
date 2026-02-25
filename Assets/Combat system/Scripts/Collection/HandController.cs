@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using NueGames.NueDeck.Scripts.Card;
 using NueGames.NueDeck.Scripts.Characters;
+using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Enums;
 using NueGames.NueDeck.Scripts.Interfaces;
 using NueGames.NueDeck.Scripts.Managers;
@@ -16,10 +19,10 @@ namespace NueGames.NueDeck.Scripts.Collection
         
         [Header("Hand Settings")]
         [SerializeField] [Range(0, 5)] private float selectionSpacing = 1;
-        [SerializeField] private Vector3 curveStart = new Vector3(2f, -0.7f, 0);
-        [SerializeField] private Vector3 curveEnd = new Vector3(-2f, -0.7f, 0);
-        [SerializeField] private Vector2 handOffset = new Vector2(0, -0.3f);
-        [SerializeField] private Vector2 handSize = new Vector2(9, 1.7f);
+        [SerializeField] private Vector3 curveStart = new(2f, -0.7f, 0);
+        [SerializeField] private Vector3 curveEnd = new(-2f, -0.7f, 0);
+        [SerializeField] private Vector2 handOffset = new(0, -0.3f);
+        [SerializeField] private Vector2 handSize = new(9, 1.7f);
 
         [Header("References")]
         public Transform discardTransform;
@@ -37,6 +40,7 @@ namespace NueGames.NueDeck.Scripts.Collection
         protected CombatManager CombatManager => CombatManager.Instance;
         protected CollectionManager CollectionManager => CollectionManager.Instance;
         protected UIManager UIManager => UIManager.Instance;
+        protected EnergyPoolManager EnergyPoolManager => EnergyPoolManager.Instance;
         
         private Plane _plane; // world XY plane, used for mouse position raycasts
         private Vector3 _a, _b, _c; // Used for shaping hand into curve
@@ -154,11 +158,8 @@ namespace NueGames.NueDeck.Scripts.Collection
                 var card = hand[i];
                 var cardTransform = card.transform;
 
-                // Set to inactive material if not enough mana required to use card
-                // ---------------
-                //Modify to use new pool system
-                // ---------------
-                // card.SetInactiveMaterialState(GameManager.PersistentGameplayData.CurrentMana < card.CardData.ManaCost);
+                // Set to inactive material if not enough energy is available for all actions to trigger
+                card.SetInactiveMaterialState(!CanPlayCard(card));
 
                 var noCardHeld = _heldCard == null; // Whether a card is "held" (outside of hand)
                 var onSelectedCard = noCardHeld && _selected == i;
@@ -300,42 +301,43 @@ namespace NueGames.NueDeck.Scripts.Collection
                 PlayCard(mousePos);
             }
         }
-
-        
         private void PlayCard(Vector2 mousePos)
         {
             // Use Card
-            var mouseButtonUp = Input.GetMouseButtonUp(0);
+            bool mouseButtonUp = Input.GetMouseButtonUp(0);
             if (!mouseButtonUp) return;
             
             //Remove highlights
             CombatManager.DeactivateCardHighlights();
             bool backToHand = true;
             
-            /// ---------------
-            // Modify to use new energy pool
-             // ---------------
-            //if (GameManager.PersistentGameplayData.CanUseCards && GameManager.PersistentGameplayData.CurrentMana >= _heldCard.CardData.ManaCost)
-            //{
-            //    RaycastHit hit;
-            //    var mainRay = _mainCam.ScreenPointToRay(mousePos);
-            //    var _canUse = false;
-            //    CharacterBase selfCharacter = CombatManager.CurrentMainAlly;
-            //    CharacterBase targetCharacter = null;
-//
-            //    _canUse = _heldCard.CardData.UsableWithoutTarget || CheckPlayOnCharacter(mainRay, _canUse, ref selfCharacter, ref targetCharacter);
-            //    
-            //    if (_canUse)
-            //    {
-            //        backToHand = false;
-            //        _heldCard.Use(selfCharacter,targetCharacter,CombatManager.CurrentEnemiesList,CombatManager.CurrentAlliesList);
-            //    }
-            //}
+            if (CanPlayCard(_heldCard))
+            {
+                Ray mainRay = _mainCam.ScreenPointToRay(mousePos);
+                bool _canUse = false;
+                CharacterBase selfCharacter = CombatManager.CurrentMainAlly;
+                CharacterBase targetCharacter = null;
+
+                _canUse = _heldCard.CardData.UsableWithoutTarget || CheckPlayOnCharacter(mainRay, _canUse, ref selfCharacter, ref targetCharacter);
+                
+                if (_canUse)
+                {
+                    backToHand = false;
+                    _heldCard.Use(selfCharacter,targetCharacter,CombatManager.CurrentEnemiesList,CombatManager.CurrentAlliesList);
+                }
+            }
 
             if (backToHand) // Cannot use card / Not enough mana! Return card to hand!
                 AddCardToHand(_heldCard, _selected);
 
             _heldCard = null;
+        }
+
+        private bool CanPlayCard(CardBase card)
+        {
+            List<EnergyQuantityData> costs = card.CardData.GatherEnergyCosts(); 
+            bool isCostMeet = EnergyPoolManager.TryToFindEnergyOnPool(costs, out _);
+            return GameManager.PersistentGameplayData.CanUseCards && isCostMeet;
         }
 
         private bool CheckPlayOnCharacter(Ray mainRay, bool _canUse, ref CharacterBase selfCharacter,
@@ -344,13 +346,13 @@ namespace NueGames.NueDeck.Scripts.Collection
             RaycastHit hit;
             if (Physics.Raycast(mainRay, out hit, 1000, targetLayer))
             {
-                var character = hit.collider.gameObject.GetComponent<ICharacter>();
+                ICharacter character = hit.collider.gameObject.GetComponent<ICharacter>();
 
                 if (character != null)
                 {
-                    var checkEnemy = (_heldCard.CardData.CardActionDataList[0].ActionTargetType == ActionTargetType.Enemy &&
+                    bool checkEnemy = (_heldCard.CardData.CardActionDataList[0].ActionTargetType == ActionTargetType.Enemy &&
                                       character.GetCharacterType() == CharacterType.Enemy);
-                    var checkAlly = (_heldCard.CardData.CardActionDataList[0].ActionTargetType == ActionTargetType.Ally &&
+                    bool checkAlly = (_heldCard.CardData.CardActionDataList[0].ActionTargetType == ActionTargetType.Ally &&
                                      character.GetCharacterType() == CharacterType.Ally);
 
                     if (checkEnemy || checkAlly)
@@ -400,7 +402,7 @@ namespace NueGames.NueDeck.Scripts.Collection
 
         private void CheckMouseInsideHandBounds(out bool mouseButton)
         {
-            var point = transform.InverseTransformPoint(_mouseWorldPos);
+            Vector3 point = transform.InverseTransformPoint(_mouseWorldPos);
             _mouseInsideHand = _handBounds.Contains(point);
 
             mouseButton = Input.GetMouseButton(0);
@@ -412,15 +414,15 @@ namespace NueGames.NueDeck.Scripts.Collection
             sqrDistance = 1000;
             if (_selected >= 0 && _selected < count)
             {
-                var t = (_selected + 0.5f) / count;
-                var p = GetCurvePoint(_a, _b, _c, t);
+                float t = (_selected + 0.5f) / count;
+                Vector3 p = GetCurvePoint(_a, _b, _c, t);
                 sqrDistance = (p - _mouseWorldPos).sqrMagnitude;
             }
         }
 
         private void GetMouseWorldPosition(Vector2 mousePos)
         {
-            var ray = cam.ScreenPointToRay(mousePos);
+            Ray ray = cam.ScreenPointToRay(mousePos);
             if (_plane.Raycast(ray, out var enter)) _mouseWorldPos = ray.GetPoint(enter);
         }
 

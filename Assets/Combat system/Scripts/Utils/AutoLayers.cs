@@ -34,7 +34,7 @@ namespace NueGames.NueDeck.Scripts.Utils
         {
             // Open tag manager
             SerializedObject tagManager =
-                new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset")[0]);
+                new(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset")[0]);
             // Layers Property
             SerializedProperty layersProp = tagManager.FindProperty("layers");
             if (!PropertyExists(layersProp, 0, maxLayers, layerName))
@@ -85,7 +85,7 @@ namespace NueGames.NueDeck.Scripts.Utils
         {
             // Open tag manager
             SerializedObject tagManager =
-                new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset")[0]);
+                new(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset")[0]);
 
             // Tags Property
             SerializedProperty layersProp = tagManager.FindProperty("layers");
@@ -121,7 +121,7 @@ namespace NueGames.NueDeck.Scripts.Utils
         {
             // Open tag manager
             SerializedObject tagManager =
-                new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset")[0]);
+                new(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset")[0]);
 
             // Layers Property
             SerializedProperty layersProp = tagManager.FindProperty("layers");

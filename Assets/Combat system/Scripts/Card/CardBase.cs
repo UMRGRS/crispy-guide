@@ -18,7 +18,7 @@ using Random = UnityEngine.Random;
 
 namespace NueGames.NueDeck.Scripts.Card
 {
-    public class CardBase : MonoBehaviour,I2DTooltipTarget, IPointerDownHandler, IPointerUpHandler
+    public class CardBase : MonoBehaviour, I2DTooltipTarget, IPointerDownHandler, IPointerUpHandler
     {
         [Header("Base References")]
         [SerializeField] protected Transform descriptionRoot;
@@ -43,7 +43,8 @@ namespace NueGames.NueDeck.Scripts.Card
         protected GameManager GameManager => GameManager.Instance;
         protected CombatManager CombatManager => CombatManager.Instance;
         protected CollectionManager CollectionManager => CollectionManager.Instance;
-        
+        protected EnergyPoolManager EnergyPoolManager => EnergyPoolManager.Instance;
+
         public bool IsExhausted { get; private set; }
 
         #endregion
@@ -64,7 +65,7 @@ namespace NueGames.NueDeck.Scripts.Card
              // ---------------
             // Change to display the cost correctly
              // ---------------
-            manaTextField.text = CardData.CostDataList.ToString();
+            //manaTextField.text = CardData.CostDataList.ToString();
             cardImage.sprite = CardData.CardSprite;
             foreach (var rarityRoot in RarityRootList)
                 rarityRoot.gameObject.SetActive(rarityRoot.Rarity == CardData.Rarity);
@@ -82,30 +83,34 @@ namespace NueGames.NueDeck.Scripts.Card
 
         private IEnumerator CardUseRoutine(CharacterBase self,CharacterBase targetCharacter, List<EnemyBase> allEnemies, List<AllyBase> allAllies)
         {
-            /*
+            
             //Modify to spend the cost from the pool
-            //SpendMana(CardData.ManaCost);
+            SpendEnergy(CardData.CostDataList);
 
-            foreach (var playerAction in CardData.CardActionDataList)
+            foreach (CardActionData playerAction in CardData.CardActionDataList)
             {
                 yield return new WaitForSeconds(playerAction.ActionDelay);
-                var targetList = DetermineTargets(targetCharacter, allEnemies, allAllies, playerAction);
-
+                List<CharacterBase> targetList = DetermineTargets(targetCharacter, allEnemies, allAllies, playerAction);
                 foreach (var target in targetList)
                     CardActionProcessor.GetAction(playerAction.CardActionType)
                         .DoAction(new CardActionParameters(playerAction.ActionValue,
                             target,self,CardData,this));
             }
-            CollectionManager.OnCardPlayed(this);
-            */
 
-            throw new NotImplementedException();
+            foreach (CardEnergyActionData energyAction in CardData.CardEnergyActionDataList)
+            {
+                yield return new WaitForSeconds(energyAction.ActionDelay);
+                CardActionProcessor.GetAction(energyAction.CardActionType)
+                    .DoAction(new CardEnergyActionParameters(energyAction.EnergyToCreate,energyAction.EnergyToConvert, energyAction.EnergyToModifyStrength));
+            }
+            CollectionManager.OnCardPlayed(this);
+
         }
 
         private static List<CharacterBase> DetermineTargets(CharacterBase targetCharacter, List<EnemyBase> allEnemies, List<AllyBase> allAllies,
             CardActionData playerAction)
         {
-            List<CharacterBase> targetList = new List<CharacterBase>();
+            List<CharacterBase> targetList = new();
             switch (playerAction.ActionTargetType)
             {
                 case ActionTargetType.Enemy:
@@ -155,10 +160,10 @@ namespace NueGames.NueDeck.Scripts.Card
             StartCoroutine(ExhaustRoutine(destroy));
         }
 
-        protected virtual void SpendMana(int value)
+        protected virtual void SpendEnergy(List<EnergyQuantityData> cost)
         {
             if (!IsPlayable) return;
-            GameManager.PersistentGameplayData.CurrentMana -= value;
+            EnergyPoolManager.ConsumeEnergyCost(cost);
         }
         
         public virtual void SetInactiveMaterialState(bool isInactive) 

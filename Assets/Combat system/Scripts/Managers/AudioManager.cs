@@ -18,7 +18,7 @@ namespace NueGames.NueDeck.Scripts.Managers
         
         [SerializeField] private List<SoundProfileData> soundProfileDataList;
         
-        private Dictionary<AudioActionType, SoundProfileData> _audioDict = new Dictionary<AudioActionType, SoundProfileData>();
+        private Dictionary<AudioActionType, SoundProfileData> _audioDict = new();
         
         #region Setup
         private void Awake()

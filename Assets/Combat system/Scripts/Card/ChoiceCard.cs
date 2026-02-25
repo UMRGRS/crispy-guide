@@ -10,7 +10,7 @@ namespace NueGames.NueDeck.Scripts.Card
     {
         [SerializeField] private float showScaleRate = 1.15f;
         private CardBase _cardBase;
-        private Vector3 _initalScale;
+        private Vector3 _initialScale;
         public Action OnCardChose;
         public GameManager GameManager => GameManager.Instance;
         public UIManager UIManager => UIManager.Instance;
@@ -18,7 +18,7 @@ namespace NueGames.NueDeck.Scripts.Card
         public void BuildReward(CardData cardData)
         {
             _cardBase = GetComponent<CardBase>();
-            _initalScale = transform.localScale;
+            _initialScale = transform.localScale;
             _cardBase.SetCard(cardData);
             _cardBase.UpdateCardText();
         }
@@ -37,7 +37,7 @@ namespace NueGames.NueDeck.Scripts.Card
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            transform.localScale = _initalScale * showScaleRate;
+            transform.localScale = _initialScale * showScaleRate;
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -47,7 +47,7 @@ namespace NueGames.NueDeck.Scripts.Card
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            transform.localScale = _initalScale;
+            transform.localScale = _initialScale;
         }
 
         public void OnPointerUp(PointerEventData eventData)

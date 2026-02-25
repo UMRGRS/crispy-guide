@@ -43,7 +43,7 @@ namespace NueGames.NueDeck.Scripts.Characters
         public Action OnTakeDamageAction;
         public Action OnShieldGained;
         
-        public readonly Dictionary<StatusType, StatusStats> StatusDict = new Dictionary<StatusType, StatusStats>();
+        public readonly Dictionary<StatusType, StatusStats> StatusDict = new();
         
         #region Setup
         public CharacterStats(int maxHealth, CharacterCanvas characterCanvas)

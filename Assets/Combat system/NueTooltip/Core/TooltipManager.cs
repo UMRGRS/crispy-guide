@@ -24,7 +24,7 @@ namespace NueGames.NueDeck.ThirdParty.NueTooltip.Core
 
         public SpecialKeywordData SpecialKeywordData => specialKeywordData;
      
-        private List<TooltipText> _tooltipTextList = new List<TooltipText>();
+        private List<TooltipText> _tooltipTextList = new();
         private TooltipController TooltipController => tooltipController;
         private CursorController CursorController => cursorController;
 

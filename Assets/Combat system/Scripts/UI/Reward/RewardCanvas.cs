@@ -21,9 +21,9 @@ namespace NueGames.NueDeck.Scripts.UI.Reward
         [SerializeField] private ChoiceCard choiceCardUIPrefab;
         [SerializeField] private ChoicePanel choicePanel;
         
-        private readonly List<RewardContainer> _currentRewardsList = new List<RewardContainer>();
-        private readonly List<ChoiceCard> _spawnedChoiceList = new List<ChoiceCard>();
-        private readonly List<CardData> _cardRewardList = new List<CardData>();
+        private readonly List<RewardContainer> _currentRewardsList = new();
+        private readonly List<ChoiceCard> _spawnedChoiceList = new();
+        private readonly List<CardData> _cardRewardList = new();
 
         public ChoicePanel ChoicePanel => choicePanel;
         

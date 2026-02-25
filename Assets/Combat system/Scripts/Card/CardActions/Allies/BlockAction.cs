@@ -2,9 +2,9 @@
 using NueGames.NueDeck.Scripts.Managers;
 using UnityEngine;
 
-namespace NueGames.NueDeck.Scripts.Card.CardActions
+namespace NueGames.NueDeck.Scripts.Card.CardActions.Allies
 {
-    public class BlockAction : CardActionBase
+    public class BlockAction : CardActionBase<CardActionParameters>
     {
         public override CardActionType ActionType => CardActionType.Block;
         public override void DoAction(CardActionParameters actionParameters)
