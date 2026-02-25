@@ -304,7 +304,7 @@ namespace NueGames.NueDeck.Scripts.Collection
         private void PlayCard(Vector2 mousePos)
         {
             // Use Card
-            var mouseButtonUp = Input.GetMouseButtonUp(0);
+            bool mouseButtonUp = Input.GetMouseButtonUp(0);
             if (!mouseButtonUp) return;
             
             //Remove highlights
@@ -336,7 +336,7 @@ namespace NueGames.NueDeck.Scripts.Collection
         private bool CanPlayCard(CardBase card)
         {
             List<EnergyQuantityData> costs = card.CardData.GatherEnergyCosts(); 
-            bool isCostMeet = EnergyPoolManager.IsEnergyOnPool(costs);
+            bool isCostMeet = EnergyPoolManager.TryToFindEnergyOnPool(costs, out _);
             return GameManager.PersistentGameplayData.CanUseCards && isCostMeet;
         }
 
@@ -346,13 +346,13 @@ namespace NueGames.NueDeck.Scripts.Collection
             RaycastHit hit;
             if (Physics.Raycast(mainRay, out hit, 1000, targetLayer))
             {
-                var character = hit.collider.gameObject.GetComponent<ICharacter>();
+                ICharacter character = hit.collider.gameObject.GetComponent<ICharacter>();
 
                 if (character != null)
                 {
-                    var checkEnemy = (_heldCard.CardData.CardActionDataList[0].ActionTargetType == ActionTargetType.Enemy &&
+                    bool checkEnemy = (_heldCard.CardData.CardActionDataList[0].ActionTargetType == ActionTargetType.Enemy &&
                                       character.GetCharacterType() == CharacterType.Enemy);
-                    var checkAlly = (_heldCard.CardData.CardActionDataList[0].ActionTargetType == ActionTargetType.Ally &&
+                    bool checkAlly = (_heldCard.CardData.CardActionDataList[0].ActionTargetType == ActionTargetType.Ally &&
                                      character.GetCharacterType() == CharacterType.Ally);
 
                     if (checkEnemy || checkAlly)
@@ -402,7 +402,7 @@ namespace NueGames.NueDeck.Scripts.Collection
 
         private void CheckMouseInsideHandBounds(out bool mouseButton)
         {
-            var point = transform.InverseTransformPoint(_mouseWorldPos);
+            Vector3 point = transform.InverseTransformPoint(_mouseWorldPos);
             _mouseInsideHand = _handBounds.Contains(point);
 
             mouseButton = Input.GetMouseButton(0);
@@ -414,15 +414,15 @@ namespace NueGames.NueDeck.Scripts.Collection
             sqrDistance = 1000;
             if (_selected >= 0 && _selected < count)
             {
-                var t = (_selected + 0.5f) / count;
-                var p = GetCurvePoint(_a, _b, _c, t);
+                float t = (_selected + 0.5f) / count;
+                Vector3 p = GetCurvePoint(_a, _b, _c, t);
                 sqrDistance = (p - _mouseWorldPos).sqrMagnitude;
             }
         }
 
         private void GetMouseWorldPosition(Vector2 mousePos)
         {
-            var ray = cam.ScreenPointToRay(mousePos);
+            Ray ray = cam.ScreenPointToRay(mousePos);
             if (_plane.Raycast(ray, out var enter)) _mouseWorldPos = ray.GetPoint(enter);
         }
 

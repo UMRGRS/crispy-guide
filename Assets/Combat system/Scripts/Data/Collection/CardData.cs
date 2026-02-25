@@ -155,7 +155,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [SerializeField] private CardActionType cardActionType;
         [SerializeField] private ActionTargetType actionTargetType;
         [SerializeField] private float actionValue;
-        [SerializeField] private float actionDelay;
+        [Range(0.1f, 10)][SerializeField] private float actionDelay;
 
         public ActionTargetType ActionTargetType => actionTargetType;
         public CardActionType CardActionType => cardActionType;
@@ -181,11 +181,13 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [SerializeField] private List<EnergyQuantityData> energyToCreate;
         [SerializeField] private List<EnergyConversion> energyToConvert;
         [SerializeField] private List<EnergyStrengthModification> energyToModifyStrength;
+        [Range(0.1f, 10)][SerializeField] private float actionDelay;
 
         public CardActionType CardActionType => cardActionType;
         public List<EnergyQuantityData> EnergyToCreate => energyToCreate;
         public List<EnergyConversion> EnergyToConvert => energyToConvert;
         public List<EnergyStrengthModification> EnergyToModifyStrength => energyToModifyStrength;
+        public float ActionDelay => actionDelay;
 
         #region Editor
         #if UNITY_EDITOR
@@ -193,21 +195,18 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public void EditEnergyToCreate(List<EnergyQuantityData> newEnergyToCreate) => energyToCreate = newEnergyToCreate;
         public void EditEnergyToConvert(List<EnergyConversion>  newEnergyToConvert) => energyToConvert = newEnergyToConvert;
         public void EditEnergyToModifyStrength(List<EnergyStrengthModification> newEnergyToModifyStrength) => energyToModifyStrength = newEnergyToModifyStrength;
+        public void EditActionDelay(float newValue) => actionDelay = newValue;
         #endif
         #endregion
 
         public IEnumerable<EnergyQuantityData> GetEnergyCosts()
         {
-            if (energyToCreate != null)
-                foreach (var energy in energyToCreate)
-                    yield return energy;
-
             if (energyToConvert != null)
-                foreach (var conversion in energyToConvert)
+                foreach (EnergyConversion conversion in energyToConvert)
                     yield return conversion.From;
 
             if (energyToModifyStrength != null)
-                foreach (var modification in energyToModifyStrength)
+                foreach (EnergyStrengthModification modification in energyToModifyStrength)
                     yield return modification.From;
         }
     }

@@ -87,19 +87,24 @@ namespace NueGames.NueDeck.Scripts.Card
             //Modify to spend the cost from the pool
             SpendEnergy(CardData.CostDataList);
 
-            //foreach (var playerAction in CardData.CardActionDataList)
-            //{
-            //    yield return new WaitForSeconds(playerAction.ActionDelay);
-            //    var targetList = DetermineTargets(targetCharacter, allEnemies, allAllies, playerAction);
-            //    foreach (var target in targetList)
-            //        CardActionProcessor.GetAction(playerAction.CardActionType)
-            //            .DoAction(new CardActionParameters(playerAction.ActionValue,
-            //                target,self,CardData,this));
-            //}
+            foreach (CardActionData playerAction in CardData.CardActionDataList)
+            {
+                yield return new WaitForSeconds(playerAction.ActionDelay);
+                List<CharacterBase> targetList = DetermineTargets(targetCharacter, allEnemies, allAllies, playerAction);
+                foreach (var target in targetList)
+                    CardActionProcessor.GetAction(playerAction.CardActionType)
+                        .DoAction(new CardActionParameters(playerAction.ActionValue,
+                            target,self,CardData,this));
+            }
+
+            foreach (CardEnergyActionData energyAction in CardData.CardEnergyActionDataList)
+            {
+                yield return new WaitForSeconds(energyAction.ActionDelay);
+                CardActionProcessor.GetAction(energyAction.CardActionType)
+                    .DoAction(new CardEnergyActionParameters(energyAction.EnergyToCreate,energyAction.EnergyToConvert, energyAction.EnergyToModifyStrength));
+            }
             CollectionManager.OnCardPlayed(this);
 
-            yield return new WaitForSeconds(1);
-            
         }
 
         private static List<CharacterBase> DetermineTargets(CharacterBase targetCharacter, List<EnemyBase> allEnemies, List<AllyBase> allAllies,
