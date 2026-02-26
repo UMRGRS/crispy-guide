@@ -52,7 +52,7 @@ namespace NueGames.NueDeck.Scripts.UI
         public void EndTurn()
         {
             if (CombatManager.CurrentCombatStateType == CombatStateType.AllyTurn)
-                CombatManager.EndTurn();
+                CombatManager.EndAllyTurn();
         }
         #endregion
     }

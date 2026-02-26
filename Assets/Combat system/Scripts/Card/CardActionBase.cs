@@ -3,6 +3,7 @@ using NueGames.NueDeck.Scripts.Characters;
 using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Enums;
 using NueGames.NueDeck.Scripts.Managers;
+using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Card
 {

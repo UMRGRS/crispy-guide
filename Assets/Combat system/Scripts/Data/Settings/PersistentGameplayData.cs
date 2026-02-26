@@ -22,6 +22,7 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
         [SerializeField] private List<AllyBase> allyList;
         [SerializeField] private FloorId currentFloor;
         [SerializeField] private EnemyEncounter currentEncounter;
+        [SerializeField] private int remainingActiveTurns;
         [SerializeField] private bool isFinalEncounter;
         [SerializeField] private List<CardData> currentCardsList;
         [SerializeField] private List<AllyHealthData> allyHealthDataDataList;
@@ -36,10 +37,12 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
         public void SetAllyHealthData(string id,int newCurrentHealth, int newMaxHealth)
         {
             var data = allyHealthDataDataList.Find(x => x.CharacterId == id);
-            var newData = new AllyHealthData();
-            newData.CharacterId = id;
-            newData.CurrentHealth = newCurrentHealth;
-            newData.MaxHealth = newMaxHealth;
+            var newData = new AllyHealthData
+            {
+                CharacterId = id,
+                CurrentHealth = newCurrentHealth,
+                MaxHealth = newMaxHealth
+            };
             if (data != null)
             {
                 allyHealthDataDataList.Remove(data);
@@ -54,10 +57,11 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
         {
             DrawCount = _gameplayData.DrawCount;
             CanUseCards = true;
-            CanSelectCards = true;
+            CanSelectCards = false;
             IsRandomHand = _gameplayData.IsRandomHand;
             AllyList = new List<AllyBase>(_gameplayData.InitalAllyList);
             currentEncounter = new EnemyEncounter();
+            remainingActiveTurns = 1;
             currentFloor = FloorId.firstFloor;
             CurrentGold = 0;
             CurrentCardsList = new List<CardData>();
@@ -100,6 +104,11 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
         {
             get => currentEncounter;
             set => currentEncounter = value;
+        }
+        public int RemainingActiveTurns
+        {
+            get => remainingActiveTurns;
+            set => remainingActiveTurns = value;
         }
         public FloorId CurrentFloor
         {
