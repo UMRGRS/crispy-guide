@@ -121,7 +121,6 @@ namespace NueGames.NueDeck.Scripts.Managers
         public void RemoveEnergyFromPool(EnergyBase targetEnergy)
         {
             CurrentEnergyInPool.Remove(targetEnergy);
-            //Insert energy depleted win condition
         } 
 
         public bool TryToFindEnergyOnPool(List<EnergyQuantityData> energiesToFind, out List<EnergyBase> selectedEnergies)
@@ -159,7 +158,7 @@ namespace NueGames.NueDeck.Scripts.Managers
                 for(int i=0; i < data.Quantity; i++)
                 {
                     EnergyData energyData = availableEnergies.FirstOrDefault(energy => energy.EnergyType == data.EnergyColor);
-                    int spawnPosition = UnityEngine.Random.Range(0, energyPosList.Count-1);
+                    int spawnPosition = UnityEngine.Random.Range(0, energyPosList.Count);
                     EnergyBase clone = Instantiate(energyData.EnergyPrefab, energyPosList[spawnPosition]);
                     clone.BuildEnergy();
                     CurrentEnergyInPool.Add(clone);

@@ -26,8 +26,6 @@ namespace NueGames.NueDeck.Scripts.UI
             {
                 case EncounterButtonStatus.Active:
                     button.interactable = true;
-                    if (isFinal) GameManager.PersistentGameplayData.IsFinalEncounter = true;
-                    
                     break;
                 case EncounterButtonStatus.Passive:
                     button.interactable = false;

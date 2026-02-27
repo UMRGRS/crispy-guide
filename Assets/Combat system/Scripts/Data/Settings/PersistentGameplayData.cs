@@ -13,19 +13,16 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
     public class PersistentGameplayData
     {
         private readonly GameplayData _gameplayData;
-        
-        [SerializeField] private int currentGold;
         [SerializeField] private int drawCount;
         [SerializeField] private bool canUseCards;
         [SerializeField] private bool canSelectCards;
-        [SerializeField] private bool isRandomHand;
         [SerializeField] private List<AllyBase> allyList;
         [SerializeField] private FloorId currentFloor;
         [SerializeField] private EnemyEncounter currentEncounter;
         [SerializeField] private int remainingActiveTurns;
-        [SerializeField] private bool isFinalEncounter;
         [SerializeField] private List<CardData> currentCardsList;
         [SerializeField] private List<AllyHealthData> allyHealthDataDataList;
+        [SerializeField] private bool isBossEncounter;
 
         public PersistentGameplayData(GameplayData gameplayData)
         {
@@ -58,86 +55,27 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
             DrawCount = _gameplayData.DrawCount;
             CanUseCards = true;
             CanSelectCards = false;
-            IsRandomHand = _gameplayData.IsRandomHand;
-            AllyList = new List<AllyBase>(_gameplayData.InitalAllyList);
+            AllyList = new List<AllyBase>(_gameplayData.InitialAllyList);
             currentEncounter = new EnemyEncounter();
             remainingActiveTurns = 1;
             currentFloor = FloorId.firstFloor;
-            CurrentGold = 0;
             CurrentCardsList = new List<CardData>();
-            IsFinalEncounter = false;
             allyHealthDataDataList = new List<AllyHealthData>();
         }
 
         #region Encapsulation
 
-        public int DrawCount
-        {
-            get => drawCount;
-            set => drawCount = value;
-        }
+        public int DrawCount{get => drawCount; set => drawCount = value;}
+        public bool CanUseCards{get => canUseCards; set => canUseCards = value;}
+        public bool CanSelectCards{get => canSelectCards; set => canSelectCards = value;}
+        public List<AllyBase> AllyList{get => allyList; set => allyList = value;}
+        public EnemyEncounter CurrentEncounter{get => currentEncounter; set => currentEncounter = value;}
+        public int RemainingActiveTurns{get => remainingActiveTurns; set => remainingActiveTurns = value;}
+        public FloorId CurrentFloor{get => currentFloor; set => currentFloor = value;}
+        public List<CardData> CurrentCardsList{get => currentCardsList; set => currentCardsList = value;}
+        public List<AllyHealthData> AllyHealthDataList{get => allyHealthDataDataList; set => allyHealthDataDataList = value;}
+        public bool IsBossEncounter { get => isBossEncounter; set => isBossEncounter = value; }
 
-        public bool CanUseCards
-        {
-            get => canUseCards;
-            set => canUseCards = value;
-        }
-
-        public bool CanSelectCards
-        {
-            get => canSelectCards;
-            set => canSelectCards = value;
-        }
-
-        public bool IsRandomHand
-        {
-            get => isRandomHand;
-            set => isRandomHand = value;
-        }
-
-        public List<AllyBase> AllyList
-        {
-            get => allyList;
-            set => allyList = value;
-        }
-        public EnemyEncounter CurrentEncounter
-        {
-            get => currentEncounter;
-            set => currentEncounter = value;
-        }
-        public int RemainingActiveTurns
-        {
-            get => remainingActiveTurns;
-            set => remainingActiveTurns = value;
-        }
-        public FloorId CurrentFloor
-        {
-            get => currentFloor;
-            set => currentFloor = value;
-        }
-        public bool IsFinalEncounter
-        {
-            get => isFinalEncounter;
-            set => isFinalEncounter = value;
-        }
-
-        public List<CardData> CurrentCardsList
-        {
-            get => currentCardsList;
-            set => currentCardsList = value;
-        }
-
-        public List<AllyHealthData> AllyHealthDataList
-        {
-            get => allyHealthDataDataList;
-            set => allyHealthDataDataList = value;
-        }
-        public int CurrentGold
-        {
-            get => currentGold;
-            set => currentGold = value;
-        }
-        
         #endregion
     }
 }

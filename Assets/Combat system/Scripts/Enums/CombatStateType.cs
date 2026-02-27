@@ -7,7 +7,6 @@
         EnemyDeclaration,
         AllyTurn,
         EnemyTurn,
-        TurnEnd,
-        EndCombat
+        TurnEnd
     }
 }

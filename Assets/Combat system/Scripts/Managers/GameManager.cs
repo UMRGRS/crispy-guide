@@ -22,7 +22,6 @@ namespace NueGames.NueDeck.Scripts.Managers
         [SerializeField] private List<EncounterData> encounterData;
         [SerializeField] private SceneData sceneData;
 
-
         #region Cache
         public SceneData SceneData => sceneData;
         public List<EncounterData> EncounterData => encounterData;
@@ -71,12 +70,8 @@ namespace NueGames.NueDeck.Scripts.Managers
         {
             PersistentGameplayData.CurrentCardsList.Clear();
             
-            if (PersistentGameplayData.IsRandomHand)
-                for (var i = 0; i < GameplayData.RandomCardCount; i++)
-                    PersistentGameplayData.CurrentCardsList.Add(GameplayData.AllCardsList.RandomItem());
-            else
-                foreach (var cardData in GameplayData.InitalDeck.CardList)
-                    PersistentGameplayData.CurrentCardsList.Add(cardData);
+            foreach (var cardData in GameplayData.InitialDeck.CardList)
+                PersistentGameplayData.CurrentCardsList.Add(cardData);
         }
         public void NextFloor()
         {

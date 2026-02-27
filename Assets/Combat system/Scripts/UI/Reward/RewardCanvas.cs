@@ -40,11 +40,6 @@ namespace NueGames.NueDeck.Scripts.UI.Reward
             
             switch (rewardType)
             {
-                case RewardType.Gold:
-                    var rewardGold = rewardContainerData.GetRandomGoldReward(out var goldRewardData);
-                    rewardClone.BuildReward(goldRewardData.RewardSprite,goldRewardData.RewardDescription);
-                    rewardClone.RewardButton.onClick.AddListener(()=>GetGoldReward(rewardClone,rewardGold));
-                    break;
                 case RewardType.Card:
                     var rewardCardList = rewardContainerData.GetRandomCardRewardList(out var cardRewardData);
                     _cardRewardList.Clear();
@@ -89,13 +84,6 @@ namespace NueGames.NueDeck.Scripts.UI.Reward
         #endregion
         
         #region Private Methods
-        private void GetGoldReward(RewardContainer rewardContainer,int amount)
-        {
-            GameManager.PersistentGameplayData.CurrentGold += amount;
-            _currentRewardsList.Remove(rewardContainer);
-            UIManager.InformationCanvas.SetGoldText(GameManager.PersistentGameplayData.CurrentGold);
-            Destroy(rewardContainer.gameObject);
-        }
 
         private void GetCardReward(RewardContainer rewardContainer,int amount = 3)
         {
