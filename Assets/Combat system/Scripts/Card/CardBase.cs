@@ -104,7 +104,6 @@ namespace NueGames.NueDeck.Scripts.Card
                     .DoAction(new CardEnergyActionParameters(energyAction.EnergyToCreate,energyAction.EnergyToConvert, energyAction.EnergyToModifyStrength));
             }
             CollectionManager.OnCardPlayed(this);
-
         }
 
         private static List<CharacterBase> DetermineTargets(CharacterBase targetCharacter, List<EnemyBase> allEnemies, List<AllyBase> allAllies,
