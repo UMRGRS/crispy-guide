@@ -159,7 +159,7 @@ namespace NueGames.NueDeck.Scripts.Collection
                 var cardTransform = card.transform;
 
                 // Set to inactive material if not enough energy is available for all actions to trigger
-                card.SetInactiveMaterialState(!CanPlayCard(card));
+                card.SetInactiveMaterialState(!IsCardCostMeet(card));
 
                 var noCardHeld = _heldCard == null; // Whether a card is "held" (outside of hand)
                 var onSelectedCard = noCardHeld && _selected == i;
@@ -322,6 +322,7 @@ namespace NueGames.NueDeck.Scripts.Collection
                 
                 if (_canUse)
                 {
+                    GameManager.PersistentGameplayData.CanUseCards = false;
                     backToHand = false;
                     _heldCard.Use(selfCharacter,targetCharacter,CombatManager.CurrentEnemiesList,CombatManager.CurrentAlliesList);
                 }
@@ -335,9 +336,13 @@ namespace NueGames.NueDeck.Scripts.Collection
 
         private bool CanPlayCard(CardBase card)
         {
+            return GameManager.PersistentGameplayData.CanUseCards && IsCardCostMeet(card);
+        }
+
+        private bool IsCardCostMeet(CardBase card)
+        {
             List<EnergyQuantityData> costs = card.CardData.GatherEnergyCosts(); 
-            bool isCostMeet = EnergyPoolManager.TryToFindEnergyOnPool(costs, out _);
-            return GameManager.PersistentGameplayData.CanUseCards && isCostMeet;
+            return EnergyPoolManager.TryToFindEnergyOnPool(costs, out _);
         }
 
         private bool CheckPlayOnCharacter(Ray mainRay, bool _canUse, ref CharacterBase selfCharacter,

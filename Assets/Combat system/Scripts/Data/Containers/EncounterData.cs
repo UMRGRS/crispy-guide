@@ -41,6 +41,7 @@ namespace NueGames.NueDeck.Scripts.Data.Containers
         [SerializeField] private List<EnergyData> availableEnergies;
         [SerializeField] private int minEnergySpawn;
         [SerializeField] private int maxEnergySpawn;
+        [Range(1,10)][SerializeField] private int energyGenerationTurns;
         [Header("Background settings")]
         [SerializeField] private BackgroundTypes targetBackgroundType;
         public List<EnemyCharacterData> AvailableEnemies => availableEnemies;
@@ -49,6 +50,7 @@ namespace NueGames.NueDeck.Scripts.Data.Containers
         public List<EnergyData> AvailableEnergies => availableEnergies;
         public int MinEnergySpawn => minEnergySpawn;
         public int MaxEnergySpawn => maxEnergySpawn;
+        public int EnergyGenerationTurns => energyGenerationTurns;
         public BackgroundTypes TargetBackgroundType => targetBackgroundType;
     }
 }

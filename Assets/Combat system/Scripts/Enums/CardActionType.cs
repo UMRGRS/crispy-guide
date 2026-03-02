@@ -8,7 +8,6 @@
         IncreaseStrength,
         IncreaseMaxHealth,
         Draw,
-        EarnMana,
         LifeSteal,
         Stun,
         Exhaust,

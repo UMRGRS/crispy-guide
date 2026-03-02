@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NueGames.NueDeck.Scripts.Card.CardActions.Energy;
 using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Data.Containers;
 using NueGames.NueDeck.Scripts.Data.Energy;
@@ -19,6 +20,10 @@ namespace NueGames.NueDeck.Scripts.Managers
         [Header("References")]
         [SerializeField] private List<Transform> energyPosList;
         [SerializeField] private List<EnergyData> availableEnergies;
+
+        #region private fields
+        private readonly float spawnTimer = 0.25f;
+        #endregion
 
         #region Cache
         public List<EnergyBase> CurrentEnergyInPool {get; private set;} = new List<EnergyBase>();
@@ -53,21 +58,12 @@ namespace NueGames.NueDeck.Scripts.Managers
                 int energyQuantity = UnityEngine.Random.Range(currentEncounterData.MinEnergySpawn, currentEncounterData.MaxEnergySpawn + 1); 
                 energyCreationData.Add(new EnergyQuantityData(data.EnergyType, energyQuantity));
             }
+
             CreateEnergy(energyCreationData);
         }
         public void CreateEnergy(List<EnergyQuantityData> energyQuantityDataList)
         {
-            foreach(EnergyQuantityData data in energyQuantityDataList)
-            {
-                for(int i=0; i < data.Quantity; i++)
-                {
-                    EnergyData energyData = availableEnergies.FirstOrDefault(energy => energy.EnergyType == data.EnergyColor);
-                    int spawnPosition = UnityEngine.Random.Range(0, energyPosList.Count-1);
-                    EnergyBase clone = Instantiate(energyData.EnergyPrefab, energyPosList[spawnPosition]);
-                    clone.BuildEnergy();
-                    CurrentEnergyInPool.Add(clone);
-                }
-            }
+            StartCoroutine(CreateEnergyRoutine(energyQuantityDataList));
         }
         public void DecayAllEnergy()
         {
@@ -75,7 +71,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             {
                 EnergyBase energy = CurrentEnergyInPool[i];
 
-                EnergyStrength newStrength = EnergyStrengthHelper.GetNewEnergyStrengthValue(energy.EnergyStats.EnergyStrength,ModificationType.Weaken);
+                EnergyStrength newStrength = EnergyStrengthHelper.GetNewEnergyStrengthValue(energy.EnergyStats.EnergyStrength, ModificationType.Weaken);
 
                 energy.EnergyStats.ModifyStrength(newStrength);
             }
@@ -119,13 +115,12 @@ namespace NueGames.NueDeck.Scripts.Managers
             
             foreach(EnergyBase energy in targetEnergies)
             {
-                energy.OnDestroy();    
+                energy.OnDestroy();
             }
         }
         public void RemoveEnergyFromPool(EnergyBase targetEnergy)
         {
             CurrentEnergyInPool.Remove(targetEnergy);
-            //Insert energy depleted win condition
         } 
 
         public bool TryToFindEnergyOnPool(List<EnergyQuantityData> energiesToFind, out List<EnergyBase> selectedEnergies)
@@ -152,6 +147,24 @@ namespace NueGames.NueDeck.Scripts.Managers
                 selectedEnergies.AddRange(foundEnergies);
             }
             return true;
+        }
+        #endregion
+
+        #region Routines
+        private IEnumerator CreateEnergyRoutine(List<EnergyQuantityData> energyQuantityDataList)
+        {
+            foreach(EnergyQuantityData data in energyQuantityDataList)
+            {
+                for(int i=0; i < data.Quantity; i++)
+                {
+                    EnergyData energyData = availableEnergies.FirstOrDefault(energy => energy.EnergyType == data.EnergyColor);
+                    int spawnPosition = UnityEngine.Random.Range(0, energyPosList.Count);
+                    EnergyBase clone = Instantiate(energyData.EnergyPrefab, energyPosList[spawnPosition]);
+                    clone.BuildEnergy();
+                    CurrentEnergyInPool.Add(clone);
+                    yield return new WaitForSeconds(spawnTimer);
+                }
+            }
         }
         #endregion
     }

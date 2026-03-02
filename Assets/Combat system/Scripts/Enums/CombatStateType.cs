@@ -3,8 +3,10 @@
     public enum CombatStateType
     {
         PrepareCombat,
+        TurnStart,
+        EnemyDeclaration,
         AllyTurn,
         EnemyTurn,
-        EndCombat
+        TurnEnd
     }
 }

@@ -114,6 +114,8 @@ namespace NueGames.NueDeck.Scripts.Managers
           
             foreach (var cardObject in HandController.hand)
                 cardObject.UpdateCardText();
+            
+            GameManager.PersistentGameplayData.CanUseCards = true;
         }
         public void SetGameDeck()
         {

@@ -24,17 +24,13 @@ MonoBehaviour:
   - cardActionType: 0
     actionTargetType: 0
     actionValue: 6
-    actionDelay: 0.1
+    actionDelay: 2
   cardEnergyActionDataList:
-  - cardActionType: 11
-    energyToCreate: []
-    energyToConvert:
-    - from:
-        energyColor: 0
-        quantity: 1
-      to:
-        energyColor: 1
-        quantity: 1
+  - cardActionType: 9
+    energyToCreate:
+    - energyColor: 0
+      quantity: 2
+    energyToConvert: []
     energyToModifyStrength: []
     actionDelay: 0.1
   cardDescriptionDataList:
