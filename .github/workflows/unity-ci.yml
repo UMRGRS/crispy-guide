@@ -38,6 +38,9 @@ jobs:
           targetPlatform: Android
           buildName: MyGame
           buildsPath: build
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
 
       # Upload Artifact
       - name: Upload Build Artifact
