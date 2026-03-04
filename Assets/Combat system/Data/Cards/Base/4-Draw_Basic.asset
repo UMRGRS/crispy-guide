@@ -26,7 +26,7 @@ MonoBehaviour:
   - cardActionType: 5
     actionTargetType: 1
     actionValue: 2
-    actionDelay: 0
+    actionDelay: 0.1
   cardEnergyActionDataList: []
   cardDescriptionDataList:
   - descriptionText: 'Draw '

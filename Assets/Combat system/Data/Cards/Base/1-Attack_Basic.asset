@@ -24,7 +24,7 @@ MonoBehaviour:
   - cardActionType: 0
     actionTargetType: 0
     actionValue: 6
-    actionDelay: 2
+    actionDelay: 0.1
   cardEnergyActionDataList:
   - cardActionType: 9
     energyToCreate:

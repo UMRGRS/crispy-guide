@@ -251,7 +251,7 @@ namespace NueGames.NueDeck.Scripts.Managers
         private void TurnEnd()
         {
             EnergyPoolManager.DecayAllEnergy();
-            if(--GameManager.PersistentGameplayData.RemainingActiveTurns <= 0 && EnergyPoolManager.CurrentEnergyInPool.Count == 0)
+            if(GameManager.PersistentGameplayData.RemainingActiveTurns-- <= 0 && EnergyPoolManager.CurrentEnergyInPool.Count == 0)
             {
                 WinCombat();
             }
