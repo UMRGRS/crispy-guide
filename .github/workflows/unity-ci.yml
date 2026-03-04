@@ -14,18 +14,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Cache Library to speed up builds
-      - name: Cache Unity Library
-        uses: actions/cache@v4
-        with:
-          path: Library
-          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
-          restore-keys: |
-            Library-
-
       # Run EditMode Tests
-      - name: Run Tests
-        run: bash scripts/test.sh
+      - name: Run Unity Tests
+        uses: game-ci/unity-test-runner@v4
+        with:
+          unityVersion: 2022.3.0f1
+          testMode: editmode
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
       # Build Project
       - name: Build Project
