@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-UNITY_PATH="/home/umrgrs/Unity/Hub/Editor/2022.3.62f3/"
+UNITY_PATH="/opt/unity/Editor/Unity"
 PROJECT_PATH=$(pwd)
 
 echo "Running unit tests..."
