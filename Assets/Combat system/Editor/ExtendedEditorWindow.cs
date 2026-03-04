@@ -5,5 +5,6 @@ namespace NueGames.NueDeck.Editor
     public class ExtendedEditorWindow : EditorWindow
     {
       
+      
     }
 }
