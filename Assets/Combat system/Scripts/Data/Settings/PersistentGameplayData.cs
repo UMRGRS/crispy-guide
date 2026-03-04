@@ -4,7 +4,6 @@ using NueGames.NueDeck.Scripts.Characters;
 using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Data.Containers;
 using NueGames.NueDeck.Scripts.Enums;
-using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Settings
