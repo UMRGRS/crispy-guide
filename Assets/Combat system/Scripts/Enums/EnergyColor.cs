@@ -4,7 +4,6 @@ namespace NueGames.NueDeck.Scripts.Enums
     {
         Red,
         Blue,
-        Green,
-        Yellow
+        Green
     }
 }
