@@ -13,14 +13,24 @@ MonoBehaviour:
   m_Name: 3-damage_healing (WIP)
   m_EditorClassIdentifier: 
   id: damage_healing
-  cardName: Heal on damage
-  costDataList: []
+  cardName: Damage and heal
+  costDataList:
+  - energyColor: 0
+    quantity: 2
   cardSprite: {fileID: 0}
   rarity: 0
   usableWithoutTarget: 0
   usableWithoutCost: 0
   exhaustAfterPlay: 0
-  cardActionDataList: []
+  cardActionDataList:
+  - cardActionType: 0
+    actionTargetType: 0
+    actionValue: 4
+    actionDelay: 0.1
+  - cardActionType: 0
+    actionTargetType: 1
+    actionValue: 4
+    actionDelay: 0.1
   cardEnergyActionDataList: []
   cardDescriptionDataList: []
   specialKeywordsList: 

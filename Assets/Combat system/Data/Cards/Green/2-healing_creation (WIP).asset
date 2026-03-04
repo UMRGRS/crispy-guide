@@ -12,16 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6903f06e96c43789549f142f8956d64, type: 3}
   m_Name: 2-healing_creation (WIP)
   m_EditorClassIdentifier: 
-  id: 
-  cardName: 
+  id: healing_creation
+  cardName: Heal and create
   costDataList: []
   cardSprite: {fileID: 0}
   rarity: 0
   usableWithoutTarget: 0
-  usableWithoutCost: 0
+  usableWithoutCost: 1
   exhaustAfterPlay: 0
-  cardActionDataList: []
-  cardEnergyActionDataList: []
+  cardActionDataList:
+  - cardActionType: 1
+    actionTargetType: 1
+    actionValue: 6
+    actionDelay: 0.1
+  cardEnergyActionDataList:
+  - cardActionType: 9
+    energyToCreate:
+    - energyColor: 2
+      quantity: 4
+    energyToConvert: []
+    energyToModifyStrength: []
+    actionDelay: 0
   cardDescriptionDataList: []
   specialKeywordsList: 
   audioType: 0

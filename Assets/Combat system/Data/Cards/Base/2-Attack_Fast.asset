@@ -26,7 +26,7 @@ MonoBehaviour:
   - cardActionType: 0
     actionTargetType: 0
     actionValue: 4
-    actionDelay: 0
+    actionDelay: 0.1
   cardEnergyActionDataList: []
   cardDescriptionDataList:
   - descriptionText: 'Deal '

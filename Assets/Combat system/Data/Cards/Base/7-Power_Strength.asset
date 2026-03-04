@@ -26,7 +26,7 @@ MonoBehaviour:
   - cardActionType: 3
     actionTargetType: 1
     actionValue: 4
-    actionDelay: 0
+    actionDelay: 0.1
   cardEnergyActionDataList: []
   cardDescriptionDataList:
   - descriptionText: 'Increase your strength by '
