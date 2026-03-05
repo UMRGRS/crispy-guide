@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using NueGames.NueDeck.Scripts.Data.Collection;
+﻿using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Managers;
 using UnityEngine;
 
