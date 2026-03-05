@@ -25,14 +25,7 @@ MonoBehaviour:
     actionTargetType: 0
     actionValue: 6
     actionDelay: 0.1
-  cardEnergyActionDataList:
-  - cardActionType: 9
-    energyToCreate:
-    - energyColor: 0
-      quantity: 2
-    energyToConvert: []
-    energyToModifyStrength: []
-    actionDelay: 0.1
+  cardEnergyActionDataList: []
   cardDescriptionDataList:
   - descriptionText: 'Deal '
     enableOverrideColor: 0

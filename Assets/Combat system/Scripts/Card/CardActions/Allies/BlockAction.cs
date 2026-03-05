@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Card.CardActions.Allies
 {
-    public class BlockAction : CardActionBase<CardActionParameters>
+    public class BlockAction : CardActionBase
     {
         public override CardActionType ActionType => CardActionType.Block;
         public override void DoAction(CardActionParameters actionParameters)

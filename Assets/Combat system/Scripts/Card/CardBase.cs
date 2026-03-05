@@ -97,10 +97,10 @@ namespace NueGames.NueDeck.Scripts.Card
                             target,self,CardData,this));
             }
 
-            foreach (CardEnergyActionData energyAction in CardData.CardEnergyActionDataList)
+            foreach (EnergyCardActionData energyAction in CardData.CardEnergyActionDataList)
             {
                 yield return new WaitForSeconds(energyAction.ActionDelay);
-                CardActionProcessor.GetAction(energyAction.CardActionType)
+                CardActionProcessor.GetEnergyAction(energyAction.CardActionType)
                     .DoAction(new CardEnergyActionParameters(energyAction.EnergyToCreate,energyAction.EnergyToConvert, energyAction.EnergyToModifyStrength));
             }
             CollectionManager.OnCardPlayed(this);

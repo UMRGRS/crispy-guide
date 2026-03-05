@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Card.CardActions.Enemies
 {
-    public class LifeStealAction : CardActionBase<CardActionParameters>
+    public class LifeStealAction : CardActionBase
     {
         public override CardActionType ActionType => CardActionType.LifeSteal;
         public override void DoAction(CardActionParameters actionParameters)

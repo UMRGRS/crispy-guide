@@ -26,7 +26,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [SerializeField] private List<CardActionData> cardActionDataList;
 
         [Header("Energy Actions Settings")]
-        [SerializeField] private List<CardEnergyActionData> cardEnergyActionDataList;
+        [SerializeField] private List<EnergyCardActionData> cardEnergyActionDataList;
         
         [Header("Description")]
         [SerializeField] private List<CardDescriptionData> cardDescriptionDataList;
@@ -43,7 +43,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public string CardName => cardName;
         public Sprite CardSprite => cardSprite;
         public List<CardActionData> CardActionDataList => cardActionDataList;
-        public List<CardEnergyActionData> CardEnergyActionDataList => cardEnergyActionDataList;
+        public List<EnergyCardActionData> CardEnergyActionDataList => cardEnergyActionDataList;
         public List<CardDescriptionData> CardDescriptionDataList => cardDescriptionDataList;
         public List<SpecialKeywords> KeywordsList => specialKeywordsList;
         public AudioActionType AudioType => audioType;
@@ -85,7 +85,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
                     AddCost(cost);
 
             if (cardEnergyActionDataList != null)
-                foreach (CardEnergyActionData action in CardEnergyActionDataList)
+                foreach (EnergyCardActionData action in CardEnergyActionDataList)
                     foreach (EnergyQuantityData cost in action.GetEnergyCosts())
                         AddCost(cost);
 
@@ -110,7 +110,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public void EditExhaustAfterPlay(bool newStatus) => exhaustAfterPlay = newStatus;
         public void EditCardActionDataList(List<CardActionData> newCardActionDataList) =>
             cardActionDataList = newCardActionDataList;
-        public void EditCardEnergyActionDataList(List<CardEnergyActionData> newCardEnergyActionDataList) =>
+        public void EditCardEnergyActionDataList(List<EnergyCardActionData> newCardEnergyActionDataList) =>
             cardEnergyActionDataList = newCardEnergyActionDataList;
         public void EditCardDescriptionDataList(List<CardDescriptionData> newCardDescriptionDataList) =>
             cardDescriptionDataList = newCardDescriptionDataList;
@@ -175,15 +175,15 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     }
 
     [Serializable]
-    public class CardEnergyActionData
+    public class EnergyCardActionData
     {
-        [SerializeField] private CardActionType cardActionType;
+        [SerializeField] private EnergyCardActionType cardActionType;
         [SerializeField] private List<EnergyQuantityData> energyToCreate;
         [SerializeField] private List<EnergyConversion> energyToConvert;
         [SerializeField] private List<EnergyStrengthModification> energyToModifyStrength;
         [Range(0.1f, 10)][SerializeField] private float actionDelay;
 
-        public CardActionType CardActionType => cardActionType;
+        public EnergyCardActionType CardActionType => cardActionType;
         public List<EnergyQuantityData> EnergyToCreate => energyToCreate;
         public List<EnergyConversion> EnergyToConvert => energyToConvert;
         public List<EnergyStrengthModification> EnergyToModifyStrength => energyToModifyStrength;
@@ -191,7 +191,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
         #region Editor
         #if UNITY_EDITOR
-        public void EditActionType(CardActionType newCardActionType) => cardActionType = newCardActionType;
+        public void EditActionType(EnergyCardActionType newCardActionType) => cardActionType = newCardActionType;
         public void EditEnergyToCreate(List<EnergyQuantityData> newEnergyToCreate) => energyToCreate = newEnergyToCreate;
         public void EditEnergyToConvert(List<EnergyConversion>  newEnergyToConvert) => energyToConvert = newEnergyToConvert;
         public void EditEnergyToModifyStrength(List<EnergyStrengthModification> newEnergyToModifyStrength) => energyToModifyStrength = newEnergyToModifyStrength;

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6903f06e96c43789549f142f8956d64, type: 3}
   m_Name: 1-basic_healing (WIP)
   m_EditorClassIdentifier: 
-  id: 
-  cardName: 
+  id: basic_healing
+  cardName: Basic healing
   costDataList: []
   cardSprite: {fileID: 0}
   rarity: 0
