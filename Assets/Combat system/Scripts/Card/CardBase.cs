@@ -83,9 +83,7 @@ namespace NueGames.NueDeck.Scripts.Card
 
         private IEnumerator CardUseRoutine(CharacterBase self,CharacterBase targetCharacter, List<EnemyBase> allEnemies, List<AllyBase> allAllies)
         {
-            
-            //Modify to spend the cost from the pool
-            SpendEnergy(CardData.CostDataList);
+            SpendEnergy(CardData.GatherActivationCost());
 
             foreach (CardActionData playerAction in CardData.CardActionDataList)
             {
@@ -149,16 +147,6 @@ namespace NueGames.NueDeck.Scripts.Card
             CollectionManager.OnCardDiscarded(this);
             StartCoroutine(DiscardRoutine());
         }
-        
-        public virtual void Exhaust(bool destroy = true)
-        {
-            if (IsExhausted) return;
-            if (!IsPlayable) return;
-            IsExhausted = true;
-            CollectionManager.OnCardExhausted(this);
-            StartCoroutine(ExhaustRoutine(destroy));
-        }
-
         protected virtual void SpendEnergy(List<EnergyQuantityData> cost)
         {
             if (!IsPlayable) return;
@@ -182,7 +170,7 @@ namespace NueGames.NueDeck.Scripts.Card
             // ---------------
             // Modify to show the text correctly
              // ---------------
-            manaTextField.text = CardData.CostDataList.ToString();
+            manaTextField.text = "0";
         }
         
         #endregion
@@ -219,39 +207,6 @@ namespace NueGames.NueDeck.Scripts.Card
                 Destroy(gameObject);
            
         }
-        
-        protected virtual IEnumerator ExhaustRoutine(bool destroy = true)
-        {
-            var timer = 0f;
-            transform.SetParent(CollectionManager.HandController.exhaustTransform);
-            
-            var startPos = CachedTransform.localPosition;
-            var endPos = Vector3.zero;
-
-            var startScale = CachedTransform.localScale;
-            var endScale = Vector3.zero;
-
-            var startRot = CachedTransform.localRotation;
-            var endRot = Quaternion.Euler(Random.value * 360, Random.value * 360, Random.value * 360);
-            
-            while (true)
-            {
-                timer += Time.deltaTime*5;
-
-                CachedTransform.localPosition = Vector3.Lerp(startPos, endPos, timer);
-                CachedTransform.localRotation = Quaternion.Lerp(startRot,endRot,timer);
-                CachedTransform.localScale = Vector3.Lerp(startScale, endScale, timer);
-                
-                if (timer>=1f)  break;
-                
-                yield return CachedWaitFrame;
-            }
-
-            if (destroy)
-                Destroy(gameObject);
-           
-        }
-
         #endregion
 
         #region Pointer Events

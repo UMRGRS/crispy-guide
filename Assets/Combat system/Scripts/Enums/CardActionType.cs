@@ -9,7 +9,6 @@
         IncreaseMaxHealth,
         Draw,
         LifeSteal,
-        Stun,
-        Exhaust, 
+        Stun
     }
 }

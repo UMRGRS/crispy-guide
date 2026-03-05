@@ -27,11 +27,8 @@ namespace NueGames.NueDeck.Editor
         private CardData SelectedCardData { get; set; }
         private string CardId { get; set; }
         private string CardName { get; set; }
-        private List<EnergyQuantityData> CostDataList { get; set; }
         private Sprite CardSprite{ get; set; }
         private bool UsableWithoutTarget{ get; set; }
-        private bool UsableWithoutCost{ get; set; }
-        private bool ExhaustAfterPlay{ get; set; }
         private List<CardActionData> CardActionDataList{ get; set; }
         private List<EnergyCardActionData> CardEnergyActionDataList { get; set; }
         private List<CardDescriptionData> CardDescriptionDataList{ get; set; }
@@ -44,11 +41,8 @@ namespace NueGames.NueDeck.Editor
         {
             CardId = SelectedCardData.Id;
             CardName = SelectedCardData.CardName;
-            CostDataList = SelectedCardData.CostDataList;
             CardSprite = SelectedCardData.CardSprite;
             UsableWithoutTarget = SelectedCardData.UsableWithoutTarget;
-            UsableWithoutCost = SelectedCardData.UsableWithoutCost;
-            ExhaustAfterPlay = SelectedCardData.ExhaustAfterPlay;
             CardActionDataList = SelectedCardData.CardActionDataList.Count>0 ? new List<CardActionData>(SelectedCardData.CardActionDataList) : new List<CardActionData>();
             CardEnergyActionDataList = SelectedCardData.CardEnergyActionDataList.Count>0 ? new List<EnergyCardActionData>(SelectedCardData.CardEnergyActionDataList) : new List<EnergyCardActionData>();
             CardDescriptionDataList = SelectedCardData.CardDescriptionDataList.Count>0 ? new List<CardDescriptionData>(SelectedCardData.CardDescriptionDataList) : new List<CardDescriptionData>();
@@ -61,11 +55,8 @@ namespace NueGames.NueDeck.Editor
         {
             CardId = String.Empty;
             CardName = String.Empty;
-            CostDataList?.Clear();
             CardSprite = null;
             UsableWithoutTarget = false;
-            UsableWithoutCost = false;
-            ExhaustAfterPlay = false;
             CardActionDataList?.Clear();
             CardEnergyActionDataList?.Clear();
             CardDescriptionDataList?.Clear();
@@ -194,12 +185,10 @@ namespace NueGames.NueDeck.Editor
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.BeginVertical();
            
-            
             ChangeGeneralSettings();
 
-            ChangeCostDataList(); 
-            ChangeEnergyActionsDataList();
             ChangeCardActionDataList();
+            ChangeEnergyActionsDataList();
             
             ChangeCardDescriptionDataList();
             ChangeSpecialKeywords();
@@ -231,16 +220,6 @@ namespace NueGames.NueDeck.Editor
         private void ChangeCardName()
         {
             CardName = EditorGUILayout.TextField("Card Name:", CardName);
-        }
-        private bool _isCardCostDataListFolded;
-        private void ChangeCostDataList()
-        {
-            _isCardCostDataListFolded =EditorGUILayout.BeginFoldoutHeaderGroup(_isCardCostDataListFolded, "Card cost");
-            if (_isCardCostDataListFolded)
-            {
-                CostDataList = DrawEnergyQuantityList(CostDataList);    
-            }
-            EditorGUILayout.EndFoldoutHeaderGroup();
         }
 
         private bool _isEnergyActionsDataListFolded;
@@ -276,7 +255,15 @@ namespace NueGames.NueDeck.Editor
 
                     EnergyCardActionType previousType = cardEnergyActionData.CardActionType;
                     EnergyCardActionType newEnergyActionType = (EnergyCardActionType)EditorGUILayout.EnumPopup("Action Type",cardEnergyActionData.CardActionType,GUILayout.Width(250));
- 
+
+                    var newUsableWithoutCost = EditorGUILayout.Toggle("Usable Without Cost:", cardEnergyActionData.UsableWithoutCost);
+                    var newOptional = EditorGUILayout.Toggle("Optional:", cardEnergyActionData.Optional);
+                    EditorGUILayout.LabelField("Cost", EditorStyles.boldLabel);
+                    cardEnergyActionData.EditCostDataList(DrawEnergyQuantityList(cardEnergyActionData.CostDataList));
+
+                    cardEnergyActionData.EditUsableWithoutCost(newUsableWithoutCost);
+                    cardEnergyActionData.EditOptional(newOptional);
+
                     switch (newEnergyActionType)
                     {
                         case EnergyCardActionType.CreateEnergy:
@@ -290,10 +277,6 @@ namespace NueGames.NueDeck.Editor
                         case EnergyCardActionType.ModifyEnergyStrength:
                             DrawModifyEnergyStrength(cardEnergyActionData);
                             break;
-
-                        default:
-                            EditorGUILayout.LabelField("INVALID ACTION TYPE FOR ENERGY ACTIONS", EditorStyles.boldLabel);
-                            break;
                     }
                     
                     if (newEnergyActionType != previousType)
@@ -301,6 +284,9 @@ namespace NueGames.NueDeck.Editor
                         CleanEnergyActions(cardEnergyActionData);
                         cardEnergyActionData.EditActionType(newEnergyActionType);
                     }
+
+
+
                     EditorGUILayout.EndVertical();
                 }
 
@@ -504,16 +490,6 @@ namespace NueGames.NueDeck.Editor
         {
             UsableWithoutTarget = EditorGUILayout.Toggle("Usable Without Target:", UsableWithoutTarget);
         }
-
-        private void ChangeUsableWithoutCost()
-        {
-            UsableWithoutCost = EditorGUILayout.Toggle("Usable Without Cost:", UsableWithoutCost);
-        }
-        
-        private void ChangeExhaustAfterPlay()
-        {
-            ExhaustAfterPlay = EditorGUILayout.Toggle("Exhaust after play", ExhaustAfterPlay);
-        }
         
         private bool _isGeneralSettingsFolded;
         private Vector2 _generalSettingsScrollPos;
@@ -532,8 +508,6 @@ namespace NueGames.NueDeck.Editor
             EditorGUILayout.BeginVertical();
             ChangeRarity();
             ChangeUsableWithoutTarget();
-            ChangeUsableWithoutCost();
-            ChangeExhaustAfterPlay();
             ChangeAudioActionType();
             EditorGUILayout.EndVertical();
             GUILayout.Space(100);
@@ -579,6 +553,13 @@ namespace NueGames.NueDeck.Editor
                     var newActionTarget = (ActionTargetType)EditorGUILayout.EnumPopup("Target Type",cardActionData.ActionTargetType,GUILayout.Width(250));
                     var newActionValue = EditorGUILayout.FloatField("Action Value: ",cardActionData.ActionValue);
                     var newActionDelay = EditorGUILayout.FloatField("Action Delay: ",cardActionData.ActionDelay);
+                    var newUsableWithoutCost = EditorGUILayout.Toggle("Usable Without Cost:", cardActionData.UsableWithoutCost);
+                    var newOptional = EditorGUILayout.Toggle("Optional:", cardActionData.Optional);
+                    EditorGUILayout.LabelField("Cost", EditorStyles.boldLabel);
+                    cardActionData.EditCostDataList(DrawEnergyQuantityList(cardActionData.CostDataList));
+
+                    cardActionData.EditOptional(newOptional);
+                    cardActionData.EditUsableWithoutCost(newUsableWithoutCost);
                     cardActionData.EditActionValue(newActionValue);
                     cardActionData.EditActionTarget(newActionTarget);
                     cardActionData.EditActionDelay(newActionDelay);
@@ -666,12 +647,6 @@ namespace NueGames.NueDeck.Editor
                         var desc = EditorGUILayout.TextArea(descriptionData.DescriptionText, GUILayout.Width(150),
                             GUILayout.Height(50));
 
-                        // var hasExhaust = CardActionDataList.Find(x => x.CardActionType == CardActionType.Exhaust);
-                        // if (ExhaustAfterPlay || hasExhaust != null)
-                        // {
-                        //     desc += " Exhaust ";
-                        // }
-                        //
                         descriptionData.EditDescriptionText(desc);
                     }
                     
@@ -770,11 +745,8 @@ namespace NueGames.NueDeck.Editor
             
             SelectedCardData.EditId(CardId);
             SelectedCardData.EditCardName(CardName);
-            SelectedCardData.EditCostDataList(CostDataList);
             SelectedCardData.EditCardSprite(CardSprite);
             SelectedCardData.EditUsableWithoutTarget(UsableWithoutTarget);
-            SelectedCardData.EditUsableWithoutCost(UsableWithoutCost);
-            SelectedCardData.EditExhaustAfterPlay(ExhaustAfterPlay);
             SelectedCardData.EditCardActionDataList(CardActionDataList);
             SelectedCardData.EditCardEnergyActionDataList(CardEnergyActionDataList);
             SelectedCardData.EditCardDescriptionDataList(CardDescriptionDataList);
