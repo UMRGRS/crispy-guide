@@ -58,6 +58,7 @@ sysinfo.txt
 *.xcodeproj
 *.xcworkspace
 artifacts/
+test-results/
 
 # =========================
 # Unity meta handling
