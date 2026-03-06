@@ -1,6 +1,6 @@
 namespace NueGames.NueDeck.Scripts.Enums
 {
-    public enum ModificationType
+    public enum EnergyModificationType
     {
         Strengthen,
         Weaken

@@ -394,10 +394,10 @@ namespace NueGames.NueDeck.Editor
                 EditorGUILayout.LabelField("From",EditorStyles.boldLabel, GUILayout.Width(100));
                 EnergyQuantityData newFrom = DrawEnergyQuantitySingle(energyStrengthModificationData.From);
 
-                EditorGUILayout.LabelField("To",EditorStyles.boldLabel, GUILayout.Width(100));
-                EnergyStrength newTo = (EnergyStrength)EditorGUILayout.EnumPopup(energyStrengthModificationData.To);
+                EditorGUILayout.LabelField("Modification type",EditorStyles.boldLabel, GUILayout.Width(100));
+                EnergyModificationType newTo = (EnergyModificationType)EditorGUILayout.EnumPopup(energyStrengthModificationData.ModificationType);
 
-                float newActionDelay = EditorGUILayout.FloatField("Action Delay: ",cardEnergyActionData.ActionDelay);
+                float newActionDelay = EditorGUILayout.FloatField("Action Delay: ", cardEnergyActionData.ActionDelay);
             
                 EditorGUILayout.EndVertical(); 
         

@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using NueGames.NueDeck.Scripts.Enums;
-using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Energy
 {
@@ -20,9 +18,9 @@ namespace NueGames.NueDeck.Scripts.Energy
         #endregion
 
         #region public methods
-        public void ModifyStrength(EnergyStrength newEnergyStrength)
+        public void ModifyStrength(EnergyModificationType modificationType)
         {
-            EnergyStrength = newEnergyStrength;
+            EnergyStrength = EnergyStrengthHelper.GetNewEnergyStrengthValue(EnergyStrength, modificationType);
             if(EnergyStrength == EnergyStrength.Inert)
                 OnInert?.Invoke();
         }

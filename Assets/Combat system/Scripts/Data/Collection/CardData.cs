@@ -293,15 +293,15 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     public class EnergyStrengthModification
     {
         [SerializeField] private EnergyQuantityData from;
-        [SerializeField] private EnergyStrength to;
+        [SerializeField] private EnergyModificationType modificationType;
 
         public EnergyQuantityData From => from;
-        public EnergyStrength To => to;
+        public EnergyModificationType ModificationType => modificationType;
 
         #region Editor
         #if UNITY_EDITOR
         public void EditFrom(EnergyQuantityData newFrom) => from = newFrom;
-        public void EditTo(EnergyStrength newTo) => to = newTo;
+        public void EditTo(EnergyModificationType newModificationType) => modificationType = newModificationType;
         #endif
         #endregion
     }

@@ -71,9 +71,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             {
                 EnergyBase energy = CurrentEnergyInPool[i];
 
-                EnergyStrength newStrength = EnergyStrengthHelper.GetNewEnergyStrengthValue(energy.EnergyStats.EnergyStrength, ModificationType.Weaken);
-
-                energy.EnergyStats.ModifyStrength(newStrength);
+                energy.EnergyStats.ModifyStrength(EnergyModificationType.Weaken);
             }
         }
         public void ConvertEnergy(List<EnergyConversion> energyToConvertList)
@@ -105,7 +103,7 @@ namespace NueGames.NueDeck.Scripts.Managers
 
                 foreach(EnergyBase energy in energyToModify)
                 {
-                    energy.EnergyStats.ModifyStrength(energyModificationData.To);
+                    energy.EnergyStats.ModifyStrength(energyModificationData.ModificationType);
                 }
             }
         }
