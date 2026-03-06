@@ -99,7 +99,12 @@ namespace NueGames.NueDeck.Scripts.Card
             {
                 yield return new WaitForSeconds(energyAction.ActionDelay);
                 CardActionProcessor.GetEnergyAction(energyAction.CardActionType)
-                    .DoAction(new CardEnergyActionParameters(energyAction.EnergyToCreate,energyAction.EnergyToConvert, energyAction.EnergyToModifyStrength));
+                    .DoAction(new CardEnergyActionParameters(
+                        energyAction.EnergyToCreate,
+                        energyAction.EnergyToConvert, 
+                        energyAction.EnergyToModifyStrength, 
+                        energyAction.TurnsModification
+                        ));
             }
             CollectionManager.OnCardPlayed(this);
         }

@@ -149,7 +149,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     public class EnergyQuantityData
     {
         [SerializeField] private EnergyColor energyColor;
-        [SerializeField] private int quantity;
+        [Range(1, 10)] [SerializeField] private int quantity;
     
         public EnergyColor EnergyColor => energyColor;
         public int Quantity => quantity;
@@ -220,15 +220,17 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [SerializeField] private List<EnergyQuantityData> energyToCreate;
         [SerializeField] private List<EnergyConversion> energyToConvert;
         [SerializeField] private List<EnergyStrengthModification> energyToModifyStrength;
+        [SerializeField] private RemainingTurnsModification turnsModification;
         [SerializeField] private List<EnergyQuantityData> costDataList;
         [SerializeField] private bool usableWithoutCost;
         [SerializeField] private bool optional;
-        [Range(0.1f, 10)][SerializeField] private float actionDelay;
+        [Range(0.1f, 10f)][SerializeField] private float actionDelay;
 
         public EnergyCardActionType CardActionType => cardActionType;
         public List<EnergyQuantityData> EnergyToCreate => energyToCreate;
         public List<EnergyConversion> EnergyToConvert => energyToConvert;
         public List<EnergyStrengthModification> EnergyToModifyStrength => energyToModifyStrength;
+        public RemainingTurnsModification TurnsModification => turnsModification;
         public List<EnergyQuantityData> CostDataList => costDataList;
         public bool UsableWithoutCost => usableWithoutCost;
         public bool Optional => optional;
@@ -261,14 +263,12 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public void EditEnergyToConvert(List<EnergyConversion>  newEnergyToConvert) => energyToConvert = newEnergyToConvert;
         public void EditEnergyToModifyStrength(List<EnergyStrengthModification> newEnergyToModifyStrength) => energyToModifyStrength = newEnergyToModifyStrength;
         public void EditCostDataList(List<EnergyQuantityData> newCostDataList) => costDataList = newCostDataList;
+        public void EditTurnsModification(RemainingTurnsModification newTurnsModification) => turnsModification = newTurnsModification;
         public void EditUsableWithoutCost(bool newStatus) => usableWithoutCost = newStatus;
         public void EditOptional(bool newOptional) => optional = newOptional;
         public void EditActionDelay(float newValue) => actionDelay = newValue;
         #endif
         #endregion
-        
-        
-        
     }
 
     [Serializable]
@@ -302,6 +302,23 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         #if UNITY_EDITOR
         public void EditFrom(EnergyQuantityData newFrom) => from = newFrom;
         public void EditTo(EnergyModificationType newModificationType) => modificationType = newModificationType;
+        #endif
+        #endregion
+    }
+
+    [Serializable]
+    public class RemainingTurnsModification
+    {
+        [SerializeField] private RemainingTurnsModificationType type;
+        [Range(1,10)] [SerializeField] private int value;
+
+        public RemainingTurnsModificationType Type => type;
+        public int Value => value;
+
+        #region Editor
+        #if UNITY_EDITOR
+        public void EditType(RemainingTurnsModificationType newType) => type = newType;
+        public void EditValue(int newValue) => value = newValue;
         #endif
         #endregion
     }

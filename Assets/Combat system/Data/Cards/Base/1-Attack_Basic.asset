@@ -31,11 +31,29 @@ MonoBehaviour:
   - cardActionType: 0
     energyToCreate:
     - energyColor: 0
+      quantity: 3
+    energyToConvert: []
+    energyToModifyStrength: []
+    turnsModification:
+      type: 0
+      value: 0
+    costDataList: []
+    usableWithoutCost: 1
+    optional: 0
+    actionDelay: 0.1
+  - cardActionType: 3
+    energyToCreate:
+    - energyColor: 0
       quantity: 1
     energyToConvert: []
     energyToModifyStrength: []
-    costDataList: []
-    usableWithoutCost: 1
+    turnsModification:
+      type: 0
+      value: 1
+    costDataList:
+    - energyColor: 0
+      quantity: 1
+    usableWithoutCost: 0
     optional: 0
     actionDelay: 0.1
   cardDescriptionDataList:

@@ -256,13 +256,17 @@ namespace NueGames.NueDeck.Editor
                     EnergyCardActionType previousType = cardEnergyActionData.CardActionType;
                     EnergyCardActionType newEnergyActionType = (EnergyCardActionType)EditorGUILayout.EnumPopup("Action Type",cardEnergyActionData.CardActionType,GUILayout.Width(250));
 
-                    var newUsableWithoutCost = EditorGUILayout.Toggle("Usable Without Cost:", cardEnergyActionData.UsableWithoutCost);
-                    var newOptional = EditorGUILayout.Toggle("Optional:", cardEnergyActionData.Optional);
+                    bool newUsableWithoutCost = EditorGUILayout.Toggle("Usable Without Cost:", cardEnergyActionData.UsableWithoutCost);
+                    bool newOptional = EditorGUILayout.Toggle("Optional:", cardEnergyActionData.Optional);
+                    float newActionDelay = EditorGUILayout.Slider("Action Delay: ",cardEnergyActionData.ActionDelay, 0.1f, 10f);
+                    
+
                     EditorGUILayout.LabelField("Cost", EditorStyles.boldLabel);
                     cardEnergyActionData.EditCostDataList(DrawEnergyQuantityList(cardEnergyActionData.CostDataList));
 
                     cardEnergyActionData.EditUsableWithoutCost(newUsableWithoutCost);
                     cardEnergyActionData.EditOptional(newOptional);
+                    cardEnergyActionData.EditActionDelay(newActionDelay);
 
                     switch (newEnergyActionType)
                     {
@@ -277,6 +281,9 @@ namespace NueGames.NueDeck.Editor
                         case EnergyCardActionType.ModifyEnergyStrength:
                             DrawModifyEnergyStrength(cardEnergyActionData);
                             break;
+                        case EnergyCardActionType.ModifyRemainingTurns:
+                            DrawModifyRemainingTurns(cardEnergyActionData);
+                            break;
                     }
                     
                     if (newEnergyActionType != previousType)
@@ -284,8 +291,6 @@ namespace NueGames.NueDeck.Editor
                         CleanEnergyActions(cardEnergyActionData);
                         cardEnergyActionData.EditActionType(newEnergyActionType);
                     }
-
-
 
                     EditorGUILayout.EndVertical();
                 }
@@ -311,14 +316,42 @@ namespace NueGames.NueDeck.Editor
             return cardEnergyActionData;
         }
 
+        private void DrawModifyRemainingTurns(EnergyCardActionData cardEnergyActionData)
+        {
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Modify turns data", EditorStyles.boldLabel);
+            RemainingTurnsModification remainingTurnsModification = cardEnergyActionData.TurnsModification;
+
+            if (remainingTurnsModification == null)
+                cardEnergyActionData.EditTurnsModification(new RemainingTurnsModification());
+
+            EditorGUILayout.BeginHorizontal("box");
+            EditorGUILayout.BeginHorizontal();
+        
+            EditorGUILayout.BeginVertical();
+
+            EditorGUILayout.LabelField("Type",EditorStyles.boldLabel, GUILayout.Width(100));
+            RemainingTurnsModificationType newType = (RemainingTurnsModificationType)EditorGUILayout.EnumPopup(remainingTurnsModification.Type);
+
+            EditorGUILayout.LabelField("Value",EditorStyles.boldLabel, GUILayout.Width(100));
+            int newValue = EditorGUILayout.IntSlider(remainingTurnsModification.Value, 1, 10);
+                
+            EditorGUILayout.EndVertical(); 
+
+            EditorGUILayout.EndHorizontal();
+
+            remainingTurnsModification.EditValue(newValue);
+            remainingTurnsModification.EditType(newType);
+        
+            EditorGUILayout.EndHorizontal();
+        }
+
         private void DrawCreateEnergy(EnergyCardActionData cardEnergyActionData)
         {
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Energy To Create", EditorStyles.boldLabel);
         
             cardEnergyActionData.EditEnergyToCreate(DrawEnergyQuantityList(cardEnergyActionData.EnergyToCreate));
-            float newActionDelay = EditorGUILayout.FloatField("Action Delay: ",cardEnergyActionData.ActionDelay);
-            cardEnergyActionData.EditActionDelay(newActionDelay);
         }
 
         private void DrawConvertEnergy(EnergyCardActionData cardEnergyActionData)
@@ -338,7 +371,6 @@ namespace NueGames.NueDeck.Editor
                 EditorGUILayout.BeginHorizontal("box");
                 EditorGUILayout.BeginHorizontal();
         
-                
                 EditorGUILayout.BeginVertical();
 
                 EditorGUILayout.LabelField("From",EditorStyles.boldLabel, GUILayout.Width(100));
@@ -347,8 +379,6 @@ namespace NueGames.NueDeck.Editor
                 EditorGUILayout.LabelField("To",EditorStyles.boldLabel, GUILayout.Width(100));
                 EnergyQuantityData newTo = DrawEnergyQuantitySingle(energyConversionData.To);
 
-                float newActionDelay = EditorGUILayout.FloatField("Action Delay: ",cardEnergyActionData.ActionDelay);
-                
                 EditorGUILayout.EndVertical(); 
 
                 if (GUILayout.Button("X", GUILayout.Width(20)))
@@ -360,7 +390,6 @@ namespace NueGames.NueDeck.Editor
 
                 energyConversionData.EditFrom(newFrom);
                 energyConversionData.EditTo(newTo);
-                cardEnergyActionData.EditActionDelay(newActionDelay);
         
                 EditorGUILayout.EndHorizontal();
             }
@@ -396,8 +425,6 @@ namespace NueGames.NueDeck.Editor
 
                 EditorGUILayout.LabelField("Modification type",EditorStyles.boldLabel, GUILayout.Width(100));
                 EnergyModificationType newTo = (EnergyModificationType)EditorGUILayout.EnumPopup(energyStrengthModificationData.ModificationType);
-
-                float newActionDelay = EditorGUILayout.FloatField("Action Delay: ", cardEnergyActionData.ActionDelay);
             
                 EditorGUILayout.EndVertical(); 
         
@@ -410,7 +437,6 @@ namespace NueGames.NueDeck.Editor
 
                 energyStrengthModificationData.EditFrom(newFrom);
                 energyStrengthModificationData.EditTo(newTo);
-                cardEnergyActionData.EditActionDelay(newActionDelay);
         
                 EditorGUILayout.EndHorizontal();
             }
@@ -457,12 +483,10 @@ namespace NueGames.NueDeck.Editor
                 energyQuantityData = new EnergyQuantityData();
 
             EditorGUILayout.BeginHorizontal();
-    
-            EditorGUILayout.LabelField($"Energy", GUILayout.Width(70));
-            
-            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.LabelField("Energy", GUILayout.Width(70));
             var newEnergyType = (EnergyColor)EditorGUILayout.EnumPopup(energyQuantityData.EnergyColor);     
-            var newEnergyQuantity = EditorGUILayout.IntField("Quantity", energyQuantityData.Quantity);
+            var newEnergyQuantity = EditorGUILayout.IntSlider("Quantity", energyQuantityData.Quantity, 1, 10);
+            EditorGUILayout.EndHorizontal();
             
             energyQuantityData.EditCostType(newEnergyType);
             energyQuantityData.EditQuantityCost(newEnergyQuantity);
