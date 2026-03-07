@@ -19,13 +19,13 @@ namespace NueGames.NueDeck.Scripts.Energy
 
         public void BuildEnergy()
         {
-            EnergyStats = new EnergyStats(activeEnergyData.EnergyType, activeEnergyData.StartingStrength);
+            EnergyStats = new EnergyStats(activeEnergyData.EnergyColor, activeEnergyData.StartingStrength);
             EnergyStats.OnInert += OnDestroy;
         }
 
         public void BuildEnergy(EnergyStrength startingStrength)
         {
-            EnergyStats = new EnergyStats(activeEnergyData.EnergyType, startingStrength);
+            EnergyStats = new EnergyStats(activeEnergyData.EnergyColor, startingStrength);
             EnergyStats.OnInert += OnDestroy;
         }
 

@@ -14,20 +14,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2_attack_fast
   cardName: Fast attack
-  costDataList:
-  - energyColor: 0
-    quantity: 1
   cardSprite: {fileID: 21300000, guid: 1113310f8619a8747b68ee8b7fc7d63d, type: 3}
   rarity: 0
   usableWithoutTarget: 0
-  usableWithoutCost: 0
-  exhaustAfterPlay: 0
   cardActionDataList:
   - cardActionType: 0
     actionTargetType: 0
     actionValue: 4
+    costDataList: []
+    usableWithoutCost: 0
+    optional: 0
     actionDelay: 0.1
-  cardEnergyActionDataList: []
+  cardEnergyActionDataList:
+  - cardActionType: 5
+    energyToCreate: []
+    energyToConvert: []
+    energyToModifyStrength: []
+    turnsModification:
+      type: 0
+      value: 0
+    blockEnergyGeneration:
+      turns: 0
+    modifyEnergyGenerationPool:
+      turns: 3
+      maxEnergiesSpawn: 8
+      minEnergiesSpawn: 8
+      availableEnergies: []
+    costDataList: []
+    usableWithoutCost: 0
+    optional: 0
+    actionDelay: 0.1
   cardDescriptionDataList:
   - descriptionText: 'Deal '
     enableOverrideColor: 0

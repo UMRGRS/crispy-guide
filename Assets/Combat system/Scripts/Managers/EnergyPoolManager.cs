@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using NueGames.NueDeck.Scripts.Card.CardActions.Energy;
 using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Data.Containers;
 using NueGames.NueDeck.Scripts.Data.Energy;
@@ -51,15 +50,22 @@ namespace NueGames.NueDeck.Scripts.Managers
         public void CreateStartOfTurnEnergy()
         {
             EnemyEncounter currentEncounterData = GameManager.PersistentGameplayData.CurrentEncounter;
+            EnergyGenerationParameters modifiedEnergyGenerationParameters = GameManager.PersistentGameplayData.EnergyModificationRules;
 
-            List<EnergyQuantityData> energyCreationData = new();
-            foreach(EnergyData data in currentEncounterData.AvailableEnergies)
+            if(modifiedEnergyGenerationParameters is not null && modifiedEnergyGenerationParameters.turns-- > 0)
             {
-                int energyQuantity = UnityEngine.Random.Range(currentEncounterData.MinEnergySpawn, currentEncounterData.MaxEnergySpawn + 1); 
-                energyCreationData.Add(new EnergyQuantityData(data.EnergyType, energyQuantity));
+                CreateEnergy(DetermineEnergiesToCreate(modifiedEnergyGenerationParameters));
             }
-
-            CreateEnergy(energyCreationData);
+            else
+            {
+                CreateEnergy(DetermineEnergiesToCreate(
+                    new EnergyGenerationParameters(
+                        0, 
+                        currentEncounterData.MaxEnergySpawn, 
+                        currentEncounterData.MaxEnergySpawn, 
+                        currentEncounterData.AvailableEnergies)
+                        ));
+            }
         }
         public void CreateEnergy(List<EnergyQuantityData> energyQuantityDataList)
         {
@@ -86,7 +92,7 @@ namespace NueGames.NueDeck.Scripts.Managers
                     Transform spawnPos = energy.transform;
                     energy.OnDestroy();
 
-                    EnergyData energyData = availableEnergies.FirstOrDefault(energy => energy.EnergyType == energyConversionData.To.EnergyColor);
+                    EnergyData energyData = availableEnergies.FirstOrDefault(energy => energy.EnergyColor == energyConversionData.To.EnergyColor);
                     EnergyBase clone = Instantiate(energyData.EnergyPrefab, spawnPos.position, spawnPos.rotation);
                     clone.transform.SetParent(spawnPos.parent, true);
                     
@@ -148,6 +154,30 @@ namespace NueGames.NueDeck.Scripts.Managers
         }
         #endregion
 
+        #region Private methods
+        private List<EnergyQuantityData> DetermineEnergiesToCreate(EnergyGenerationParameters energyGenerationRules)
+        {
+            Dictionary<EnergyColor, int> totals = new();
+
+            int energyQuantity = UnityEngine.Random.Range(energyGenerationRules.minEnergiesSpawn, energyGenerationRules.maxEnergiesSpawn + 1); 
+
+            for(int i=0; i<energyQuantity; i++)
+            {
+                int energyIndex = UnityEngine.Random.Range(0, energyGenerationRules.availableEnergies.Count());
+                EnergyData energyData = energyGenerationRules.availableEnergies[energyIndex];
+                totals.TryGetValue(energyData.EnergyColor, out var current);
+                totals[energyData.EnergyColor] = current + 1;
+            }
+
+            List<EnergyQuantityData> results = new(totals.Count);
+
+            foreach(var kvp in totals)
+                results.Add(new EnergyQuantityData(kvp.Key, kvp.Value));
+
+            return results;
+        }
+        #endregion 
+
         #region Routines
         private IEnumerator CreateEnergyRoutine(List<EnergyQuantityData> energyQuantityDataList)
         {
@@ -155,7 +185,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             {
                 for(int i=0; i < data.Quantity; i++)
                 {
-                    EnergyData energyData = availableEnergies.FirstOrDefault(energy => energy.EnergyType == data.EnergyColor);
+                    EnergyData energyData = availableEnergies.FirstOrDefault(energy => energy.EnergyColor == data.EnergyColor);
                     int spawnPosition = UnityEngine.Random.Range(0, energyPosList.Count);
                     EnergyBase clone = Instantiate(energyData.EnergyPrefab, energyPosList[spawnPosition]);
                     clone.BuildEnergy();
@@ -166,5 +196,19 @@ namespace NueGames.NueDeck.Scripts.Managers
         }
         #endregion
     }
-}
+    public class EnergyGenerationParameters
+    {
+        public int turns;
+        public readonly int maxEnergiesSpawn;
+        public readonly int minEnergiesSpawn;
+        public readonly List<EnergyData> availableEnergies;
+        public EnergyGenerationParameters(int newTurns, int newMaxEnergiesSpawn, int newMinEnergiesSpawn, List<EnergyData> newAvailableEnergies)
+        {
+            turns = newTurns;
+            maxEnergiesSpawn = newMaxEnergiesSpawn;
+            minEnergiesSpawn = newMinEnergiesSpawn;
+            availableEnergies = newAvailableEnergies;
+        }
 
+    }
+}

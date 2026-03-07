@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NueGames.NueDeck.Scripts.Data.Collection;
+using NueGames.NueDeck.Scripts.Data.Energy;
 using NueGames.NueDeck.Scripts.Enums;
 using NueGames.NueDeck.Scripts.NueExtentions;
 using UnityEditor;
@@ -13,7 +14,7 @@ namespace NueGames.NueDeck.Editor
 {
     public class CardEditorWindow : ExtendedEditorWindow
     {
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
         
 
         private static CardEditorWindow CurrentWindow { get; set; }
@@ -212,309 +213,6 @@ namespace NueGames.NueDeck.Editor
         #endregion
 
         #region Card Data Methods
-
-        private void ChangeId()
-        {
-            CardId = EditorGUILayout.TextField("Card Id:", CardId);
-        }
-        private void ChangeCardName()
-        {
-            CardName = EditorGUILayout.TextField("Card Name:", CardName);
-        }
-
-        private bool _isEnergyActionsDataListFolded;
-        private Vector2 _energyActionsDataListScrollPos;
-        private void ChangeEnergyActionsDataList()
-        {
-            _isEnergyActionsDataListFolded =EditorGUILayout.BeginFoldoutHeaderGroup(_isEnergyActionsDataListFolded, "Card energy actions");
-            if (_isEnergyActionsDataListFolded)
-            {
-                _energyActionsDataListScrollPos = EditorGUILayout.BeginScrollView(_energyActionsDataListScrollPos,GUILayout.ExpandWidth(true));
-                EditorGUILayout.BeginHorizontal();
-                List<EnergyCardActionData> _removedList = new List<EnergyCardActionData>();
-                for (var i = 0; i < CardEnergyActionDataList.Count; i++)
-                {
-                    EnergyCardActionData cardEnergyActionData = CardEnergyActionDataList[i];
-                    EditorGUILayout.BeginVertical("box", GUILayout.Width(150), GUILayout.MaxHeight(50));
-                    EditorGUILayout.BeginHorizontal();
-                    GUIStyle idStyle = new GUIStyle();
-                    idStyle.fontSize = 16;
-                    idStyle.fixedWidth = 25;
-                    idStyle.fixedHeight = 25;
-                    idStyle.fontStyle = FontStyle.Bold;
-                    idStyle.normal.textColor = Color.white;
-                    EditorGUILayout.LabelField($"Energy action Index: {i}",idStyle);
-                    
-                    GUILayout.FlexibleSpace();
-                    
-                    if (GUILayout.Button("X", GUILayout.MaxWidth(25), GUILayout.MaxHeight(25)))
-                        _removedList.Add(cardEnergyActionData);
-                    
-                    EditorGUILayout.EndHorizontal();
-                    EditorGUILayout.Separator();
-
-                    EnergyCardActionType previousType = cardEnergyActionData.CardActionType;
-                    EnergyCardActionType newEnergyActionType = (EnergyCardActionType)EditorGUILayout.EnumPopup("Action Type",cardEnergyActionData.CardActionType,GUILayout.Width(250));
-
-                    bool newUsableWithoutCost = EditorGUILayout.Toggle("Usable Without Cost:", cardEnergyActionData.UsableWithoutCost);
-                    bool newOptional = EditorGUILayout.Toggle("Optional:", cardEnergyActionData.Optional);
-                    float newActionDelay = EditorGUILayout.Slider("Action Delay: ",cardEnergyActionData.ActionDelay, 0.1f, 10f);
-                    
-
-                    EditorGUILayout.LabelField("Cost", EditorStyles.boldLabel);
-                    cardEnergyActionData.EditCostDataList(DrawEnergyQuantityList(cardEnergyActionData.CostDataList));
-
-                    cardEnergyActionData.EditUsableWithoutCost(newUsableWithoutCost);
-                    cardEnergyActionData.EditOptional(newOptional);
-                    cardEnergyActionData.EditActionDelay(newActionDelay);
-
-                    switch (newEnergyActionType)
-                    {
-                        case EnergyCardActionType.CreateEnergy:
-                            DrawCreateEnergy(cardEnergyActionData);
-                            break;
-                        
-                        case EnergyCardActionType.ConvertEnergy:
-                            DrawConvertEnergy(cardEnergyActionData);
-                            break;
-
-                        case EnergyCardActionType.ModifyEnergyStrength:
-                            DrawModifyEnergyStrength(cardEnergyActionData);
-                            break;
-                        case EnergyCardActionType.ModifyRemainingTurns:
-                            DrawModifyRemainingTurns(cardEnergyActionData);
-                            break;
-                    }
-                    
-                    if (newEnergyActionType != previousType)
-                    {
-                        CleanEnergyActions(cardEnergyActionData);
-                        cardEnergyActionData.EditActionType(newEnergyActionType);
-                    }
-
-                    EditorGUILayout.EndVertical();
-                }
-
-                foreach (var cardEnergyActionData in _removedList)
-                    CardEnergyActionDataList.Remove(cardEnergyActionData);
-
-                if (GUILayout.Button("+",GUILayout.Width(50),GUILayout.Height(50)))
-                    CardEnergyActionDataList.Add(new EnergyCardActionData());
-                
-                EditorGUILayout.EndHorizontal();
-                EditorGUILayout.EndScrollView();
-            }
-            
-            EditorGUILayout.EndFoldoutHeaderGroup();
-        }
-
-        private EnergyCardActionData CleanEnergyActions(EnergyCardActionData cardEnergyActionData)
-        {
-            cardEnergyActionData.EditEnergyToCreate(new List<EnergyQuantityData>());
-            cardEnergyActionData.EditEnergyToConvert(new List<EnergyConversion>());
-            cardEnergyActionData.EditEnergyToModifyStrength(new List<EnergyStrengthModification>());
-            return cardEnergyActionData;
-        }
-
-        private void DrawModifyRemainingTurns(EnergyCardActionData cardEnergyActionData)
-        {
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Modify turns data", EditorStyles.boldLabel);
-            RemainingTurnsModification remainingTurnsModification = cardEnergyActionData.TurnsModification;
-
-            if (remainingTurnsModification == null)
-                cardEnergyActionData.EditTurnsModification(new RemainingTurnsModification());
-
-            EditorGUILayout.BeginHorizontal("box");
-            EditorGUILayout.BeginHorizontal();
-        
-            EditorGUILayout.BeginVertical();
-
-            EditorGUILayout.LabelField("Type",EditorStyles.boldLabel, GUILayout.Width(100));
-            RemainingTurnsModificationType newType = (RemainingTurnsModificationType)EditorGUILayout.EnumPopup(remainingTurnsModification.Type);
-
-            EditorGUILayout.LabelField("Value",EditorStyles.boldLabel, GUILayout.Width(100));
-            int newValue = EditorGUILayout.IntSlider(remainingTurnsModification.Value, 1, 10);
-                
-            EditorGUILayout.EndVertical(); 
-
-            EditorGUILayout.EndHorizontal();
-
-            remainingTurnsModification.EditValue(newValue);
-            remainingTurnsModification.EditType(newType);
-        
-            EditorGUILayout.EndHorizontal();
-        }
-
-        private void DrawCreateEnergy(EnergyCardActionData cardEnergyActionData)
-        {
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Energy To Create", EditorStyles.boldLabel);
-        
-            cardEnergyActionData.EditEnergyToCreate(DrawEnergyQuantityList(cardEnergyActionData.EnergyToCreate));
-        }
-
-        private void DrawConvertEnergy(EnergyCardActionData cardEnergyActionData)
-        {
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Energy To Convert", EditorStyles.boldLabel);
-        
-            if (cardEnergyActionData.EnergyToConvert == null)
-                cardEnergyActionData.EditEnergyToConvert(new List<EnergyConversion>());
-        
-            List<EnergyConversion> _removeConversionList = new List<EnergyConversion>();
-        
-            for (int i = 0; i < cardEnergyActionData.EnergyToConvert.Count; i++)
-            {
-                EnergyConversion energyConversionData = cardEnergyActionData.EnergyToConvert[i];
-        
-                EditorGUILayout.BeginHorizontal("box");
-                EditorGUILayout.BeginHorizontal();
-        
-                EditorGUILayout.BeginVertical();
-
-                EditorGUILayout.LabelField("From",EditorStyles.boldLabel, GUILayout.Width(100));
-                EnergyQuantityData newFrom = DrawEnergyQuantitySingle(energyConversionData.From);
-
-                EditorGUILayout.LabelField("To",EditorStyles.boldLabel, GUILayout.Width(100));
-                EnergyQuantityData newTo = DrawEnergyQuantitySingle(energyConversionData.To);
-
-                EditorGUILayout.EndVertical(); 
-
-                if (GUILayout.Button("X", GUILayout.Width(20)))
-                {
-                    _removeConversionList.Add(energyConversionData);
-                }
-
-                EditorGUILayout.EndHorizontal();
-
-                energyConversionData.EditFrom(newFrom);
-                energyConversionData.EditTo(newTo);
-        
-                EditorGUILayout.EndHorizontal();
-            }
-
-            foreach (var energy in _removeConversionList)
-                cardEnergyActionData.EnergyToConvert.Remove(energy);
-
-            if (GUILayout.Button("+"))
-                cardEnergyActionData.EnergyToConvert.Add(new EnergyConversion());
-        }
-
-        private void DrawModifyEnergyStrength(EnergyCardActionData cardEnergyActionData)
-        {
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Energy To Modify Strength", EditorStyles.boldLabel);
-        
-            if (cardEnergyActionData.EnergyToModifyStrength == null)
-                cardEnergyActionData.EditEnergyToModifyStrength(new List<EnergyStrengthModification>());
-        
-            List<EnergyStrengthModification> removeEnergyList = new List<EnergyStrengthModification>();
-        
-            for (int i = 0; i < cardEnergyActionData.EnergyToModifyStrength.Count; i++)
-            {
-                var energyStrengthModificationData = cardEnergyActionData.EnergyToModifyStrength[i];
-        
-                EditorGUILayout.BeginHorizontal("box");
-                EditorGUILayout.BeginHorizontal();
-        
-                EditorGUILayout.BeginVertical();
-
-                EditorGUILayout.LabelField("From",EditorStyles.boldLabel, GUILayout.Width(100));
-                EnergyQuantityData newFrom = DrawEnergyQuantitySingle(energyStrengthModificationData.From);
-
-                EditorGUILayout.LabelField("Modification type",EditorStyles.boldLabel, GUILayout.Width(100));
-                EnergyModificationType newTo = (EnergyModificationType)EditorGUILayout.EnumPopup(energyStrengthModificationData.ModificationType);
-            
-                EditorGUILayout.EndVertical(); 
-        
-                if (GUILayout.Button("X", GUILayout.Width(20)))
-                {
-                    removeEnergyList.Add(energyStrengthModificationData);
-                }
-                    
-                EditorGUILayout.EndHorizontal();
-
-                energyStrengthModificationData.EditFrom(newFrom);
-                energyStrengthModificationData.EditTo(newTo);
-        
-                EditorGUILayout.EndHorizontal();
-            }
-
-            foreach (var energy in removeEnergyList)
-                cardEnergyActionData.EnergyToModifyStrength.Remove(energy);
-
-            if (GUILayout.Button("+"))
-                cardEnergyActionData.EnergyToModifyStrength.Add(new EnergyStrengthModification());
-        }
-
-        private List<EnergyQuantityData> DrawEnergyQuantityList(List<EnergyQuantityData> energyQuantityDataList)
-        {        
-            if (energyQuantityDataList == null)
-                energyQuantityDataList = new List<EnergyQuantityData>();
-        
-            List<EnergyQuantityData> removeEnergyList = new();
-        
-            for (int i = 0; i < energyQuantityDataList.Count; i++)
-            {
-                GUILayout.BeginHorizontal("Box");
-                var energyQuantityData = energyQuantityDataList[i];
-                energyQuantityData = DrawEnergyQuantitySingle(energyQuantityData);
-                
-                if (GUILayout.Button("X", GUILayout.Width(20)))
-                {
-                    removeEnergyList.Add(energyQuantityData);
-                }
-                GUILayout.EndHorizontal();
-            }
-
-            foreach (var energy in removeEnergyList)
-                energyQuantityDataList.Remove(energy);
-
-            if (GUILayout.Button("+"))
-                energyQuantityDataList.Add(new EnergyQuantityData());
-
-            return energyQuantityDataList;
-        }
-
-        private EnergyQuantityData DrawEnergyQuantitySingle(EnergyQuantityData energyQuantityData)
-        {
-            if (energyQuantityData == null)
-                energyQuantityData = new EnergyQuantityData();
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Energy", GUILayout.Width(70));
-            var newEnergyType = (EnergyColor)EditorGUILayout.EnumPopup(energyQuantityData.EnergyColor);     
-            var newEnergyQuantity = EditorGUILayout.IntSlider("Quantity", energyQuantityData.Quantity, 1, 10);
-            EditorGUILayout.EndHorizontal();
-            
-            energyQuantityData.EditCostType(newEnergyType);
-            energyQuantityData.EditQuantityCost(newEnergyQuantity);
-
-            return energyQuantityData;
-        }
-        
-        private void ChangeRarity()
-        { 
-            CardRarity = (RarityType) EditorGUILayout.EnumPopup("Rarity: ",CardRarity,GUILayout.Width(250));
-        }
-        private void ChangeCardSprite()
-        {
-            EditorGUILayout.BeginHorizontal();
-            CardSprite = (Sprite)EditorGUILayout.ObjectField(
-                "Card Sprite:",
-                CardSprite,
-                typeof(Sprite),
-                false
-            );
-            GUILayout.FlexibleSpace();
-            EditorGUILayout.EndHorizontal();
-        }
-        private void ChangeUsableWithoutTarget()
-        {
-            UsableWithoutTarget = EditorGUILayout.Toggle("Usable Without Target:", UsableWithoutTarget);
-        }
-        
         private bool _isGeneralSettingsFolded;
         private Vector2 _generalSettingsScrollPos;
         private void ChangeGeneralSettings()
@@ -540,7 +238,34 @@ namespace NueGames.NueDeck.Editor
             EditorGUILayout.EndScrollView();
             EditorGUILayout.EndFoldoutHeaderGroup();
         }
-        
+        private void ChangeId()
+        {
+            CardId = EditorGUILayout.TextField("Card Id:", CardId);
+        }
+        private void ChangeCardName()
+        {
+            CardName = EditorGUILayout.TextField("Card Name:", CardName);
+        }
+         private void ChangeRarity()
+        { 
+            CardRarity = (RarityType) EditorGUILayout.EnumPopup("Rarity: ",CardRarity,GUILayout.Width(250));
+        }
+        private void ChangeCardSprite()
+        {
+            EditorGUILayout.BeginHorizontal();
+            CardSprite = (Sprite)EditorGUILayout.ObjectField(
+                "Card Sprite:",
+                CardSprite,
+                typeof(Sprite),
+                false
+            );
+            GUILayout.FlexibleSpace();
+            EditorGUILayout.EndHorizontal();
+        }
+        private void ChangeUsableWithoutTarget()
+        {
+            UsableWithoutTarget = EditorGUILayout.Toggle("Usable Without Target:", UsableWithoutTarget);
+        }
         private bool _isCardActionDataListFolded;
         private Vector2 _cardActionScrollPos;
         private void ChangeCardActionDataList()
@@ -604,10 +329,385 @@ namespace NueGames.NueDeck.Editor
             
             EditorGUILayout.EndFoldoutHeaderGroup();
         }
+        private bool _isEnergyActionsDataListFolded;
+        private Vector2 _energyActionsDataListScrollPos;
+        private void ChangeEnergyActionsDataList()
+        {
+            _isEnergyActionsDataListFolded =EditorGUILayout.BeginFoldoutHeaderGroup(_isEnergyActionsDataListFolded, "Card energy actions");
+            if (_isEnergyActionsDataListFolded)
+            {
+                _energyActionsDataListScrollPos = EditorGUILayout.BeginScrollView(_energyActionsDataListScrollPos,GUILayout.ExpandWidth(true));
+                EditorGUILayout.BeginHorizontal();
+                List<EnergyCardActionData> _removedList = new List<EnergyCardActionData>();
+                for (var i = 0; i < CardEnergyActionDataList.Count; i++)
+                {
+                    EnergyCardActionData cardEnergyActionData = CardEnergyActionDataList[i];
+                    EditorGUILayout.BeginVertical("box", GUILayout.Width(150), GUILayout.MaxHeight(50));
+                    EditorGUILayout.BeginHorizontal();
+                    GUIStyle idStyle = new GUIStyle();
+                    idStyle.fontSize = 16;
+                    idStyle.fixedWidth = 25;
+                    idStyle.fixedHeight = 25;
+                    idStyle.fontStyle = FontStyle.Bold;
+                    idStyle.normal.textColor = Color.white;
+                    EditorGUILayout.LabelField($"Energy action Index: {i}",idStyle);
+                    
+                    GUILayout.FlexibleSpace();
+                    
+                    if (GUILayout.Button("X", GUILayout.MaxWidth(25), GUILayout.MaxHeight(25)))
+                        _removedList.Add(cardEnergyActionData);
+                    
+                    EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.Separator();
+
+                    EnergyCardActionType previousType = cardEnergyActionData.CardActionType;
+                    EnergyCardActionType newEnergyActionType = (EnergyCardActionType)EditorGUILayout.EnumPopup("Action Type",cardEnergyActionData.CardActionType,GUILayout.Width(250));
+
+                    bool newUsableWithoutCost = EditorGUILayout.Toggle("Usable Without Cost:", cardEnergyActionData.UsableWithoutCost);
+                    bool newOptional = EditorGUILayout.Toggle("Optional:", cardEnergyActionData.Optional);
+                    float newActionDelay = EditorGUILayout.Slider("Action Delay: ",cardEnergyActionData.ActionDelay, 0.1f, 10f);
+                    
+
+                    EditorGUILayout.LabelField("Cost", EditorStyles.boldLabel);
+                    cardEnergyActionData.EditCostDataList(DrawEnergyQuantityList(cardEnergyActionData.CostDataList));
+
+                    cardEnergyActionData.EditUsableWithoutCost(newUsableWithoutCost);
+                    cardEnergyActionData.EditOptional(newOptional);
+                    cardEnergyActionData.EditActionDelay(newActionDelay);
+
+                    switch (newEnergyActionType)
+                    {
+                        case EnergyCardActionType.CreateEnergy:
+                            DrawCreateEnergy(cardEnergyActionData);
+                            break;
+                        
+                        case EnergyCardActionType.ConvertEnergy:
+                            DrawConvertEnergy(cardEnergyActionData);
+                            break;
+
+                        case EnergyCardActionType.ModifyEnergyStrength:
+                            DrawModifyEnergyStrength(cardEnergyActionData);
+                            break;
+
+                        case EnergyCardActionType.ModifyRemainingTurns:
+                            DrawModifyRemainingTurns(cardEnergyActionData);
+                            break;
+                        
+                        case EnergyCardActionType.BlockEnergyGeneration:
+                            DrawBlockEnergyGeneration(cardEnergyActionData);
+                            break;
+
+                        case EnergyCardActionType.ModifyGenerationPool:
+                            DrawModifyGenerationPool(cardEnergyActionData);
+                            break;
+                    }
+                    
+                    if (newEnergyActionType != previousType)
+                    {
+                        CleanEnergyActions(cardEnergyActionData);
+                        cardEnergyActionData.EditActionType(newEnergyActionType);
+                    }
+
+                    EditorGUILayout.EndVertical();
+                }
+
+                foreach (var cardEnergyActionData in _removedList)
+                    CardEnergyActionDataList.Remove(cardEnergyActionData);
+
+                if (GUILayout.Button("+",GUILayout.Width(50),GUILayout.Height(50)))
+                    CardEnergyActionDataList.Add(new EnergyCardActionData());
+                
+                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.EndScrollView();
+            }
+            
+            EditorGUILayout.EndFoldoutHeaderGroup();
+        }
+        private EnergyCardActionData CleanEnergyActions(EnergyCardActionData cardEnergyActionData)
+        {
+            cardEnergyActionData.EditEnergyToCreate(null);
+            cardEnergyActionData.EditEnergyToConvert(null);
+            cardEnergyActionData.EditEnergyToModifyStrength(null);
+            cardEnergyActionData.EditTurnsModification(null);
+            cardEnergyActionData.EditBlockEnergyGeneration(null);
+            cardEnergyActionData.EditModifyEnergyGenerationPool(null);
+            return cardEnergyActionData;
+        }
+        private void DrawCreateEnergy(EnergyCardActionData cardEnergyActionData)
+        {
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Energy To Create", EditorStyles.boldLabel);
         
+            cardEnergyActionData.EditEnergyToCreate(DrawEnergyQuantityList(cardEnergyActionData.EnergyToCreate));
+        }
+        private void DrawConvertEnergy(EnergyCardActionData cardEnergyActionData)
+        {
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Energy To Convert", EditorStyles.boldLabel);
+        
+            if (cardEnergyActionData.EnergyToConvert == null)
+                cardEnergyActionData.EditEnergyToConvert(new List<EnergyConversion>());
+        
+            List<EnergyConversion> _removeConversionList = new List<EnergyConversion>();
+        
+            for (int i = 0; i < cardEnergyActionData.EnergyToConvert.Count; i++)
+            {
+                EnergyConversion energyConversionData = cardEnergyActionData.EnergyToConvert[i];
+        
+                EditorGUILayout.BeginHorizontal("box");
+                EditorGUILayout.BeginHorizontal();
+        
+                EditorGUILayout.BeginVertical();
+
+                EditorGUILayout.LabelField("From",EditorStyles.boldLabel, GUILayout.Width(100));
+                EnergyQuantityData newFrom = DrawEnergyQuantitySingle(energyConversionData.From);
+
+                EditorGUILayout.LabelField("To",EditorStyles.boldLabel, GUILayout.Width(100));
+                EnergyQuantityData newTo = DrawEnergyQuantitySingle(energyConversionData.To);
+
+                EditorGUILayout.EndVertical(); 
+
+                if (GUILayout.Button("X", GUILayout.Width(20)))
+                {
+                    _removeConversionList.Add(energyConversionData);
+                }
+
+                EditorGUILayout.EndHorizontal();
+
+                energyConversionData.EditFrom(newFrom);
+                energyConversionData.EditTo(newTo);
+        
+                EditorGUILayout.EndHorizontal();
+            }
+
+            foreach (var energy in _removeConversionList)
+                cardEnergyActionData.EnergyToConvert.Remove(energy);
+
+            if (GUILayout.Button("+"))
+                cardEnergyActionData.EnergyToConvert.Add(new EnergyConversion());
+        }
+        private void DrawModifyEnergyStrength(EnergyCardActionData cardEnergyActionData)
+        {
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Energy To Modify Strength", EditorStyles.boldLabel);
+        
+            if (cardEnergyActionData.EnergyToModifyStrength == null)
+                cardEnergyActionData.EditEnergyToModifyStrength(new List<EnergyStrengthModification>());
+        
+            List<EnergyStrengthModification> removeEnergyList = new List<EnergyStrengthModification>();
+        
+            for (int i = 0; i < cardEnergyActionData.EnergyToModifyStrength.Count; i++)
+            {
+                var energyStrengthModificationData = cardEnergyActionData.EnergyToModifyStrength[i];
+        
+                EditorGUILayout.BeginHorizontal("box");
+                EditorGUILayout.BeginHorizontal();
+        
+                EditorGUILayout.BeginVertical();
+
+                EditorGUILayout.LabelField("From",EditorStyles.boldLabel, GUILayout.Width(100));
+                EnergyQuantityData newFrom = DrawEnergyQuantitySingle(energyStrengthModificationData.From);
+
+                EditorGUILayout.LabelField("Modification type",EditorStyles.boldLabel, GUILayout.Width(100));
+                EnergyModificationType newTo = (EnergyModificationType)EditorGUILayout.EnumPopup(energyStrengthModificationData.ModificationType);
+            
+                EditorGUILayout.EndVertical(); 
+        
+                if (GUILayout.Button("X", GUILayout.Width(20)))
+                {
+                    removeEnergyList.Add(energyStrengthModificationData);
+                }
+                    
+                EditorGUILayout.EndHorizontal();
+
+                energyStrengthModificationData.EditFrom(newFrom);
+                energyStrengthModificationData.EditTo(newTo);
+        
+                EditorGUILayout.EndHorizontal();
+            }
+
+            foreach (var energy in removeEnergyList)
+                cardEnergyActionData.EnergyToModifyStrength.Remove(energy);
+
+            if (GUILayout.Button("+"))
+                cardEnergyActionData.EnergyToModifyStrength.Add(new EnergyStrengthModification());
+        }
+        private List<EnergyQuantityData> DrawEnergyQuantityList(List<EnergyQuantityData> energyQuantityDataList)
+        {        
+            if (energyQuantityDataList == null)
+                energyQuantityDataList = new List<EnergyQuantityData>();
+        
+            List<EnergyQuantityData> removeEnergyList = new();
+        
+            for (int i = 0; i < energyQuantityDataList.Count; i++)
+            {
+                GUILayout.BeginHorizontal("Box");
+                var energyQuantityData = energyQuantityDataList[i];
+                energyQuantityData = DrawEnergyQuantitySingle(energyQuantityData);
+                
+                if (GUILayout.Button("X", GUILayout.Width(20)))
+                {
+                    removeEnergyList.Add(energyQuantityData);
+                }
+                GUILayout.EndHorizontal();
+            }
+
+            foreach (var energy in removeEnergyList)
+                energyQuantityDataList.Remove(energy);
+
+            if (GUILayout.Button("+"))
+                energyQuantityDataList.Add(new EnergyQuantityData());
+
+            return energyQuantityDataList;
+        }
+        private EnergyQuantityData DrawEnergyQuantitySingle(EnergyQuantityData energyQuantityData)
+        {
+            if (energyQuantityData == null)
+                energyQuantityData = new EnergyQuantityData();
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Energy", GUILayout.Width(70));
+            var newEnergyType = (EnergyColor)EditorGUILayout.EnumPopup(energyQuantityData.EnergyColor);     
+            var newEnergyQuantity = EditorGUILayout.IntSlider("Quantity", energyQuantityData.Quantity, 1, 10);
+            EditorGUILayout.EndHorizontal();
+            
+            energyQuantityData.EditCostType(newEnergyType);
+            energyQuantityData.EditQuantityCost(newEnergyQuantity);
+
+            return energyQuantityData;
+        } 
+        private void DrawModifyRemainingTurns(EnergyCardActionData cardEnergyActionData)
+        {
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Modify turns data", EditorStyles.boldLabel);
+            RemainingTurnsModification remainingTurnsModification = cardEnergyActionData.TurnsModification;
+            
+            if (remainingTurnsModification is null)
+            {
+                remainingTurnsModification = new RemainingTurnsModification();
+                cardEnergyActionData.EditTurnsModification(remainingTurnsModification);
+            }
+
+            EditorGUILayout.BeginHorizontal("box");
+            EditorGUILayout.BeginHorizontal();
+        
+            EditorGUILayout.BeginVertical();
+
+            EditorGUILayout.LabelField("Type",EditorStyles.boldLabel, GUILayout.Width(100));
+            RemainingTurnsModificationType newType = (RemainingTurnsModificationType)EditorGUILayout.EnumPopup(remainingTurnsModification.Type);
+
+            EditorGUILayout.LabelField("Value",EditorStyles.boldLabel, GUILayout.Width(100));
+            int newValue = EditorGUILayout.IntSlider(remainingTurnsModification.Value, 1, 10);
+                
+            EditorGUILayout.EndVertical(); 
+
+            EditorGUILayout.EndHorizontal();
+
+            remainingTurnsModification.EditValue(newValue);
+            remainingTurnsModification.EditType(newType);
+        
+            EditorGUILayout.EndHorizontal();
+        }
+        private void DrawBlockEnergyGeneration(EnergyCardActionData cardEnergyActionData)
+        {
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Modify turns data", EditorStyles.boldLabel);
+            BlockEnergyGeneration blockEnergyGeneration = cardEnergyActionData.BlockEnergyGeneration;
+
+            if (blockEnergyGeneration is null)
+            {
+                blockEnergyGeneration = new BlockEnergyGeneration();
+                cardEnergyActionData.EditBlockEnergyGeneration(blockEnergyGeneration);
+            }
+
+            EditorGUILayout.BeginHorizontal("box");
+            EditorGUILayout.BeginHorizontal();
+        
+            EditorGUILayout.BeginVertical();
+
+            EditorGUILayout.LabelField("Turns",EditorStyles.boldLabel, GUILayout.Width(100));
+            int newTurns = EditorGUILayout.IntSlider(blockEnergyGeneration.Turns, 1, 10);
+
+            EditorGUILayout.EndVertical(); 
+
+            EditorGUILayout.EndHorizontal();
+
+            blockEnergyGeneration.EditTurns(newTurns);
+        
+            EditorGUILayout.EndHorizontal();
+        }
+        private void DrawModifyGenerationPool(EnergyCardActionData cardEnergyActionData)
+        {
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Modify turns data", EditorStyles.boldLabel);
+            ModifyEnergyGenerationPool modifyEnergyGenerationPool = cardEnergyActionData.ModifyEnergyGenerationPool;
+            
+            if (modifyEnergyGenerationPool is null)
+            {
+                modifyEnergyGenerationPool = new ModifyEnergyGenerationPool();
+                cardEnergyActionData.EditModifyEnergyGenerationPool(modifyEnergyGenerationPool);
+            }
+        
+            EditorGUILayout.BeginHorizontal("box");
+            EditorGUILayout.BeginHorizontal();
+        
+            EditorGUILayout.BeginVertical();
+
+            EditorGUILayout.LabelField("Turns",EditorStyles.boldLabel, GUILayout.Width(100));
+            int newTurns = EditorGUILayout.IntSlider(modifyEnergyGenerationPool.Turns, 1, 10);
+
+            EditorGUILayout.LabelField("Max energies spawn",EditorStyles.boldLabel, GUILayout.Width(150));
+            int newMaxEnergiesSpawn = EditorGUILayout.IntSlider(modifyEnergyGenerationPool.MaxEnergiesSpawn, 1, 10);
+
+            EditorGUILayout.LabelField("Min energies spawn",EditorStyles.boldLabel, GUILayout.Width(150));
+            int newMinEnergiesSpawn = EditorGUILayout.IntSlider(modifyEnergyGenerationPool.MinEnergiesSpawn, 1, 10);
+    
+            EditorGUILayout.LabelField("Available Energies", EditorStyles.boldLabel);
+
+            List<EnergyData> newAvailableEnergies = modifyEnergyGenerationPool.AvailableEnergies;
+
+            if (newAvailableEnergies is null)
+            {
+                newAvailableEnergies = new();
+                modifyEnergyGenerationPool.EditAvailableEnergies(newAvailableEnergies);
+            }
+
+            for (int i = 0; i < newAvailableEnergies.Count; i++)
+            {
+                EditorGUILayout.BeginHorizontal();
+
+                newAvailableEnergies[i] = (EnergyData)EditorGUILayout.ObjectField(
+                    newAvailableEnergies[i],
+                    typeof(EnergyData),
+                    false
+                );
+
+                if (GUILayout.Button("x", GUILayout.Width(25)))
+                {
+                    newAvailableEnergies.RemoveAt(i);
+                }
+
+                EditorGUILayout.EndHorizontal();
+            }
+
+            if (GUILayout.Button("+"))
+            {
+                newAvailableEnergies.Add(null);
+            }
+
+            EditorGUILayout.EndVertical(); 
+
+            EditorGUILayout.EndHorizontal();
+
+            modifyEnergyGenerationPool.EditTurns(newTurns);
+            modifyEnergyGenerationPool.EditMaxEnergiesSpawn(newMaxEnergiesSpawn);
+            modifyEnergyGenerationPool.EditMinEnergiesSpawn(newMinEnergiesSpawn);
+            modifyEnergyGenerationPool.EditAvailableEnergies(newAvailableEnergies);
+        
+            EditorGUILayout.EndHorizontal();
+        }
         private bool _isDescriptionDataListFolded;
         private Vector2 _descriptionDataScrollPos;
-      
         private void ChangeCardDescriptionDataList()
         {
             _isDescriptionDataListFolded =EditorGUILayout.BeginFoldoutHeaderGroup(_isDescriptionDataListFolded, "Description");
@@ -760,9 +860,7 @@ namespace NueGames.NueDeck.Editor
         private void ChangeAudioActionType()
         {
             AudioType = (AudioActionType)EditorGUILayout.EnumPopup("Audio Type:",AudioType);
-        }
-
-       
+        }       
         private void SaveCardData()
         {
             if (!SelectedCardData) return;
@@ -787,6 +885,6 @@ namespace NueGames.NueDeck.Editor
             AllCardDataList = ListExtentions.GetAllInstances<CardData>().ToList();
         }
         #endregion
-#endif
+    #endif
     }
 }

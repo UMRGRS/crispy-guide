@@ -217,11 +217,23 @@ namespace NueGames.NueDeck.Scripts.Managers
         }
         private void TurnStart()
         {
-            if(GameManager.PersistentGameplayData.RemainingActiveTurns > 0)
+            try
             {
+                if (GameManager.PersistentGameplayData.RemainingActiveTurns <= 0)
+                    return;
+        
+                EnergyBlockParameters energyBlockParameters =
+                    GameManager.PersistentGameplayData.EnergyBlockRules;
+        
+                if (energyBlockParameters is not null && energyBlockParameters.turns-- > 0)
+                    return;
+        
                 EnergyPoolManager.CreateStartOfTurnEnergy();
             }
-            CurrentCombatStateType = CombatStateType.EnemyDeclaration;
+            finally
+            {
+                CurrentCombatStateType = CombatStateType.EnemyDeclaration;
+            }
         }
         private void EnemyActionsDeclaration()
         {
@@ -235,8 +247,6 @@ namespace NueGames.NueDeck.Scripts.Managers
                 EndAllyTurn();
                 return;
             }
-            
-            //GameManager.PersistentGameplayData.CurrentMana = GameManager.PersistentGameplayData.MaxMana;
             
             CollectionManager.DrawCards(GameManager.PersistentGameplayData.DrawCount);
             GameManager.PersistentGameplayData.CanSelectCards = true;
@@ -303,5 +313,14 @@ namespace NueGames.NueDeck.Scripts.Managers
             CurrentCombatStateType = CombatStateType.TurnEnd;
         }
         #endregion
+    }
+
+    public class EnergyBlockParameters
+    {
+        public int turns;
+        public EnergyBlockParameters(int newTurns)
+        {
+            turns = newTurns;   
+        }
     }
 }

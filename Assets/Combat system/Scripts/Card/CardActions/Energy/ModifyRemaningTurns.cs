@@ -1,5 +1,4 @@
 using NueGames.NueDeck.Scripts.Enums;
-using System.Linq;
 
 namespace NueGames.NueDeck.Scripts.Card.CardActions.Energy
 {

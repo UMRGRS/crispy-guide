@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NueGames.NueDeck.Scripts.Data.Energy;
 using NueGames.NueDeck.Scripts.Enums;
 using NueGames.NueDeck.Scripts.Interfaces;
 using NueGames.NueDeck.Scripts.Managers;
@@ -221,6 +222,8 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [SerializeField] private List<EnergyConversion> energyToConvert;
         [SerializeField] private List<EnergyStrengthModification> energyToModifyStrength;
         [SerializeField] private RemainingTurnsModification turnsModification;
+        [SerializeField] private BlockEnergyGeneration blockEnergyGeneration;
+        [SerializeField] private ModifyEnergyGenerationPool modifyEnergyGenerationPool;
         [SerializeField] private List<EnergyQuantityData> costDataList;
         [SerializeField] private bool usableWithoutCost;
         [SerializeField] private bool optional;
@@ -231,6 +234,8 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public List<EnergyConversion> EnergyToConvert => energyToConvert;
         public List<EnergyStrengthModification> EnergyToModifyStrength => energyToModifyStrength;
         public RemainingTurnsModification TurnsModification => turnsModification;
+        public BlockEnergyGeneration BlockEnergyGeneration => blockEnergyGeneration;
+        public ModifyEnergyGenerationPool ModifyEnergyGenerationPool => modifyEnergyGenerationPool;
         public List<EnergyQuantityData> CostDataList => costDataList;
         public bool UsableWithoutCost => usableWithoutCost;
         public bool Optional => optional;
@@ -245,7 +250,6 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         }
         public IEnumerable<EnergyQuantityData> GetEnergyCosts()
         {
-
             if (energyToConvert != null)
                 foreach (EnergyConversion conversion in energyToConvert)
                     yield return conversion.From;
@@ -264,6 +268,8 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public void EditEnergyToModifyStrength(List<EnergyStrengthModification> newEnergyToModifyStrength) => energyToModifyStrength = newEnergyToModifyStrength;
         public void EditCostDataList(List<EnergyQuantityData> newCostDataList) => costDataList = newCostDataList;
         public void EditTurnsModification(RemainingTurnsModification newTurnsModification) => turnsModification = newTurnsModification;
+        public void EditBlockEnergyGeneration(BlockEnergyGeneration newBlockEnergyGeneration) => blockEnergyGeneration = newBlockEnergyGeneration;
+        public void EditModifyEnergyGenerationPool(ModifyEnergyGenerationPool newModifyEnergyGenerationPool) => modifyEnergyGenerationPool = newModifyEnergyGenerationPool;
         public void EditUsableWithoutCost(bool newStatus) => usableWithoutCost = newStatus;
         public void EditOptional(bool newOptional) => optional = newOptional;
         public void EditActionDelay(float newValue) => actionDelay = newValue;
@@ -319,6 +325,40 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         #if UNITY_EDITOR
         public void EditType(RemainingTurnsModificationType newType) => type = newType;
         public void EditValue(int newValue) => value = newValue;
+        #endif
+        #endregion
+    }
+    [Serializable]
+    public class BlockEnergyGeneration
+    {
+        [Range(1,10)] [SerializeField] private int turns;
+        public int Turns => turns;
+
+        #region Editor
+        #if UNITY_EDITOR
+        public void EditTurns(int newTurns) => turns = newTurns;
+        #endif
+        #endregion
+    }
+    [Serializable]
+    public class ModifyEnergyGenerationPool
+    {
+        [Range(1,10)] [SerializeField] private int turns;
+        [Range(1,10)] [SerializeField] private int maxEnergiesSpawn;
+        [Range(1,10)] [SerializeField] private int minEnergiesSpawn;
+        [SerializeField] private List<EnergyData> availableEnergies;
+        
+        public int Turns => turns;
+        public int MaxEnergiesSpawn => maxEnergiesSpawn;
+        public int MinEnergiesSpawn => minEnergiesSpawn;
+        public List<EnergyData> AvailableEnergies => availableEnergies;
+
+        #region Editor
+        #if UNITY_EDITOR
+        public void EditTurns(int newTurns) => turns = newTurns;
+        public void EditMaxEnergiesSpawn(int newMaxEnergiesSpawn) => maxEnergiesSpawn = newMaxEnergiesSpawn;
+        public void EditMinEnergiesSpawn(int newMinEnergiesSpawn) => minEnergiesSpawn = newMinEnergiesSpawn;
+        public void EditAvailableEnergies(List<EnergyData> newAvailableEnergies) => availableEnergies = newAvailableEnergies;
         #endif
         #endregion
     }

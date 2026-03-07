@@ -11,18 +11,24 @@ namespace NueGames.NueDeck.Scripts.Card
         public readonly List<EnergyConversion> EnergyConversionList;
         public readonly List<EnergyStrengthModification> EnergyStrengthModificationList;
         public readonly RemainingTurnsModification RemainingTurnsModification;
+        public readonly BlockEnergyGeneration BlockEnergyGeneration;
+        public readonly ModifyEnergyGenerationPool ModifyEnergyGenerationPool;
 
         public CardEnergyActionParameters(
             List<EnergyQuantityData> energyCreationList, 
             List<EnergyConversion> energyConversionList, 
             List<EnergyStrengthModification> energyStrengthModificationList,
-            RemainingTurnsModification remainingTurnsModification
+            RemainingTurnsModification remainingTurnsModification,
+            BlockEnergyGeneration blockEnergyGeneration,
+            ModifyEnergyGenerationPool modifyEnergyGenerationPool
             )
         {
             EnergyCreationList = energyCreationList;
             EnergyConversionList = energyConversionList;
             EnergyStrengthModificationList = energyStrengthModificationList;
             RemainingTurnsModification = remainingTurnsModification;
+            BlockEnergyGeneration = blockEnergyGeneration;
+            ModifyEnergyGenerationPool = modifyEnergyGenerationPool;
         }
     }
 

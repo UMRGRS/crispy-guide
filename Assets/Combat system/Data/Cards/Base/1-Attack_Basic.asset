@@ -31,28 +31,38 @@ MonoBehaviour:
   - cardActionType: 0
     energyToCreate:
     - energyColor: 0
-      quantity: 3
+      quantity: 2
     energyToConvert: []
     energyToModifyStrength: []
     turnsModification:
       type: 0
       value: 0
+    blockEnergyGeneration:
+      turns: 0
+    modifyEnergyGenerationPool:
+      turns: 0
+      maxEnergiesSpawn: 0
+      minEnergiesSpawn: 0
+      availableEnergies: []
     costDataList: []
-    usableWithoutCost: 1
+    usableWithoutCost: 0
     optional: 0
     actionDelay: 0.1
-  - cardActionType: 3
-    energyToCreate:
-    - energyColor: 0
-      quantity: 1
+  - cardActionType: 4
+    energyToCreate: []
     energyToConvert: []
     energyToModifyStrength: []
     turnsModification:
       type: 0
-      value: 1
-    costDataList:
-    - energyColor: 0
-      quantity: 1
+      value: 0
+    blockEnergyGeneration:
+      turns: 2
+    modifyEnergyGenerationPool:
+      turns: 0
+      maxEnergiesSpawn: 0
+      minEnergiesSpawn: 0
+      availableEnergies: []
+    costDataList: []
     usableWithoutCost: 0
     optional: 0
     actionDelay: 0.1

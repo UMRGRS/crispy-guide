@@ -5,6 +5,8 @@ namespace NueGames.NueDeck.Scripts.Enums
         CreateEnergy,
         ConvertEnergy,
         ModifyEnergyStrength,
-        ModifyRemainingTurns
+        ModifyRemainingTurns,
+        BlockEnergyGeneration,
+        ModifyGenerationPool
     }
 }
