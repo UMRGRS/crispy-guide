@@ -21,34 +21,12 @@ MonoBehaviour:
   - cardActionType: 0
     actionTargetType: 0
     actionValue: 6
-    costDataList:
-    - energyColor: 0
-      quantity: 2
-    usableWithoutCost: 0
-    optional: 0
-    actionDelay: 0.1
-  cardEnergyActionDataList:
-  - cardActionType: 0
-    energyToCreate:
-    - energyColor: 0
-      quantity: 2
-    energyToConvert: []
-    energyToModifyStrength: []
-    turnsModification:
-      type: 0
-      value: 0
-    blockEnergyGeneration:
-      turns: 0
-    modifyEnergyGenerationPool:
-      turns: 0
-      maxEnergiesSpawn: 0
-      minEnergiesSpawn: 0
-      availableEnergies: []
     costDataList: []
     usableWithoutCost: 0
     optional: 0
     actionDelay: 0.1
-  - cardActionType: 4
+  cardEnergyActionDataList:
+  - cardActionType: 6
     energyToCreate: []
     energyToConvert: []
     energyToModifyStrength: []
@@ -56,12 +34,15 @@ MonoBehaviour:
       type: 0
       value: 0
     blockEnergyGeneration:
-      turns: 2
+      turns: 0
     modifyEnergyGenerationPool:
       turns: 0
       maxEnergiesSpawn: 0
       minEnergiesSpawn: 0
       availableEnergies: []
+    blockEnergyUsage:
+      turns: 4
+      color: 0
     costDataList: []
     usableWithoutCost: 0
     optional: 0

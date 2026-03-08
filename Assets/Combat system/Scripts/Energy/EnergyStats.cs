@@ -7,13 +7,16 @@ namespace NueGames.NueDeck.Scripts.Energy
     {
         public EnergyColor EnergyColor { get; private set; }
         public EnergyStrength EnergyStrength { get; private set; }
+        public int BlockTurns { get; private set; }
         public Action OnInert;
+        public Action OnEnergyUnblock;
 
         #region setup
-        public EnergyStats(EnergyColor energyColor, EnergyStrength energyStrength)
+        public EnergyStats(EnergyColor energyColor, EnergyStrength energyStrength, int blockTurns)
         {
             EnergyColor = energyColor;
             EnergyStrength = energyStrength;
+            BlockTurns = blockTurns;
         }
         #endregion
 
@@ -24,7 +27,15 @@ namespace NueGames.NueDeck.Scripts.Energy
             if(EnergyStrength == EnergyStrength.Inert)
                 OnInert?.Invoke();
         }
+        public void ModifyBlockTurns(int turns, BlockTurnsModificationType modificationType)
+        {
+            int modificationAmount = modificationType == BlockTurnsModificationType.Increase ? turns : turns * -1;
+            BlockTurns += modificationAmount;
+        }
+        public void ReduceBlockTurns()
+        {
+            if(BlockTurns-- <= 0) OnEnergyUnblock?.Invoke();
+        }
         #endregion
-
-    }       
+    }
 }

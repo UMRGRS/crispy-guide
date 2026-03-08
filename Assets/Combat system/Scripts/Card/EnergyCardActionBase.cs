@@ -13,6 +13,7 @@ namespace NueGames.NueDeck.Scripts.Card
         public readonly RemainingTurnsModification RemainingTurnsModification;
         public readonly BlockEnergyGeneration BlockEnergyGeneration;
         public readonly ModifyEnergyGenerationPool ModifyEnergyGenerationPool;
+        public readonly BlockEnergyUsage BlockEnergyUsage;
 
         public CardEnergyActionParameters(
             List<EnergyQuantityData> energyCreationList, 
@@ -20,7 +21,8 @@ namespace NueGames.NueDeck.Scripts.Card
             List<EnergyStrengthModification> energyStrengthModificationList,
             RemainingTurnsModification remainingTurnsModification,
             BlockEnergyGeneration blockEnergyGeneration,
-            ModifyEnergyGenerationPool modifyEnergyGenerationPool
+            ModifyEnergyGenerationPool modifyEnergyGenerationPool,
+            BlockEnergyUsage blockEnergyUsage
             )
         {
             EnergyCreationList = energyCreationList;
@@ -29,6 +31,7 @@ namespace NueGames.NueDeck.Scripts.Card
             RemainingTurnsModification = remainingTurnsModification;
             BlockEnergyGeneration = blockEnergyGeneration;
             ModifyEnergyGenerationPool = modifyEnergyGenerationPool;
+            BlockEnergyUsage = blockEnergyUsage;
         }
     }
 

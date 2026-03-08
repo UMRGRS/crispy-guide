@@ -400,6 +400,10 @@ namespace NueGames.NueDeck.Editor
                         case EnergyCardActionType.ModifyGenerationPool:
                             DrawModifyGenerationPool(cardEnergyActionData);
                             break;
+                        
+                        case EnergyCardActionType.BlockEnergyUsage:
+                            DrawBlockEnergyUsage(cardEnergyActionData);
+                            break;
                     }
                     
                     if (newEnergyActionType != previousType)
@@ -431,6 +435,7 @@ namespace NueGames.NueDeck.Editor
             cardEnergyActionData.EditTurnsModification(null);
             cardEnergyActionData.EditBlockEnergyGeneration(null);
             cardEnergyActionData.EditModifyEnergyGenerationPool(null);
+            cardEnergyActionData.EditBlockEnergyUsage(null);
             return cardEnergyActionData;
         }
         private void DrawCreateEnergy(EnergyCardActionData cardEnergyActionData)
@@ -703,6 +708,38 @@ namespace NueGames.NueDeck.Editor
             modifyEnergyGenerationPool.EditMaxEnergiesSpawn(newMaxEnergiesSpawn);
             modifyEnergyGenerationPool.EditMinEnergiesSpawn(newMinEnergiesSpawn);
             modifyEnergyGenerationPool.EditAvailableEnergies(newAvailableEnergies);
+        
+            EditorGUILayout.EndHorizontal();
+        }
+        private void DrawBlockEnergyUsage(EnergyCardActionData cardEnergyActionData)
+        {
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Block energy usage", EditorStyles.boldLabel);
+            BlockEnergyUsage blockEnergyUsage = cardEnergyActionData.BlockEnergyUsage;
+
+            if (blockEnergyUsage is null)
+            {
+                blockEnergyUsage = new BlockEnergyUsage();
+                cardEnergyActionData.EditBlockEnergyUsage(blockEnergyUsage);
+            }
+
+            EditorGUILayout.BeginHorizontal("box");
+            EditorGUILayout.BeginHorizontal();
+        
+            EditorGUILayout.BeginVertical();
+
+            EditorGUILayout.LabelField("Turns",EditorStyles.boldLabel, GUILayout.Width(100));
+            int newTurns = EditorGUILayout.IntSlider(blockEnergyUsage.Turns, 1, 10);
+
+            EditorGUILayout.LabelField("Color",EditorStyles.boldLabel, GUILayout.Width(100));
+            EnergyColor newColor = (EnergyColor)EditorGUILayout.EnumPopup(blockEnergyUsage.Color);
+
+            EditorGUILayout.EndVertical(); 
+
+            EditorGUILayout.EndHorizontal();
+
+            blockEnergyUsage.EditTurns(newTurns);
+            blockEnergyUsage.EditColor(newColor);
         
             EditorGUILayout.EndHorizontal();
         }

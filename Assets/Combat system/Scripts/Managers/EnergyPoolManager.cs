@@ -15,6 +15,7 @@ namespace NueGames.NueDeck.Scripts.Managers
     {
         private EnergyPoolManager(){}
         public static EnergyPoolManager Instance {get; private set;}
+        public Action OnBlockEnergy;
 
         [Header("References")]
         [SerializeField] private List<Transform> energyPosList;
@@ -47,6 +48,15 @@ namespace NueGames.NueDeck.Scripts.Managers
         #endregion
 
         #region Public methods
+        public void ConsumeEnergyCost(List<EnergyQuantityData> cost)
+        {
+            TryToFindEnergyOnPool(cost, out List<EnergyBase> targetEnergies);
+            
+            foreach(EnergyBase energy in targetEnergies)
+            {
+                energy.OnDestroy();
+            }
+        }
         public void CreateStartOfTurnEnergy()
         {
             EnemyEncounter currentEncounterData = GameManager.PersistentGameplayData.CurrentEncounter;
@@ -77,7 +87,8 @@ namespace NueGames.NueDeck.Scripts.Managers
             {
                 EnergyBase energy = CurrentEnergyInPool[i];
 
-                energy.EnergyStats.ModifyStrength(EnergyModificationType.Weaken);
+                if(energy.EnergyStats.BlockTurns <= 0) 
+                    energy.EnergyStats.ModifyStrength(EnergyModificationType.Weaken);
             }
         }
         public void ConvertEnergy(List<EnergyConversion> energyToConvertList)
@@ -113,20 +124,20 @@ namespace NueGames.NueDeck.Scripts.Managers
                 }
             }
         }
-        public void ConsumeEnergyCost(List<EnergyQuantityData> cost)
+        public void BlockEnergies(EnergyColor color, int turns)
         {
-            TryToFindEnergyOnPool(cost, out List<EnergyBase> targetEnergies);
-            
-            foreach(EnergyBase energy in targetEnergies)
+             List<EnergyBase> foundEnergies = CurrentEnergyInPool.Where(energy => energy.EnergyStats.EnergyColor == color).ToList();
+
+            foreach(EnergyBase energy in foundEnergies)
             {
-                energy.OnDestroy();
+                energy.BlockEnergy(turns);    
             }
         }
+        
         public void RemoveEnergyFromPool(EnergyBase targetEnergy)
         {
             CurrentEnergyInPool.Remove(targetEnergy);
         } 
-
         public bool TryToFindEnergyOnPool(List<EnergyQuantityData> energiesToFind, out List<EnergyBase> selectedEnergies)
         {
             selectedEnergies = new();
@@ -137,7 +148,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             foreach(EnergyQuantityData energyData in energiesToFind)
             {
                 List<EnergyBase> foundEnergies = CurrentEnergyInPool.
-                    Where(energy => energy.EnergyStats.EnergyColor == energyData.EnergyColor)
+                    Where(energy => energy.EnergyStats.EnergyColor == energyData.EnergyColor && energy.EnergyStats.BlockTurns <= 0)
                     .OrderBy(energy => energy.EnergyStats.EnergyStrength)
                     .Take(energyData.Quantity)
                     .ToList();
@@ -209,6 +220,5 @@ namespace NueGames.NueDeck.Scripts.Managers
             minEnergiesSpawn = newMinEnergiesSpawn;
             availableEnergies = newAvailableEnergies;
         }
-
     }
 }

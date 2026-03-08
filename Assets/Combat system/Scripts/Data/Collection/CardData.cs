@@ -224,6 +224,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [SerializeField] private RemainingTurnsModification turnsModification;
         [SerializeField] private BlockEnergyGeneration blockEnergyGeneration;
         [SerializeField] private ModifyEnergyGenerationPool modifyEnergyGenerationPool;
+        [SerializeField] private BlockEnergyUsage blockEnergyUsage;
         [SerializeField] private List<EnergyQuantityData> costDataList;
         [SerializeField] private bool usableWithoutCost;
         [SerializeField] private bool optional;
@@ -236,6 +237,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public RemainingTurnsModification TurnsModification => turnsModification;
         public BlockEnergyGeneration BlockEnergyGeneration => blockEnergyGeneration;
         public ModifyEnergyGenerationPool ModifyEnergyGenerationPool => modifyEnergyGenerationPool;
+        public BlockEnergyUsage BlockEnergyUsage => blockEnergyUsage;
         public List<EnergyQuantityData> CostDataList => costDataList;
         public bool UsableWithoutCost => usableWithoutCost;
         public bool Optional => optional;
@@ -270,6 +272,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public void EditTurnsModification(RemainingTurnsModification newTurnsModification) => turnsModification = newTurnsModification;
         public void EditBlockEnergyGeneration(BlockEnergyGeneration newBlockEnergyGeneration) => blockEnergyGeneration = newBlockEnergyGeneration;
         public void EditModifyEnergyGenerationPool(ModifyEnergyGenerationPool newModifyEnergyGenerationPool) => modifyEnergyGenerationPool = newModifyEnergyGenerationPool;
+        public void EditBlockEnergyUsage(BlockEnergyUsage newBlockEnergyUsage) => blockEnergyUsage = newBlockEnergyUsage;
         public void EditUsableWithoutCost(bool newStatus) => usableWithoutCost = newStatus;
         public void EditOptional(bool newOptional) => optional = newOptional;
         public void EditActionDelay(float newValue) => actionDelay = newValue;
@@ -359,6 +362,22 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public void EditMaxEnergiesSpawn(int newMaxEnergiesSpawn) => maxEnergiesSpawn = newMaxEnergiesSpawn;
         public void EditMinEnergiesSpawn(int newMinEnergiesSpawn) => minEnergiesSpawn = newMinEnergiesSpawn;
         public void EditAvailableEnergies(List<EnergyData> newAvailableEnergies) => availableEnergies = newAvailableEnergies;
+        #endif
+        #endregion
+    }
+    [Serializable]
+    public class BlockEnergyUsage
+    {
+        [Range(1,10)] [SerializeField] private int turns;
+        [SerializeField] private EnergyColor color;
+        
+        public int Turns => turns;
+        public EnergyColor Color => color;
+
+        #region Editor
+        #if UNITY_EDITOR
+        public void EditTurns(int newTurns) => turns = newTurns;
+        public void EditColor(EnergyColor newColor) => color = newColor;
         #endif
         #endregion
     }

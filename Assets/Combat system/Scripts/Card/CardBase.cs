@@ -105,7 +105,8 @@ namespace NueGames.NueDeck.Scripts.Card
                         energyAction.EnergyToModifyStrength, 
                         energyAction.TurnsModification,
                         energyAction.BlockEnergyGeneration,
-                        energyAction.ModifyEnergyGenerationPool
+                        energyAction.ModifyEnergyGenerationPool,
+                        energyAction.BlockEnergyUsage
                         ));
             }
             CollectionManager.OnCardPlayed(this);
