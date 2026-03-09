@@ -15,7 +15,7 @@ namespace NueGames.NueDeck.Scripts.Card.CardActions.Allies
             
             if (!newTarget) return;
             
-            newTarget.CharacterStats.ApplyStatus(StatusType.Strength,Mathf.RoundToInt(actionParameters.Value));
+            newTarget.CharacterStats.ApplyStatus(StatusType.Strength, Mathf.RoundToInt(actionParameters.Value));
             
             if (FxManager != null) 
                 FxManager.PlayFx(newTarget.transform, FxType.Str);

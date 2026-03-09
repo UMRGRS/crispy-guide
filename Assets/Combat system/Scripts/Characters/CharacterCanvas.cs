@@ -28,9 +28,7 @@ namespace NueGames.NueDeck.Scripts.Characters
         #region Cache
 
         protected Dictionary<StatusType, StatusIconBase> StatusDict = new();
-
         protected Canvas TargetCanvas;
-        
         protected FxManager FxManager => FxManager.Instance;
         protected AudioManager AudioManager => AudioManager.Instance;
         protected GameManager GameManager => GameManager.Instance;
