@@ -9,6 +9,7 @@ namespace NueGames.NueDeck.Scripts.Characters
     { 
         public StatusType StatusType { get; set; }
         public int StatusValue { get; set; }
+        public int ActiveTurns {get; set;} // Number of turns it will be active
         public bool DecreaseOverTurn { get; set; } // If true, decrease on turn end
         public bool IsPermanent { get; set; } // If true, status can not be cleared during combat
         public bool IsActive { get; set; }
@@ -16,10 +17,11 @@ namespace NueGames.NueDeck.Scripts.Characters
         public bool ClearAtNextTurn { get; set; }
         
         public Action OnTriggerAction;
-        public StatusStats(StatusType statusType,int statusValue, bool decreaseOverTurn = false, bool isPermanent = false, bool isActive = false, bool canNegativeStack = false, bool clearAtNextTurn = false)
+        public StatusStats(StatusType statusType,int statusValue, int activeTurns = 0, bool decreaseOverTurn = false, bool isPermanent = false, bool isActive = false, bool canNegativeStack = false, bool clearAtNextTurn = false)
         {
             StatusType = statusType;
             StatusValue = statusValue;
+            ActiveTurns = activeTurns;
             DecreaseOverTurn = decreaseOverTurn;
             IsPermanent = isPermanent;
             IsActive = isActive;
@@ -68,7 +70,10 @@ namespace NueGames.NueDeck.Scripts.Characters
 
             StatusDict[StatusType.Block].ClearAtNextTurn = true;
 
-            StatusDict[StatusType.Strength].CanNegativeStack = true;
+            StatusDict[StatusType.PermanentDamageBoost].IsPermanent = true;
+            StatusDict[StatusType.NextCardDamageBoost].IsPermanent = true;
+            StatusDict[StatusType.TemporalDamageBoost].DecreaseOverTurn = true;
+
             StatusDict[StatusType.Dexterity].CanNegativeStack = true;
             
             StatusDict[StatusType.Stun].DecreaseOverTurn = true;
@@ -78,18 +83,22 @@ namespace NueGames.NueDeck.Scripts.Characters
         #endregion
         
         #region Public Methods
-        public void ApplyStatus(StatusType targetStatus,int value)
+        public void ApplyStatus(StatusType targetStatus, int value, int turns = 0)
         {
             if (StatusDict[targetStatus].IsActive)
             {
                 StatusDict[targetStatus].StatusValue += value;
+                StatusDict[targetStatus].ActiveTurns += turns;
+                //Change to also indicate turns
                 OnStatusChanged?.Invoke(targetStatus, StatusDict[targetStatus].StatusValue);
                 
             }
             else
             {
                 StatusDict[targetStatus].StatusValue = value;
+                StatusDict[targetStatus].ActiveTurns = turns;
                 StatusDict[targetStatus].IsActive = true;
+                //Change to also indicate turns
                 OnStatusApplied?.Invoke(targetStatus, StatusDict[targetStatus].StatusValue);
             }
         }
@@ -122,7 +131,7 @@ namespace NueGames.NueDeck.Scripts.Characters
             {
                 if (StatusDict[StatusType.Block].IsActive)
                 {
-                    ApplyStatus(StatusType.Block,-value);
+                    ApplyStatus(StatusType.Block, -value);
 
                     remainingDamage = 0;
                     if (StatusDict[StatusType.Block].StatusValue <= 0)
@@ -141,13 +150,13 @@ namespace NueGames.NueDeck.Scripts.Characters
                 OnDeath?.Invoke();
                 IsDeath = true;
             }
-            OnHealthChanged?.Invoke(CurrentHealth,MaxHealth);
+            OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
         }
         
         public void IncreaseMaxHealth(int value)
         {
             MaxHealth += value;
-            OnHealthChanged?.Invoke(CurrentHealth,MaxHealth);
+            OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
         }
 
         public void ClearAllStatus()
@@ -160,6 +169,7 @@ namespace NueGames.NueDeck.Scripts.Characters
         {
             StatusDict[targetStatus].IsActive = false;
             StatusDict[targetStatus].StatusValue = 0;
+            StatusDict[targetStatus].ActiveTurns = 0;
             OnStatusCleared?.Invoke(targetStatus);
         }
 
@@ -194,20 +204,19 @@ namespace NueGames.NueDeck.Scripts.Characters
             }
             
             if (StatusDict[targetStatus].DecreaseOverTurn) 
-                StatusDict[targetStatus].StatusValue--;
+                StatusDict[targetStatus].ActiveTurns--;
             
-            if (StatusDict[targetStatus].StatusValue == 0)
+            if (StatusDict[targetStatus].ActiveTurns <= 0)
                 if (!StatusDict[targetStatus].IsPermanent)
                     ClearStatus(targetStatus);
             
             OnStatusChanged?.Invoke(targetStatus, StatusDict[targetStatus].StatusValue);
         }
         
-     
         private void DamagePoison()
         {
             if (StatusDict[StatusType.Poison].StatusValue<=0) return;
-            Damage(StatusDict[StatusType.Poison].StatusValue,true);
+            Damage(StatusDict[StatusType.Poison].StatusValue, true);
         }
         
         public void CheckStunStatus()

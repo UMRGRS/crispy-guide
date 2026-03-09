@@ -5,7 +5,9 @@
         None =0,
         Block,
         Poison,
-        Strength,
+        PermanentDamageBoost,
+        TemporalDamageBoost,
+        NextCardDamageBoost,
         Dexterity,
         Stun
     }

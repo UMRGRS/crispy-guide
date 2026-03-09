@@ -297,7 +297,6 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         #endregion
     }
 
-
     [Serializable]
     public class EnergyStrengthModification
     {
