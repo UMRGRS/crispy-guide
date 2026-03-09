@@ -341,7 +341,7 @@ namespace NueGames.NueDeck.Scripts.Collection
 
         private bool IsCardCostMeet(CardBase card)
         {
-            List<EnergyQuantityData> costs = card.CardData.GatherEnergyCosts(); 
+            List<EnergyQuantityData> costs = card.CardData.GatherTotalEnergyCosts(); 
             return EnergyPoolManager.TryToFindEnergyOnPool(costs, out _);
         }
 

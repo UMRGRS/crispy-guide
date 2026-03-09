@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Card.CardActions.Allies
 {
-    public class IncreaseMaxHealthAction : CardActionBase<CardActionParameters>
+    public class IncreaseMaxHealthAction : CardActionBase
     {
         public override CardActionType ActionType => CardActionType.IncreaseMaxHealth;
         public override void DoAction(CardActionParameters actionParameters)

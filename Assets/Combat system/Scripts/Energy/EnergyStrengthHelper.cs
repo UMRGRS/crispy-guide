@@ -7,9 +7,9 @@ namespace NueGames.NueDeck.Scripts.Energy
 {
     public class EnergyStrengthHelper
     {
-        public static EnergyStrength GetNewEnergyStrengthValue(EnergyStrength startingValue, ModificationType modificationType)
+        public static EnergyStrength GetNewEnergyStrengthValue(EnergyStrength startingValue, EnergyModificationType modificationType)
         {
-            int modificationAmount = modificationType == ModificationType.Strengthen ? 1 : -1;
+            int modificationAmount = modificationType == EnergyModificationType.Strengthen ? 1 : -1;
     
             int newValue = (int)startingValue + modificationAmount;
     

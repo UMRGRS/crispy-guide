@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using NueGames.NueDeck.Scripts.Enums;
 using System.Linq;
 
 namespace NueGames.NueDeck.Scripts.Card.CardActions.Energy
 {
-    public class CreateEnergyAction : CardActionBase<CardEnergyActionParameters>
+    public class CreateEnergyAction : EnergyCardActionBase
     {
-        public override CardActionType ActionType => CardActionType.CreateEnergy;
+        public override EnergyCardActionType ActionType => EnergyCardActionType.CreateEnergy;
         public override void DoAction(CardEnergyActionParameters actionParameters)
         {
             if(!(actionParameters.EnergyCreationList?.Any() ?? false)) return;

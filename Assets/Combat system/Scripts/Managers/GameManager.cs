@@ -73,6 +73,13 @@ namespace NueGames.NueDeck.Scripts.Managers
             foreach (var cardData in GameplayData.InitialDeck.CardList)
                 PersistentGameplayData.CurrentCardsList.Add(cardData);
         }
+        public void ModifyRemainingTurns(int value, RemainingTurnsModificationType type)
+        {
+            int modifierValue = type == RemainingTurnsModificationType.Increase ? value : value*-1;
+            PersistentGameplayData.RemainingActiveTurns += modifierValue;
+
+            Debug.Log(PersistentGameplayData.RemainingActiveTurns);
+        }
         public void NextFloor()
         {
             PersistentGameplayData.CurrentFloor = FloorIdHelper.GetNewFloorId(PersistentGameplayData.CurrentFloor, FloorDirection.Up);   

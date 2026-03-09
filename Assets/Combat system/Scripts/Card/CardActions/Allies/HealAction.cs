@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Card.CardActions.Allies
 {
-    public class HealAction: CardActionBase<CardActionParameters>
+    public class HealAction: CardActionBase
     {
         public override CardActionType ActionType => CardActionType.Heal;
 

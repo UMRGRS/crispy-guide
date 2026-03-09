@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using NueGames.NueDeck.Scripts.Characters;
+﻿using NueGames.NueDeck.Scripts.Characters;
 using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Enums;
 using NueGames.NueDeck.Scripts.Managers;
-using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Card
 {
@@ -24,38 +22,9 @@ namespace NueGames.NueDeck.Scripts.Card
         }
     }
 
-    public class CardEnergyActionParameters
+    public abstract class CardActionBase : ManagersContainer
     {
-        public readonly List<EnergyQuantityData> EnergyCreationList;
-        public readonly List<EnergyConversion> EnergyConversionList;
-        public readonly List<EnergyStrengthModification> EnergyStrengthModificationList;
-
-        public CardEnergyActionParameters(List<EnergyQuantityData> energyCreationList, List<EnergyConversion> energyConversionList, List<EnergyStrengthModification> energyStrengthModificationList)
-        {
-            EnergyCreationList = energyCreationList;
-            EnergyConversionList = energyConversionList;
-            EnergyStrengthModificationList = energyStrengthModificationList;
-        }
+        public abstract CardActionType ActionType { get; }
+        public abstract void DoAction(CardActionParameters parameters);
     }
-
-    public abstract class CardActionBase<TParameters> : ICardAction
-    {
-        protected CardActionBase(){}
-        public abstract CardActionType ActionType { get;}
-        public abstract void DoAction(TParameters parameters);
-        public void DoAction(object parameters)
-        {
-            DoAction((TParameters)parameters);
-        }
-
-        protected FxManager FxManager => FxManager.Instance;
-        protected AudioManager AudioManager => AudioManager.Instance;
-        protected GameManager GameManager => GameManager.Instance;
-        protected CombatManager CombatManager => CombatManager.Instance;
-        protected CollectionManager CollectionManager => CollectionManager.Instance;
-        protected EnergyPoolManager EnergyPoolManager => EnergyPoolManager.Instance;
-    }
-    
-    
-   
 }

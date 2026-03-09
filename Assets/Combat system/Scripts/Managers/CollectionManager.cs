@@ -98,19 +98,9 @@ namespace NueGames.NueDeck.Scripts.Managers
             DiscardPile.Add(targetCard.CardData);
             UIManager.CombatCanvas.SetPileTexts();
         }
-        
-        public void OnCardExhausted(CardBase targetCard)
-        {
-            HandPile.Remove(targetCard.CardData);
-            ExhaustPile.Add(targetCard.CardData);
-            UIManager.CombatCanvas.SetPileTexts();
-        }
         public void OnCardPlayed(CardBase targetCard)
         {
-            if (targetCard.CardData.ExhaustAfterPlay)
-                targetCard.Exhaust();
-            else
-                targetCard.Discard();
+            targetCard.Discard();
           
             foreach (var cardObject in HandController.hand)
                 cardObject.UpdateCardText();

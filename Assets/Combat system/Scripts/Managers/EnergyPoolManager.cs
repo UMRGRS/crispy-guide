@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using NueGames.NueDeck.Scripts.Card.CardActions.Energy;
 using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Data.Containers;
 using NueGames.NueDeck.Scripts.Data.Energy;
@@ -16,6 +15,7 @@ namespace NueGames.NueDeck.Scripts.Managers
     {
         private EnergyPoolManager(){}
         public static EnergyPoolManager Instance {get; private set;}
+        public Action OnBlockEnergy;
 
         [Header("References")]
         [SerializeField] private List<Transform> energyPosList;
@@ -48,18 +48,34 @@ namespace NueGames.NueDeck.Scripts.Managers
         #endregion
 
         #region Public methods
+        public void ConsumeEnergyCost(List<EnergyQuantityData> cost)
+        {
+            TryToFindEnergyOnPool(cost, out List<EnergyBase> targetEnergies);
+            
+            foreach(EnergyBase energy in targetEnergies)
+            {
+                energy.OnDestroy();
+            }
+        }
         public void CreateStartOfTurnEnergy()
         {
             EnemyEncounter currentEncounterData = GameManager.PersistentGameplayData.CurrentEncounter;
+            EnergyGenerationParameters modifiedEnergyGenerationParameters = GameManager.PersistentGameplayData.EnergyModificationRules;
 
-            List<EnergyQuantityData> energyCreationData = new();
-            foreach(EnergyData data in currentEncounterData.AvailableEnergies)
+            if(modifiedEnergyGenerationParameters is not null && modifiedEnergyGenerationParameters.turns-- > 0)
             {
-                int energyQuantity = UnityEngine.Random.Range(currentEncounterData.MinEnergySpawn, currentEncounterData.MaxEnergySpawn + 1); 
-                energyCreationData.Add(new EnergyQuantityData(data.EnergyType, energyQuantity));
+                CreateEnergy(DetermineEnergiesToCreate(modifiedEnergyGenerationParameters));
             }
-
-            CreateEnergy(energyCreationData);
+            else
+            {
+                CreateEnergy(DetermineEnergiesToCreate(
+                    new EnergyGenerationParameters(
+                        0, 
+                        currentEncounterData.MaxEnergySpawn, 
+                        currentEncounterData.MaxEnergySpawn, 
+                        currentEncounterData.AvailableEnergies)
+                        ));
+            }
         }
         public void CreateEnergy(List<EnergyQuantityData> energyQuantityDataList)
         {
@@ -71,9 +87,8 @@ namespace NueGames.NueDeck.Scripts.Managers
             {
                 EnergyBase energy = CurrentEnergyInPool[i];
 
-                EnergyStrength newStrength = EnergyStrengthHelper.GetNewEnergyStrengthValue(energy.EnergyStats.EnergyStrength, ModificationType.Weaken);
-
-                energy.EnergyStats.ModifyStrength(newStrength);
+                if(energy.EnergyStats.BlockTurns <= 0) 
+                    energy.EnergyStats.ModifyStrength(EnergyModificationType.Weaken);
             }
         }
         public void ConvertEnergy(List<EnergyConversion> energyToConvertList)
@@ -88,7 +103,7 @@ namespace NueGames.NueDeck.Scripts.Managers
                     Transform spawnPos = energy.transform;
                     energy.OnDestroy();
 
-                    EnergyData energyData = availableEnergies.FirstOrDefault(energy => energy.EnergyType == energyConversionData.To.EnergyColor);
+                    EnergyData energyData = availableEnergies.FirstOrDefault(energy => energy.EnergyColor == energyConversionData.To.EnergyColor);
                     EnergyBase clone = Instantiate(energyData.EnergyPrefab, spawnPos.position, spawnPos.rotation);
                     clone.transform.SetParent(spawnPos.parent, true);
                     
@@ -105,24 +120,24 @@ namespace NueGames.NueDeck.Scripts.Managers
 
                 foreach(EnergyBase energy in energyToModify)
                 {
-                    energy.EnergyStats.ModifyStrength(energyModificationData.To);
+                    energy.EnergyStats.ModifyStrength(energyModificationData.ModificationType);
                 }
             }
         }
-        public void ConsumeEnergyCost(List<EnergyQuantityData> cost)
+        public void BlockEnergies(EnergyColor color, int turns)
         {
-            TryToFindEnergyOnPool(cost, out List<EnergyBase> targetEnergies);
-            
-            foreach(EnergyBase energy in targetEnergies)
+             List<EnergyBase> foundEnergies = CurrentEnergyInPool.Where(energy => energy.EnergyStats.EnergyColor == color).ToList();
+
+            foreach(EnergyBase energy in foundEnergies)
             {
-                energy.OnDestroy();
+                energy.BlockEnergy(turns);    
             }
         }
+        
         public void RemoveEnergyFromPool(EnergyBase targetEnergy)
         {
             CurrentEnergyInPool.Remove(targetEnergy);
         } 
-
         public bool TryToFindEnergyOnPool(List<EnergyQuantityData> energiesToFind, out List<EnergyBase> selectedEnergies)
         {
             selectedEnergies = new();
@@ -133,7 +148,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             foreach(EnergyQuantityData energyData in energiesToFind)
             {
                 List<EnergyBase> foundEnergies = CurrentEnergyInPool.
-                    Where(energy => energy.EnergyStats.EnergyColor == energyData.EnergyColor)
+                    Where(energy => energy.EnergyStats.EnergyColor == energyData.EnergyColor && energy.EnergyStats.BlockTurns <= 0)
                     .OrderBy(energy => energy.EnergyStats.EnergyStrength)
                     .Take(energyData.Quantity)
                     .ToList();
@@ -150,6 +165,30 @@ namespace NueGames.NueDeck.Scripts.Managers
         }
         #endregion
 
+        #region Private methods
+        private List<EnergyQuantityData> DetermineEnergiesToCreate(EnergyGenerationParameters energyGenerationRules)
+        {
+            Dictionary<EnergyColor, int> totals = new();
+
+            int energyQuantity = UnityEngine.Random.Range(energyGenerationRules.minEnergiesSpawn, energyGenerationRules.maxEnergiesSpawn + 1); 
+
+            for(int i=0; i<energyQuantity; i++)
+            {
+                int energyIndex = UnityEngine.Random.Range(0, energyGenerationRules.availableEnergies.Count());
+                EnergyData energyData = energyGenerationRules.availableEnergies[energyIndex];
+                totals.TryGetValue(energyData.EnergyColor, out var current);
+                totals[energyData.EnergyColor] = current + 1;
+            }
+
+            List<EnergyQuantityData> results = new(totals.Count);
+
+            foreach(var kvp in totals)
+                results.Add(new EnergyQuantityData(kvp.Key, kvp.Value));
+
+            return results;
+        }
+        #endregion 
+
         #region Routines
         private IEnumerator CreateEnergyRoutine(List<EnergyQuantityData> energyQuantityDataList)
         {
@@ -157,7 +196,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             {
                 for(int i=0; i < data.Quantity; i++)
                 {
-                    EnergyData energyData = availableEnergies.FirstOrDefault(energy => energy.EnergyType == data.EnergyColor);
+                    EnergyData energyData = availableEnergies.FirstOrDefault(energy => energy.EnergyColor == data.EnergyColor);
                     int spawnPosition = UnityEngine.Random.Range(0, energyPosList.Count);
                     EnergyBase clone = Instantiate(energyData.EnergyPrefab, energyPosList[spawnPosition]);
                     clone.BuildEnergy();
@@ -168,5 +207,18 @@ namespace NueGames.NueDeck.Scripts.Managers
         }
         #endregion
     }
+    public class EnergyGenerationParameters
+    {
+        public int turns;
+        public readonly int maxEnergiesSpawn;
+        public readonly int minEnergiesSpawn;
+        public readonly List<EnergyData> availableEnergies;
+        public EnergyGenerationParameters(int newTurns, int newMaxEnergiesSpawn, int newMinEnergiesSpawn, List<EnergyData> newAvailableEnergies)
+        {
+            turns = newTurns;
+            maxEnergiesSpawn = newMaxEnergiesSpawn;
+            minEnergiesSpawn = newMinEnergiesSpawn;
+            availableEnergies = newAvailableEnergies;
+        }
+    }
 }
-

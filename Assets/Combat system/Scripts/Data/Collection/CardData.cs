@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NueGames.NueDeck.Scripts.Data.Energy;
 using NueGames.NueDeck.Scripts.Enums;
+using NueGames.NueDeck.Scripts.Interfaces;
 using NueGames.NueDeck.Scripts.Managers;
 using NueGames.NueDeck.Scripts.NueExtentions;
 using UnityEngine;
@@ -15,18 +17,15 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [Header("Card Profile")] 
         [SerializeField] private string id;
         [SerializeField] private string cardName;
-        [SerializeField] private List<EnergyQuantityData> costDataList;
         [SerializeField] private Sprite cardSprite;
         [SerializeField] private RarityType rarity;
         
         [Header("Action Settings")]
         [SerializeField] private bool usableWithoutTarget;
-        [SerializeField] private bool usableWithoutCost;
-        [SerializeField] private bool exhaustAfterPlay;
         [SerializeField] private List<CardActionData> cardActionDataList;
 
         [Header("Energy Actions Settings")]
-        [SerializeField] private List<CardEnergyActionData> cardEnergyActionDataList;
+        [SerializeField] private List<EnergyCardActionData> cardEnergyActionDataList;
         
         [Header("Description")]
         [SerializeField] private List<CardDescriptionData> cardDescriptionDataList;
@@ -38,22 +37,18 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         #region public getters
         public string Id => id;
         public bool UsableWithoutTarget => usableWithoutTarget;
-        public bool UsableWithoutCost => usableWithoutCost;
-        public List<EnergyQuantityData> CostDataList => costDataList;
         public string CardName => cardName;
         public Sprite CardSprite => cardSprite;
         public List<CardActionData> CardActionDataList => cardActionDataList;
-        public List<CardEnergyActionData> CardEnergyActionDataList => cardEnergyActionDataList;
+        public List<EnergyCardActionData> CardEnergyActionDataList => cardEnergyActionDataList;
         public List<CardDescriptionData> CardDescriptionDataList => cardDescriptionDataList;
         public List<SpecialKeywords> KeywordsList => specialKeywordsList;
         public AudioActionType AudioType => audioType;
         public string MyDescription { get; set; }
         public RarityType Rarity => rarity;
-        public bool ExhaustAfterPlay => exhaustAfterPlay;
-
         #endregion
         
-        #region Methods
+        #region public methods
         public void UpdateDescription()
         {
             var str = new StringBuilder();
@@ -68,7 +63,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             MyDescription = str.ToString();
         }
 
-        public List<EnergyQuantityData> GatherEnergyCosts()
+        public List<EnergyQuantityData> GatherTotalEnergyCosts()
         {
             Dictionary<EnergyColor, int> totals = new();
 
@@ -80,13 +75,43 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
                 totals[cost.EnergyColor] = current + cost.Quantity;
             }
 
-            if (costDataList != null && !UsableWithoutCost)
-                foreach (EnergyQuantityData cost in CostDataList)
-                    AddCost(cost);
+            if (cardEnergyActionDataList != null)
+                foreach (EnergyCardActionData action in CardEnergyActionDataList)
+                    foreach (EnergyQuantityData cost in action.GetEnergyCosts())
+                        AddCost(cost);
+
+            List<EnergyQuantityData> results = new(totals.Count);
+
+            List<EnergyQuantityData> totalCost = GatherActivationCost();
+
+            foreach(var kvp in totals)
+                results.Add(new EnergyQuantityData(kvp.Key, kvp.Value));
+
+            totalCost.AddRange(results);
+
+            return totalCost;
+        }
+
+        public List<EnergyQuantityData> GatherActivationCost()
+        {
+            Dictionary<EnergyColor, int> totals = new();
+
+            void AddCost(EnergyQuantityData cost)
+            {
+                if (cost == null) return;
+        
+                totals.TryGetValue(cost.EnergyColor, out var current);
+                totals[cost.EnergyColor] = current + cost.Quantity;
+            }
+
+            if (CardActionDataList != null)
+                foreach (CardActionData action in CardActionDataList)
+                    foreach (EnergyQuantityData cost in action.GetActivationCost())
+                        AddCost(cost);
 
             if (cardEnergyActionDataList != null)
-                foreach (CardEnergyActionData action in CardEnergyActionDataList)
-                    foreach (EnergyQuantityData cost in action.GetEnergyCosts())
+                foreach (EnergyCardActionData action in CardEnergyActionDataList)
+                    foreach (EnergyQuantityData cost in action.GetActivationCost())
                         AddCost(cost);
 
             List<EnergyQuantityData> results = new(totals.Count);
@@ -98,19 +123,17 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         }
         #endregion
 
+
         #region Editor Methods
         #if UNITY_EDITOR
         public void EditCardName(string newName) => cardName = newName;
         public void EditId(string newId) => id = newId;
-        public void EditCostDataList(List<EnergyQuantityData> newCostDataList) => costDataList = newCostDataList;
         public void EditRarity(RarityType targetRarity) => rarity = targetRarity;
         public void EditCardSprite(Sprite newSprite) => cardSprite = newSprite;
         public void EditUsableWithoutTarget(bool newStatus) => usableWithoutTarget = newStatus;
-        public void EditUsableWithoutCost(bool newStatus) => usableWithoutCost = newStatus;
-        public void EditExhaustAfterPlay(bool newStatus) => exhaustAfterPlay = newStatus;
         public void EditCardActionDataList(List<CardActionData> newCardActionDataList) =>
             cardActionDataList = newCardActionDataList;
-        public void EditCardEnergyActionDataList(List<CardEnergyActionData> newCardEnergyActionDataList) =>
+        public void EditCardEnergyActionDataList(List<EnergyCardActionData> newCardEnergyActionDataList) =>
             cardEnergyActionDataList = newCardEnergyActionDataList;
         public void EditCardDescriptionDataList(List<CardDescriptionData> newCardDescriptionDataList) =>
             cardDescriptionDataList = newCardDescriptionDataList;
@@ -127,7 +150,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     public class EnergyQuantityData
     {
         [SerializeField] private EnergyColor energyColor;
-        [SerializeField] private int quantity;
+        [Range(1, 10)] [SerializeField] private int quantity;
     
         public EnergyColor EnergyColor => energyColor;
         public int Quantity => quantity;
@@ -150,17 +173,32 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     }
 
     [Serializable]
-    public class CardActionData
+    public class CardActionData : IEnergyCost
     {
         [SerializeField] private CardActionType cardActionType;
         [SerializeField] private ActionTargetType actionTargetType;
         [SerializeField] private float actionValue;
+        [SerializeField] private List<EnergyQuantityData> costDataList;
+        [SerializeField] private bool usableWithoutCost;
+        [SerializeField] private bool optional;
         [Range(0.1f, 10)][SerializeField] private float actionDelay;
-
-        public ActionTargetType ActionTargetType => actionTargetType;
+        
         public CardActionType CardActionType => cardActionType;
+        public ActionTargetType ActionTargetType => actionTargetType;
         public float ActionValue => actionValue;
+        public List<EnergyQuantityData> CostDataList => costDataList;
+        public bool UsableWithoutCost => usableWithoutCost;
+        public bool Optional => optional;
         public float ActionDelay => actionDelay;
+
+        #region public methods
+        public IEnumerable<EnergyQuantityData> GetActivationCost()
+        {
+            if (costDataList != null && !UsableWithoutCost)
+                foreach (EnergyQuantityData cost in CostDataList)
+                    yield return cost;
+        }
+        #endregion
 
         #region Editor
 
@@ -168,37 +206,50 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public void EditActionType(CardActionType newType) =>  cardActionType = newType;
         public void EditActionTarget(ActionTargetType newTargetType) => actionTargetType = newTargetType;
         public void EditActionValue(float newValue) => actionValue = newValue;
+        public void EditCostDataList(List<EnergyQuantityData> newCostDataList) => costDataList = newCostDataList;
+        public void EditUsableWithoutCost(bool newUsableWithoutCost) => usableWithoutCost = newUsableWithoutCost;
+        public void EditOptional(bool newOptional) => optional = newOptional;
         public void EditActionDelay(float newValue) => actionDelay = newValue;
-    
         #endif
         #endregion
     }
 
     [Serializable]
-    public class CardEnergyActionData
+    public class EnergyCardActionData: IEnergyCost
     {
-        [SerializeField] private CardActionType cardActionType;
+        [SerializeField] private EnergyCardActionType cardActionType;
         [SerializeField] private List<EnergyQuantityData> energyToCreate;
         [SerializeField] private List<EnergyConversion> energyToConvert;
         [SerializeField] private List<EnergyStrengthModification> energyToModifyStrength;
-        [Range(0.1f, 10)][SerializeField] private float actionDelay;
+        [SerializeField] private RemainingTurnsModification turnsModification;
+        [SerializeField] private BlockEnergyGeneration blockEnergyGeneration;
+        [SerializeField] private ModifyEnergyGenerationPool modifyEnergyGenerationPool;
+        [SerializeField] private BlockEnergyUsage blockEnergyUsage;
+        [SerializeField] private List<EnergyQuantityData> costDataList;
+        [SerializeField] private bool usableWithoutCost;
+        [SerializeField] private bool optional;
+        [Range(0.1f, 10f)][SerializeField] private float actionDelay;
 
-        public CardActionType CardActionType => cardActionType;
+        public EnergyCardActionType CardActionType => cardActionType;
         public List<EnergyQuantityData> EnergyToCreate => energyToCreate;
         public List<EnergyConversion> EnergyToConvert => energyToConvert;
         public List<EnergyStrengthModification> EnergyToModifyStrength => energyToModifyStrength;
+        public RemainingTurnsModification TurnsModification => turnsModification;
+        public BlockEnergyGeneration BlockEnergyGeneration => blockEnergyGeneration;
+        public ModifyEnergyGenerationPool ModifyEnergyGenerationPool => modifyEnergyGenerationPool;
+        public BlockEnergyUsage BlockEnergyUsage => blockEnergyUsage;
+        public List<EnergyQuantityData> CostDataList => costDataList;
+        public bool UsableWithoutCost => usableWithoutCost;
+        public bool Optional => optional;
         public float ActionDelay => actionDelay;
 
-        #region Editor
-        #if UNITY_EDITOR
-        public void EditActionType(CardActionType newCardActionType) => cardActionType = newCardActionType;
-        public void EditEnergyToCreate(List<EnergyQuantityData> newEnergyToCreate) => energyToCreate = newEnergyToCreate;
-        public void EditEnergyToConvert(List<EnergyConversion>  newEnergyToConvert) => energyToConvert = newEnergyToConvert;
-        public void EditEnergyToModifyStrength(List<EnergyStrengthModification> newEnergyToModifyStrength) => energyToModifyStrength = newEnergyToModifyStrength;
-        public void EditActionDelay(float newValue) => actionDelay = newValue;
-        #endif
-        #endregion
-
+        #region public methods
+        public IEnumerable<EnergyQuantityData> GetActivationCost()
+        {
+            if (costDataList != null && !UsableWithoutCost)
+                foreach (EnergyQuantityData cost in CostDataList)
+                    yield return cost;
+        }
         public IEnumerable<EnergyQuantityData> GetEnergyCosts()
         {
             if (energyToConvert != null)
@@ -209,6 +260,24 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
                 foreach (EnergyStrengthModification modification in energyToModifyStrength)
                     yield return modification.From;
         }
+        #endregion
+
+        #region Editor
+        #if UNITY_EDITOR
+        public void EditActionType(EnergyCardActionType newCardActionType) => cardActionType = newCardActionType;
+        public void EditEnergyToCreate(List<EnergyQuantityData> newEnergyToCreate) => energyToCreate = newEnergyToCreate;
+        public void EditEnergyToConvert(List<EnergyConversion>  newEnergyToConvert) => energyToConvert = newEnergyToConvert;
+        public void EditEnergyToModifyStrength(List<EnergyStrengthModification> newEnergyToModifyStrength) => energyToModifyStrength = newEnergyToModifyStrength;
+        public void EditCostDataList(List<EnergyQuantityData> newCostDataList) => costDataList = newCostDataList;
+        public void EditTurnsModification(RemainingTurnsModification newTurnsModification) => turnsModification = newTurnsModification;
+        public void EditBlockEnergyGeneration(BlockEnergyGeneration newBlockEnergyGeneration) => blockEnergyGeneration = newBlockEnergyGeneration;
+        public void EditModifyEnergyGenerationPool(ModifyEnergyGenerationPool newModifyEnergyGenerationPool) => modifyEnergyGenerationPool = newModifyEnergyGenerationPool;
+        public void EditBlockEnergyUsage(BlockEnergyUsage newBlockEnergyUsage) => blockEnergyUsage = newBlockEnergyUsage;
+        public void EditUsableWithoutCost(bool newStatus) => usableWithoutCost = newStatus;
+        public void EditOptional(bool newOptional) => optional = newOptional;
+        public void EditActionDelay(float newValue) => actionDelay = newValue;
+        #endif
+        #endregion
     }
 
     [Serializable]
@@ -233,15 +302,82 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     public class EnergyStrengthModification
     {
         [SerializeField] private EnergyQuantityData from;
-        [SerializeField] private EnergyStrength to;
+        [SerializeField] private EnergyModificationType modificationType;
 
         public EnergyQuantityData From => from;
-        public EnergyStrength To => to;
+        public EnergyModificationType ModificationType => modificationType;
 
         #region Editor
         #if UNITY_EDITOR
         public void EditFrom(EnergyQuantityData newFrom) => from = newFrom;
-        public void EditTo(EnergyStrength newTo) => to = newTo;
+        public void EditTo(EnergyModificationType newModificationType) => modificationType = newModificationType;
+        #endif
+        #endregion
+    }
+
+    [Serializable]
+    public class RemainingTurnsModification
+    {
+        [SerializeField] private RemainingTurnsModificationType type;
+        [Range(1,10)] [SerializeField] private int value;
+
+        public RemainingTurnsModificationType Type => type;
+        public int Value => value;
+
+        #region Editor
+        #if UNITY_EDITOR
+        public void EditType(RemainingTurnsModificationType newType) => type = newType;
+        public void EditValue(int newValue) => value = newValue;
+        #endif
+        #endregion
+    }
+    [Serializable]
+    public class BlockEnergyGeneration
+    {
+        [Range(1,10)] [SerializeField] private int turns;
+        public int Turns => turns;
+
+        #region Editor
+        #if UNITY_EDITOR
+        public void EditTurns(int newTurns) => turns = newTurns;
+        #endif
+        #endregion
+    }
+    [Serializable]
+    public class ModifyEnergyGenerationPool
+    {
+        [Range(1,10)] [SerializeField] private int turns;
+        [Range(1,10)] [SerializeField] private int maxEnergiesSpawn;
+        [Range(1,10)] [SerializeField] private int minEnergiesSpawn;
+        [SerializeField] private List<EnergyData> availableEnergies;
+        
+        public int Turns => turns;
+        public int MaxEnergiesSpawn => maxEnergiesSpawn;
+        public int MinEnergiesSpawn => minEnergiesSpawn;
+        public List<EnergyData> AvailableEnergies => availableEnergies;
+
+        #region Editor
+        #if UNITY_EDITOR
+        public void EditTurns(int newTurns) => turns = newTurns;
+        public void EditMaxEnergiesSpawn(int newMaxEnergiesSpawn) => maxEnergiesSpawn = newMaxEnergiesSpawn;
+        public void EditMinEnergiesSpawn(int newMinEnergiesSpawn) => minEnergiesSpawn = newMinEnergiesSpawn;
+        public void EditAvailableEnergies(List<EnergyData> newAvailableEnergies) => availableEnergies = newAvailableEnergies;
+        #endif
+        #endregion
+    }
+    [Serializable]
+    public class BlockEnergyUsage
+    {
+        [Range(1,10)] [SerializeField] private int turns;
+        [SerializeField] private EnergyColor color;
+        
+        public int Turns => turns;
+        public EnergyColor Color => color;
+
+        #region Editor
+        #if UNITY_EDITOR
+        public void EditTurns(int newTurns) => turns = newTurns;
+        public void EditColor(EnergyColor newColor) => color = newColor;
         #endif
         #endregion
     }

@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using NueGames.NueDeck.Scripts.Enums;
-using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Energy
 {
@@ -9,24 +7,35 @@ namespace NueGames.NueDeck.Scripts.Energy
     {
         public EnergyColor EnergyColor { get; private set; }
         public EnergyStrength EnergyStrength { get; private set; }
+        public int BlockTurns { get; private set; }
         public Action OnInert;
+        public Action OnEnergyUnblock;
 
         #region setup
-        public EnergyStats(EnergyColor energyColor, EnergyStrength energyStrength)
+        public EnergyStats(EnergyColor energyColor, EnergyStrength energyStrength, int blockTurns)
         {
             EnergyColor = energyColor;
             EnergyStrength = energyStrength;
+            BlockTurns = blockTurns;
         }
         #endregion
 
         #region public methods
-        public void ModifyStrength(EnergyStrength newEnergyStrength)
+        public void ModifyStrength(EnergyModificationType modificationType)
         {
-            EnergyStrength = newEnergyStrength;
+            EnergyStrength = EnergyStrengthHelper.GetNewEnergyStrengthValue(EnergyStrength, modificationType);
             if(EnergyStrength == EnergyStrength.Inert)
                 OnInert?.Invoke();
         }
+        public void ModifyBlockTurns(int turns, BlockTurnsModificationType modificationType)
+        {
+            int modificationAmount = modificationType == BlockTurnsModificationType.Increase ? turns : turns * -1;
+            BlockTurns += modificationAmount;
+        }
+        public void ReduceBlockTurns()
+        {
+            if(BlockTurns-- <= 0) OnEnergyUnblock?.Invoke();
+        }
         #endregion
-
-    }       
+    }
 }

@@ -4,7 +4,7 @@ using NueGames.NueDeck.Scripts.Characters;
 using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Data.Containers;
 using NueGames.NueDeck.Scripts.Enums;
-using Unity.PlasticSCM.Editor.WebApi;
+using NueGames.NueDeck.Scripts.Managers;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Settings
@@ -20,6 +20,8 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
         [SerializeField] private FloorId currentFloor;
         [SerializeField] private EnemyEncounter currentEncounter;
         [SerializeField] private int remainingActiveTurns;
+        [SerializeField] private EnergyGenerationParameters energyModificationRules;
+        [SerializeField] private EnergyBlockParameters energyBlockRules;
         [SerializeField] private List<CardData> currentCardsList;
         [SerializeField] private List<AllyHealthData> allyHealthDataDataList;
         [SerializeField] private bool isBossEncounter;
@@ -58,6 +60,8 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
             AllyList = new List<AllyBase>(_gameplayData.InitialAllyList);
             currentEncounter = new EnemyEncounter();
             remainingActiveTurns = 1;
+            energyModificationRules = null;
+            energyBlockRules = null;
             currentFloor = FloorId.firstFloor;
             CurrentCardsList = new List<CardData>();
             allyHealthDataDataList = new List<AllyHealthData>();
@@ -71,6 +75,8 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
         public List<AllyBase> AllyList{get => allyList; set => allyList = value;}
         public EnemyEncounter CurrentEncounter{get => currentEncounter; set => currentEncounter = value;}
         public int RemainingActiveTurns{get => remainingActiveTurns; set => remainingActiveTurns = value;}
+        public EnergyGenerationParameters EnergyModificationRules{get => energyModificationRules; set => energyModificationRules = value;}
+        public EnergyBlockParameters EnergyBlockRules{get => energyBlockRules; set => energyBlockRules = value;}
         public FloorId CurrentFloor{get => currentFloor; set => currentFloor = value;}
         public List<CardData> CurrentCardsList{get => currentCardsList; set => currentCardsList = value;}
         public List<AllyHealthData> AllyHealthDataList{get => allyHealthDataDataList; set => allyHealthDataDataList = value;}

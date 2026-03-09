@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Card.CardActions.Enemies
 {
-    public class AttackAction: CardActionBase<CardActionParameters>
+    public class AttackAction: CardActionBase
     {
         public override CardActionType ActionType => CardActionType.Attack;
         public override void DoAction(CardActionParameters actionParameters)
@@ -20,7 +20,7 @@ namespace NueGames.NueDeck.Scripts.Card.CardActions.Enemies
 
             if (FxManager != null)
             {
-                FxManager.PlayFx(actionParameters.TargetCharacter.transform,FxType.Attack);
+                FxManager.PlayFx(actionParameters.TargetCharacter.transform, FxType.Attack);
                 FxManager.SpawnFloatingText(actionParameters.TargetCharacter.TextSpawnRoot,value.ToString());
             }
            
