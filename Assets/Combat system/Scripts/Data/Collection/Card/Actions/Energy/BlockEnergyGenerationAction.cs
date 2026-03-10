@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NueGames.NueDeck.Scripts.Managers;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Collection
@@ -6,22 +7,16 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     [CreateAssetMenu(fileName = "New block energy generation action", menuName = "NueDeck/Collection/Actions/Energy/Block energy generation",order = 0)]
     public class BlockEnergyGenerationAction : CardActionData
     {
-        public override bool CheckCost(CardExecutionContext context)
-        {
-            throw new System.NotImplementedException();
-        }
-        public override void PayCost(CardExecutionContext context)
-        {
-            throw new System.NotImplementedException();
-        }
+        [Range(1,10)] [SerializeField] private int turns;
+        public int Turns => turns;
 
         public override void Execute(CardExecutionContext context)
         {
-            throw new System.NotImplementedException();
-        }
-        public override IEnumerable<EnergyQuantityData> GetTotalCost()
-        {
-            throw new System.NotImplementedException();
+            context.managersContainer.GameManager.PersistentGameplayData.EnergyBlockRules = new EnergyBlockParameters(turns);
+
+            // Add FX effects
+
+            // Add audio effects
         }
     }
 }

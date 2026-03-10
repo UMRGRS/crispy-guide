@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Collection
@@ -6,22 +7,23 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     [CreateAssetMenu(fileName = "New convert energy action", menuName = "NueDeck/Collection/Actions/Energy/Convert energy",order = 0)]
     public class ConvertEnergyAction : CardActionData
     {
-        public override bool CheckCost(CardExecutionContext context)
-        {
-            throw new System.NotImplementedException();
-        }
-        public override void PayCost(CardExecutionContext context)
-        {
-            throw new System.NotImplementedException();
-        }
+        [SerializeField] private EnergyQuantityData from;
+        [SerializeField] private EnergyQuantityData to;
+
+        public EnergyQuantityData From => from;
+        public EnergyQuantityData To => to;
 
         public override void Execute(CardExecutionContext context)
         {
-            throw new System.NotImplementedException();
+            context.managersContainer.EnergyPoolManager.ConvertEnergy(from, to);
+
+            // Add FX effects
+
+            // Add audio effects
         }
-        public override IEnumerable<EnergyQuantityData> GetTotalCost()
+        public override List<EnergyQuantityData> GetTotalCost()
         {
-            throw new System.NotImplementedException();
+            return new List<EnergyQuantityData> {from, to}.Concat(GetActivationCost()).ToList();
         }
     }
 }

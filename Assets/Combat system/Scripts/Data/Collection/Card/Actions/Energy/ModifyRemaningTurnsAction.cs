@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using NueGames.NueDeck.Scripts.Enums;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Collection
@@ -6,22 +6,17 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     [CreateAssetMenu(fileName = "New modify remaining turns action", menuName = "NueDeck/Collection/Actions/Energy/Modify remaining turns",order = 0)]
     public class ModifyRemainingTurnsAction : CardActionData
     {
-        public override bool CheckCost(CardExecutionContext context)
-        {
-            throw new System.NotImplementedException();
-        }
-        public override void PayCost(CardExecutionContext context)
-        {
-            throw new System.NotImplementedException();
-        }
+        [SerializeField] private RemainingTurnsModificationType type;
+        [Range(1,10)] [SerializeField] private int value;
 
+        public RemainingTurnsModificationType Type => type;
+        public int Value => value;
         public override void Execute(CardExecutionContext context)
         {
-            throw new System.NotImplementedException();
-        }
-        public override IEnumerable<EnergyQuantityData> GetTotalCost()
-        {
-            throw new System.NotImplementedException();
+            context.managersContainer.GameManager.ModifyRemainingTurns(value, type);
+            // Add FX effects
+
+            // Add audio effects
         }
     }
 }

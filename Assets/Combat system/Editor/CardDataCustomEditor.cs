@@ -28,15 +28,13 @@ namespace NueGames.NueDeck.Editor
     public class CardDataCustomEditor : UnityEditor.Editor
     {
 #if UNITY_EDITOR
-        
-
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            if (GUILayout.Button("Open in editor"))
+            /*if (GUILayout.Button("Open in editor"))
             {
                 //CardEditorWindow.OpenCardEditor((CardData)target);
-            }
+            }*/
         }
 #endif
     }
