@@ -83,9 +83,9 @@ namespace NueGames.NueDeck.Scripts.Card
 
         private IEnumerator CardUseRoutine(CharacterBase self,CharacterBase targetCharacter, List<EnemyBase> allEnemies, List<AllyBase> allAllies)
         {
-            SpendEnergy(CardData.GatherActivationCost());
+            //SpendEnergy(CardData.GatherActivationCost());
 
-            foreach (CardActionData playerAction in CardData.CardActionDataList)
+            /*foreach (CardActionData playerAction in CardData.CardActionDataList)
             {
                 yield return new WaitForSeconds(playerAction.ActionDelay);
                 List<CharacterBase> targetList = DetermineTargets(targetCharacter, allEnemies, allAllies, playerAction);
@@ -108,15 +108,18 @@ namespace NueGames.NueDeck.Scripts.Card
                         energyAction.ModifyEnergyGenerationPool,
                         energyAction.BlockEnergyUsage
                         ));
-            }
+            }*/
+
+            
             CollectionManager.OnCardPlayed(this);
+            yield break;
         }
 
         private static List<CharacterBase> DetermineTargets(CharacterBase targetCharacter, List<EnemyBase> allEnemies, List<AllyBase> allAllies,
             CardActionData playerAction)
         {
             List<CharacterBase> targetList = new();
-            switch (playerAction.ActionTargetType)
+            /*switch (playerAction.ActionTargetType)
             {
                 case ActionTargetType.Enemy:
                     targetList.Add(targetCharacter);
@@ -144,6 +147,7 @@ namespace NueGames.NueDeck.Scripts.Card
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            */
 
             return targetList;
         }
@@ -172,7 +176,7 @@ namespace NueGames.NueDeck.Scripts.Card
         
         public virtual void UpdateCardText()
         {
-            CardData.UpdateDescription();
+            //CardData.UpdateDescription();
             nameTextField.text = CardData.CardName;
             descTextField.text = CardData.MyDescription;
             // ---------------

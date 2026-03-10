@@ -281,7 +281,7 @@ namespace NueGames.NueDeck.Scripts.Collection
                     Quaternion.LookRotation(cardForward, cardUp), 80f * Time.deltaTime);
                 cardTransform.position = cardPos;
 
-                CombatManager.HighlightCardTarget(_heldCard.CardData.CardActionDataList[0].ActionTargetType);
+                //CombatManager.HighlightCardTarget(_heldCard.CardData.CardActionDataList[0].ActionTargetType);
 
                 //if (!canSelectCards || cardTransform.position.y <= transform.position.y + 0.5f) {
                 if (!GameManager.PersistentGameplayData.CanSelectCards || _mouseInsideHand)
@@ -341,8 +341,9 @@ namespace NueGames.NueDeck.Scripts.Collection
 
         private bool IsCardCostMeet(CardBase card)
         {
-            List<EnergyQuantityData> costs = card.CardData.GatherTotalEnergyCosts(); 
-            return EnergyPoolManager.TryToFindEnergyOnPool(costs, out _);
+            //List<EnergyQuantityData> costs = card.CardData.GatherTotalEnergyCosts(); 
+            //return EnergyPoolManager.TryToFindEnergyOnPool(costs, out _);
+            return true;
         }
 
         private bool CheckPlayOnCharacter(Ray mainRay, bool _canUse, ref CharacterBase selfCharacter,
@@ -355,17 +356,19 @@ namespace NueGames.NueDeck.Scripts.Collection
 
                 if (character != null)
                 {
+                    /*
                     bool checkEnemy = (_heldCard.CardData.CardActionDataList[0].ActionTargetType == ActionTargetType.Enemy &&
                                       character.GetCharacterType() == CharacterType.Enemy);
                     bool checkAlly = (_heldCard.CardData.CardActionDataList[0].ActionTargetType == ActionTargetType.Ally &&
                                      character.GetCharacterType() == CharacterType.Ally);
-
+                    
                     if (checkEnemy || checkAlly)
                     {
                         _canUse = true;
                         selfCharacter = CombatManager.CurrentMainAlly;
                         targetCharacter = character.GetCharacterBase();
                     }
+                    */
                 }
             }
 

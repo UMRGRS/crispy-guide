@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using NueGames.NueDeck.Scripts.Data.Energy;
 using NueGames.NueDeck.Scripts.Enums;
-using NueGames.NueDeck.Scripts.Interfaces;
 using NueGames.NueDeck.Scripts.Managers;
 using NueGames.NueDeck.Scripts.NueExtentions;
 using UnityEngine;
@@ -23,9 +21,6 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [Header("Action Settings")]
         [SerializeField] private bool usableWithoutTarget;
         [SerializeField] private List<CardActionData> cardActionDataList;
-
-        [Header("Energy Actions Settings")]
-        [SerializeField] private List<EnergyCardActionData> cardEnergyActionDataList;
         
         [Header("Description")]
         [SerializeField] private List<CardDescriptionData> cardDescriptionDataList;
@@ -40,7 +35,6 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public string CardName => cardName;
         public Sprite CardSprite => cardSprite;
         public List<CardActionData> CardActionDataList => cardActionDataList;
-        public List<EnergyCardActionData> CardEnergyActionDataList => cardEnergyActionDataList;
         public List<CardDescriptionData> CardDescriptionDataList => cardDescriptionDataList;
         public List<SpecialKeywords> KeywordsList => specialKeywordsList;
         public AudioActionType AudioType => audioType;
@@ -49,6 +43,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         #endregion
         
         #region public methods
+        /*
         public void UpdateDescription()
         {
             var str = new StringBuilder();
@@ -61,8 +56,9 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             }
             
             MyDescription = str.ToString();
-        }
-
+        }*/
+        
+        /*
         public List<EnergyQuantityData> GatherTotalEnergyCosts()
         {
             Dictionary<EnergyColor, int> totals = new();
@@ -121,6 +117,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
             return results;
         }
+        */
         #endregion
 
 
@@ -133,8 +130,6 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public void EditUsableWithoutTarget(bool newStatus) => usableWithoutTarget = newStatus;
         public void EditCardActionDataList(List<CardActionData> newCardActionDataList) =>
             cardActionDataList = newCardActionDataList;
-        public void EditCardEnergyActionDataList(List<EnergyCardActionData> newCardEnergyActionDataList) =>
-            cardEnergyActionDataList = newCardEnergyActionDataList;
         public void EditCardDescriptionDataList(List<CardDescriptionData> newCardDescriptionDataList) =>
             cardDescriptionDataList = newCardDescriptionDataList;
         public void EditSpecialKeywordsList(List<SpecialKeywords> newSpecialKeywordsList) =>
@@ -146,41 +141,15 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
     }
 
-    [Serializable]
-    public class EnergyQuantityData
+    /*[Serializable]
+    public class CardActionData 
     {
-        [SerializeField] private EnergyColor energyColor;
-        [Range(1, 10)] [SerializeField] private int quantity;
-    
-        public EnergyColor EnergyColor => energyColor;
-        public int Quantity => quantity;
-        
-        public EnergyQuantityData(){}     
-        public EnergyQuantityData(EnergyColor newColor, int newQuantity)
-        {
-            energyColor = newColor;
-            quantity = newQuantity;
-        }
-           
-        #region Editor
-
-        #if UNITY_EDITOR
-                public void EditCostType(EnergyColor newColor) =>  energyColor = newColor;
-                public void EditQuantityCost(int newQuantity) => quantity = newQuantity;
-
-        #endif
-        #endregion
-    }
-
-    [Serializable]
-    public class CardActionData : IEnergyCost
-    {
-        [SerializeField] private CardActionType cardActionType;
-        [SerializeField] private ActionTargetType actionTargetType;
-        [SerializeField] private float actionValue;
-        [SerializeField] private List<EnergyQuantityData> costDataList;
-        [SerializeField] private bool usableWithoutCost;
-        [SerializeField] private bool optional;
+        [SerializeField] private CardActionType cardActionType; //
+        [SerializeField] private ActionTargetType actionTargetType; //
+        [SerializeField] private float actionValue; // 
+        [SerializeField] private List<EnergyQuantityData> costDataList; //
+        [SerializeField] private bool usableWithoutCost; //
+        [SerializeField] private bool optional; //
         [Range(0.1f, 10)][SerializeField] private float actionDelay;
         
         public CardActionType CardActionType => cardActionType;
@@ -215,20 +184,20 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     }
 
     [Serializable]
-    public class EnergyCardActionData: IEnergyCost
+    public class EnergyCardActionData
     {
-        [SerializeField] private EnergyCardActionType cardActionType;
-        [SerializeField] private List<EnergyQuantityData> energyToCreate;
-        [SerializeField] private List<EnergyConversion> energyToConvert;
-        [SerializeField] private List<EnergyStrengthModification> energyToModifyStrength;
-        [SerializeField] private RemainingTurnsModification turnsModification;
-        [SerializeField] private BlockEnergyGeneration blockEnergyGeneration;
-        [SerializeField] private ModifyEnergyGenerationPool modifyEnergyGenerationPool;
-        [SerializeField] private BlockEnergyUsage blockEnergyUsage;
-        [SerializeField] private List<EnergyQuantityData> costDataList;
-        [SerializeField] private bool usableWithoutCost;
-        [SerializeField] private bool optional;
-        [Range(0.1f, 10f)][SerializeField] private float actionDelay;
+        [SerializeField] private EnergyCardActionType cardActionType; //
+        [SerializeField] private List<EnergyQuantityData> energyToCreate; //
+        [SerializeField] private List<EnergyConversion> energyToConvert; //
+        [SerializeField] private List<EnergyStrengthModification> energyToModifyStrength; //
+        [SerializeField] private RemainingTurnsModification turnsModification; //
+        [SerializeField] private BlockEnergyGeneration blockEnergyGeneration; //
+        [SerializeField] private ModifyEnergyGenerationPool modifyEnergyGenerationPool; //
+        [SerializeField] private BlockEnergyUsage blockEnergyUsage; //
+        [SerializeField] private List<EnergyQuantityData> costDataList; //
+        [SerializeField] private bool usableWithoutCost; //
+        [SerializeField] private bool optional; 
+        [Range(0.1f, 10f)][SerializeField] private float actionDelay; 
 
         public EnergyCardActionType CardActionType => cardActionType;
         public List<EnergyQuantityData> EnergyToCreate => energyToCreate;
@@ -279,6 +248,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         #endif
         #endregion
     }
+    */
 
     [Serializable]
     public class EnergyConversion
@@ -420,7 +390,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             
             return str.ToString();
         }
-
+        /*
         public string GetModifiedValue(CardData cardData)
         {
             if (cardData.CardActionDataList.Count <= 0) return "";
@@ -469,6 +439,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             
             return str.ToString();
         }
+        */
 
         #region Editor
         #if UNITY_EDITOR
@@ -481,7 +452,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             
             return str.ToString();
         }
-
+        /*
         public string GetModifiedValueEditor(CardData cardData)
         {
             if (cardData.CardActionDataList.Count <= 0) return "";
@@ -511,7 +482,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
           
             return str.ToString();
         }
-        
+        */
         public void EditDescriptionText(string newText) => descriptionText = newText;
         public void EditEnableOverrideColor(bool newStatus) => enableOverrideColor = newStatus;
         public void EditOverrideColor(Color newColor) => overrideColor = newColor;
