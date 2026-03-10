@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using NueGames.NueDeck.Scripts.Managers;
 using UnityEngine;
 
@@ -12,7 +11,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
         public override void Execute(CardExecutionContext context)
         {
-            context.managersContainer.GameManager.PersistentGameplayData.EnergyBlockRules = new EnergyBlockParameters(turns);
+            context.managersContainer.GameManager.PersistentGameplayData.EnergyBlockRules.Turns = turns;
 
             // Add FX effects
 

@@ -61,7 +61,7 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
             currentEncounter = new EnemyEncounter();
             remainingActiveTurns = 1;
             energyModificationRules = null;
-            energyBlockRules = null;
+            energyBlockRules = new EnergyBlockParameters();
             currentFloor = FloorId.firstFloor;
             CurrentCardsList = new List<CardData>();
             allyHealthDataDataList = new List<AllyHealthData>();
@@ -83,5 +83,11 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
         public bool IsBossEncounter { get => isBossEncounter; set => isBossEncounter = value; }
 
         #endregion
+    }
+
+    public class EnergyBlockParameters
+    {
+        private int turns = 0;
+        public int Turns { get => turns; set => turns = value; }
     }
 }

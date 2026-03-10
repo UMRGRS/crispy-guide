@@ -221,13 +221,12 @@ namespace NueGames.NueDeck.Scripts.Managers
             {
                 if (GameManager.PersistentGameplayData.RemainingActiveTurns <= 0)
                     return;
-        
-                EnergyBlockParameters energyBlockParameters =
-                    GameManager.PersistentGameplayData.EnergyBlockRules;
-        
-                if (energyBlockParameters is not null && energyBlockParameters.turns-- > 0)
+                
+                if (GameManager.PersistentGameplayData.EnergyBlockRules.Turns > 0)
+                {
+                    GameManager.PersistentGameplayData.EnergyBlockRules.Turns--;
                     return;
-        
+                }
                 EnergyPoolManager.CreateStartOfTurnEnergy();
             }
             finally
@@ -314,14 +313,5 @@ namespace NueGames.NueDeck.Scripts.Managers
             CurrentCombatStateType = CombatStateType.TurnEnd;
         }
         #endregion
-    }
-
-    public class EnergyBlockParameters
-    {
-        public int turns;
-        public EnergyBlockParameters(int newTurns)
-        {
-            turns = newTurns;   
-        }
     }
 }
