@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using NueGames.NueDeck.Scripts.Data.Energy;
-using NueGames.NueDeck.Scripts.Managers;
+using NueGames.NueDeck.Scripts.Data.Settings;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Collection
@@ -19,8 +19,8 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public List<EnergyData> AvailableEnergies => availableEnergies;
         public override void Execute(CardExecutionContext context)
         {
-            context.managersContainer.GameManager.PersistentGameplayData.EnergyModificationRules = 
-                new EnergyGenerationParameters(
+            context.managersContainer.GameManager.PersistentGameplayData.EnergyGenerationRules = 
+                new EnergyGenerationRules(
                     turns, 
                     maxEnergiesSpawn, 
                     minEnergiesSpawn, 

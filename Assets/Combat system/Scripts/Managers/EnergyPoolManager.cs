@@ -5,6 +5,7 @@ using System.Linq;
 using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Data.Containers;
 using NueGames.NueDeck.Scripts.Data.Energy;
+using NueGames.NueDeck.Scripts.Data.Settings;
 using NueGames.NueDeck.Scripts.Energy;
 using NueGames.NueDeck.Scripts.Enums;
 using UnityEngine;
@@ -63,16 +64,17 @@ namespace NueGames.NueDeck.Scripts.Managers
         public void CreateStartOfTurnEnergy()
         {
             EnemyEncounter currentEncounterData = GameManager.PersistentGameplayData.CurrentEncounter;
-            EnergyGenerationParameters modifiedEnergyGenerationParameters = GameManager.PersistentGameplayData.EnergyModificationRules;
+            EnergyGenerationRules modifiedEnergyGenerationParameters = GameManager.PersistentGameplayData.EnergyGenerationRules;
 
-            if(modifiedEnergyGenerationParameters is not null && modifiedEnergyGenerationParameters.turns-- > 0)
+            if(modifiedEnergyGenerationParameters.turns > 0)
             {
+                modifiedEnergyGenerationParameters.turns--;
                 CreateEnergy(DetermineEnergiesToCreate(modifiedEnergyGenerationParameters));
             }
             else
             {
                 CreateEnergy(DetermineEnergiesToCreate(
-                    new EnergyGenerationParameters(
+                    new EnergyGenerationRules(
                         0, 
                         currentEncounterData.MaxEnergySpawn, 
                         currentEncounterData.MaxEnergySpawn, 
@@ -159,7 +161,7 @@ namespace NueGames.NueDeck.Scripts.Managers
         #endregion
 
         #region Private methods
-        private List<EnergyQuantityData> DetermineEnergiesToCreate(EnergyGenerationParameters energyGenerationRules)
+        private List<EnergyQuantityData> DetermineEnergiesToCreate(EnergyGenerationRules energyGenerationRules)
         {
             Dictionary<EnergyColor, int> totals = new();
 
@@ -207,19 +209,5 @@ namespace NueGames.NueDeck.Scripts.Managers
             }
         }
         #endregion
-    }
-    public class EnergyGenerationParameters
-    {
-        public int turns;
-        public readonly int maxEnergiesSpawn;
-        public readonly int minEnergiesSpawn;
-        public readonly List<EnergyData> availableEnergies;
-        public EnergyGenerationParameters(int newTurns, int newMaxEnergiesSpawn, int newMinEnergiesSpawn, List<EnergyData> newAvailableEnergies)
-        {
-            turns = newTurns;
-            maxEnergiesSpawn = newMaxEnergiesSpawn;
-            minEnergiesSpawn = newMinEnergiesSpawn;
-            availableEnergies = newAvailableEnergies;
-        }
     }
 }

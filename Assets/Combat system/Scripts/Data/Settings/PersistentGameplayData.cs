@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using NueGames.NueDeck.Scripts.Characters;
 using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Data.Containers;
+using NueGames.NueDeck.Scripts.Data.Energy;
 using NueGames.NueDeck.Scripts.Enums;
-using NueGames.NueDeck.Scripts.Managers;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Settings
@@ -20,7 +20,7 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
         [SerializeField] private FloorId currentFloor;
         [SerializeField] private EnemyEncounter currentEncounter;
         [SerializeField] private int remainingActiveTurns;
-        [SerializeField] private EnergyGenerationParameters energyModificationRules;
+        [SerializeField] private EnergyGenerationRules energyGenerationRules;
         [SerializeField] private EnergyBlockParameters energyBlockRules;
         [SerializeField] private List<CardData> currentCardsList;
         [SerializeField] private List<AllyHealthData> allyHealthDataDataList;
@@ -60,7 +60,7 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
             AllyList = new List<AllyBase>(_gameplayData.InitialAllyList);
             currentEncounter = new EnemyEncounter();
             remainingActiveTurns = 1;
-            energyModificationRules = null;
+            energyGenerationRules = new EnergyGenerationRules();
             energyBlockRules = new EnergyBlockParameters();
             currentFloor = FloorId.firstFloor;
             CurrentCardsList = new List<CardData>();
@@ -75,7 +75,7 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
         public List<AllyBase> AllyList{get => allyList; set => allyList = value;}
         public EnemyEncounter CurrentEncounter{get => currentEncounter; set => currentEncounter = value;}
         public int RemainingActiveTurns{get => remainingActiveTurns; set => remainingActiveTurns = value;}
-        public EnergyGenerationParameters EnergyModificationRules{get => energyModificationRules; set => energyModificationRules = value;}
+        public EnergyGenerationRules EnergyGenerationRules{get => energyGenerationRules; set => energyGenerationRules = value;}
         public EnergyBlockParameters EnergyBlockRules{get => energyBlockRules; set => energyBlockRules = value;}
         public FloorId CurrentFloor{get => currentFloor; set => currentFloor = value;}
         public List<CardData> CurrentCardsList{get => currentCardsList; set => currentCardsList = value;}
@@ -84,10 +84,24 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
 
         #endregion
     }
-
     public class EnergyBlockParameters
     {
         private int turns = 0;
         public int Turns { get => turns; set => turns = value; }
+    }
+    public class EnergyGenerationRules
+    {
+        public int turns = 0;
+        public readonly int maxEnergiesSpawn;
+        public readonly int minEnergiesSpawn;
+        public readonly List<EnergyData> availableEnergies;
+        public EnergyGenerationRules(){}
+        public EnergyGenerationRules(int newTurns, int newMaxEnergiesSpawn, int newMinEnergiesSpawn, List<EnergyData> newAvailableEnergies)
+        {
+            turns = newTurns;
+            maxEnergiesSpawn = newMaxEnergiesSpawn;
+            minEnergiesSpawn = newMinEnergiesSpawn;
+            availableEnergies = newAvailableEnergies;
+        }
     }
 }
