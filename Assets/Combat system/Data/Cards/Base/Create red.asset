@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aed015f3bab1de48b0ada96bed40b20, type: 3}
   m_Name: Create red
   m_EditorClassIdentifier: 
-  actionDelay: 0
+  actionDelay: 0.1
   costDataList: []
-  usableWithoutCost: 0
+  usableWithoutCost: 1
   optional: 0
-  actionTargetType: 0
   audioType: 0
-  energyToCreate: []
+  energyToCreate:
+  - {fileID: 11400000, guid: 43cee11d87cc631bb90a4190ab383843, type: 2}

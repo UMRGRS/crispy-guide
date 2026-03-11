@@ -14,7 +14,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         {
             if(!context.target || !context.source) return;
 
-            int totalDamage = attackValue + context.source.CharacterStats.StatusDict[StatusType.PermanentDamageBoost].StatusValue;
+            int totalDamage = attackValue + context.source.CharacterStats.StatusDict[StatusType.PlainPermanentDamageBoost].StatusValue;
             context.target.CharacterStats.Damage(Mathf.RoundToInt(totalDamage));
             
             if (context.managersContainer.FxManager != null) 

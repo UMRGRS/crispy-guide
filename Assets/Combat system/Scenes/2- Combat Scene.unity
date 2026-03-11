@@ -989,14 +989,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6095984712851946870, guid: 9ec35685d90836dd59db785367fe26bd, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8245162664927284747, guid: 9ec35685d90836dd59db785367fe26bd, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1
-      objectReference: {fileID: 0}
     - target: {fileID: 9005044526154493568, guid: 9ec35685d90836dd59db785367fe26bd, type: 3}
       propertyPath: m_Name
       value: EnergyPoolManager
