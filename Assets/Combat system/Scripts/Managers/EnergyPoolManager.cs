@@ -134,7 +134,6 @@ namespace NueGames.NueDeck.Scripts.Managers
         }
         public bool CanPayCosts(CardData card)
         {
-            
             Dictionary<EnergyColor, int> simulatedPool = new();
 
             foreach (EnergyColor color in Enum.GetValues(typeof(EnergyColor)))

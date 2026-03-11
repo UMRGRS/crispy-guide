@@ -24,7 +24,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         }
         public override List<EnergyQuantityData> GetTotalCost()
         {
-            return new List<EnergyQuantityData> {from, to}.Concat(GetActivationCost()).ToList();
+            return new List<EnergyQuantityData> { from }.Concat(GetActivationCost()).ToList();
         }
     }
 }

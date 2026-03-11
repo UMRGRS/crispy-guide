@@ -14,4 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deckId: energy_deplete
   deckName: Energy deplete
-  cardList: []
+  cardList:
+  - {fileID: 11400000, guid: af7d088bb55e401c091169b855a88e30, type: 2}
+  - {fileID: 11400000, guid: f8eddcf0a4e56c9b6ad39bff3a8790e4, type: 2}
+  - {fileID: 11400000, guid: 6f542429a099992dc8e918b4a56613fd, type: 2}
+  - {fileID: 11400000, guid: 09b95b3a1ec5fa73d8d3d6713841bcd3, type: 2}
+  - {fileID: 11400000, guid: e38701ed8f3b64995bee88b04f2924d6, type: 2}
+  - {fileID: 11400000, guid: 1a5239b8fee8d965ab3bc534ab80bd17, type: 2}
+  - {fileID: 11400000, guid: 4621e4b284e5adc4c90e2ea4b635a61f, type: 2}
+  - {fileID: 11400000, guid: dd8c69050bca09a82844180f3992060e, type: 2}
