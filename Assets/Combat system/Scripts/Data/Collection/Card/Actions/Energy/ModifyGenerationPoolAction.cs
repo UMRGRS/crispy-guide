@@ -8,6 +8,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     [CreateAssetMenu(fileName = "New modify generation pool action", menuName = "NueDeck/Collection/Actions/Energy/Modify generation pool",order = 0)]
     public class ModifyGenerationPoolAction : CardActionData
     {
+        [Header("Modify generation pool settings")]
         [Range(1,10)] [SerializeField] private int turns;
         [Range(1,10)] [SerializeField] private int maxEnergiesSpawn;
         [Range(1,10)] [SerializeField] private int minEnergiesSpawn;

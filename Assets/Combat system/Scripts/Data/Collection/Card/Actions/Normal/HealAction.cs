@@ -7,6 +7,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     [CreateAssetMenu(fileName = "New heal action", menuName = "NueDeck/Collection/Actions/Normal/Heal",order = 0)]
     public class HealAction : CardActionData
     {
+        [Header("Heal settings")]
         [SerializeField] private int healValue;
 
         public int HealValue => healValue;

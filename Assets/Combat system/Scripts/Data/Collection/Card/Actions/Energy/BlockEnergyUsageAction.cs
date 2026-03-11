@@ -6,6 +6,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     [CreateAssetMenu(fileName = "New block energy usage action", menuName = "NueDeck/Collection/Actions/Energy/Block energy usage",order = 0)]
     public class BlockEnergyUsageAction : CardActionData
     {
+        [Header("Block energy usage settings")]
         [Range(1,10)] [SerializeField] private int turns;
         [SerializeField] private EnergyColor color;
 

@@ -6,6 +6,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     [CreateAssetMenu(fileName = "New attack action", menuName = "NueDeck/Collection/Actions/Normal/Attack",order = 0)]
     public class AttackAction : CardActionData
     {
+        [Header("Attack settings")]
         [SerializeField] private int attackValue;
 
         public int AttackValue => attackValue;

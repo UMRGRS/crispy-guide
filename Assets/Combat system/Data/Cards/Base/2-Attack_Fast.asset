@@ -17,33 +17,9 @@ MonoBehaviour:
   cardSprite: {fileID: 21300000, guid: 1113310f8619a8747b68ee8b7fc7d63d, type: 3}
   rarity: 0
   usableWithoutTarget: 0
+  actionTargetType: 1
   cardActionDataList:
-  - cardActionType: 0
-    actionTargetType: 0
-    actionValue: 4
-    costDataList: []
-    usableWithoutCost: 0
-    optional: 0
-    actionDelay: 0.1
-  cardEnergyActionDataList:
-  - cardActionType: 5
-    energyToCreate: []
-    energyToConvert: []
-    energyToModifyStrength: []
-    turnsModification:
-      type: 0
-      value: 0
-    blockEnergyGeneration:
-      turns: 0
-    modifyEnergyGenerationPool:
-      turns: 3
-      maxEnergiesSpawn: 8
-      minEnergiesSpawn: 8
-      availableEnergies: []
-    costDataList: []
-    usableWithoutCost: 0
-    optional: 0
-    actionDelay: 0.1
+  - {fileID: 11400000, guid: c3af39809f5b83ae4a4b60bda3b34983, type: 2}
   cardDescriptionDataList:
   - descriptionText: 'Deal '
     enableOverrideColor: 0
@@ -73,4 +49,3 @@ MonoBehaviour:
     modifiedValuePrefix: '*'
     overrideColorOnValueScaled: 0
   specialKeywordsList: 
-  audioType: 0

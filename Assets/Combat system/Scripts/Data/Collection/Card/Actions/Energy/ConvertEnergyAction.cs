@@ -7,6 +7,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     [CreateAssetMenu(fileName = "New convert energy action", menuName = "NueDeck/Collection/Actions/Energy/Convert energy",order = 0)]
     public class ConvertEnergyAction : CardActionData
     {
+        [Header("Convert energy settings")]
         [SerializeField] private EnergyQuantityData from;
         [SerializeField] private EnergyQuantityData to;
 

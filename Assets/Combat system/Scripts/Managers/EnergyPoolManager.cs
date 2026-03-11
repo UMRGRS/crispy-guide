@@ -82,9 +82,9 @@ namespace NueGames.NueDeck.Scripts.Managers
                         ));
             }
         }
-        public void CreateEnergy(List<EnergyQuantityData> energyQuantityDataList)
+        public void CreateEnergy(List<EnergyQuantityData> energyQuantityDataList, int modifier = 0)
         {
-            StartCoroutine(CreateEnergyRoutine(energyQuantityDataList));
+            StartCoroutine(CreateEnergyRoutine(energyQuantityDataList, modifier));
         }
         public void DecayAllEnergy()
         {
@@ -193,11 +193,11 @@ namespace NueGames.NueDeck.Scripts.Managers
         #endregion 
 
         #region Routines
-        private IEnumerator CreateEnergyRoutine(List<EnergyQuantityData> energyQuantityDataList)
+        private IEnumerator CreateEnergyRoutine(List<EnergyQuantityData> energyQuantityDataList, int modifier = 0)
         {
             foreach(EnergyQuantityData data in energyQuantityDataList)
             {
-                for(int i=0; i < data.Quantity; i++)
+                for(int i=0; i < data.Quantity + modifier; i++)
                 {
                     EnergyData energyData = availableEnergies.FirstOrDefault(energy => energy.EnergyColor == data.EnergyColor);
                     int spawnPosition = UnityEngine.Random.Range(0, energyPosList.Count);

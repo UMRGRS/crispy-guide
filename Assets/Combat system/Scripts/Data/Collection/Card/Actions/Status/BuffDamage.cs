@@ -6,7 +6,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     [CreateAssetMenu(fileName = "New buff damage action", menuName = "NueDeck/Collection/Actions/Normal/Buff damage",order = 0)]
     public class BuffDamageAction : CardActionData
     {
-        [Header("Buff damage action settings")]
+        [Header("Buff damage settings")]
         [Range(1,10)][SerializeField] private int value;
         [Range(1,10)][SerializeField] private int activeTurns;
         [SerializeField] private bool isPermanent;
@@ -24,15 +24,19 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             if (isPermanent)
             {
                 context.target.CharacterStats.ApplyStatus(StatusType.PermanentDamageBoost, value);
-                return;
             }
-
-            if (isSingleUse)
+            else if (isSingleUse)
             {
                 context.target.CharacterStats.ApplyStatus(StatusType.NextCardDamageBoost, value);
-                return;
             }
-            context.target.CharacterStats.ApplyStatus(StatusType.TemporalDamageBoost, value, turns:activeTurns); 
+            else
+            {
+                context.target.CharacterStats.ApplyStatus(StatusType.TemporalDamageBoost, value, turns:activeTurns);
+            }
+            
+            // Add FX effects
+
+            // Add audio effects
         }
     }
 }

@@ -8,6 +8,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     [CreateAssetMenu(fileName = "New modify energy strength action", menuName = "NueDeck/Collection/Actions/Energy/Modify energy strength",order = 0)]
     public class ModifyEnergyStrengthAction : CardActionData
     {
+        [Header("Modify energy strength settings")]
         [SerializeField] private EnergyQuantityData from;
         [SerializeField] private EnergyModificationType modificationType;
 

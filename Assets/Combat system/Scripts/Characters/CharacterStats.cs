@@ -56,6 +56,8 @@ namespace NueGames.NueDeck.Scripts.Characters
             StatusDict[StatusType.PermanentDamageBoost].StatusBaseData.IsPermanent = true;
             StatusDict[StatusType.TemporalDamageBoost].StatusBaseData.DecreaseOverTurn = true;
             StatusDict[StatusType.NextCardDamageBoost].StatusBaseData.IsSingleUse = true;
+
+            StatusDict[StatusType.BuffEnergyGeneration].StatusBaseData.IsSingleUse = true;
         }
         #endregion
         

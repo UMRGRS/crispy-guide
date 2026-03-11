@@ -13,12 +13,11 @@ MonoBehaviour:
   m_Name: Buff damage temporal
   m_EditorClassIdentifier: 
   actionDelay: 0.1
-  costDataList:
-  - {fileID: 11400000, guid: 43cee11d87cc631bb90a4190ab383843, type: 2}
-  usableWithoutCost: 0
+  costDataList: []
+  usableWithoutCost: 1
   optional: 0
   audioType: 0
-  value: 1
-  activeTurns: 1
-  isPermanent: 1
+  value: 3
+  activeTurns: 2
+  isPermanent: 0
   isSingleUse: 0
