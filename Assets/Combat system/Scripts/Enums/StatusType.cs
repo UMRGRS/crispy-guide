@@ -6,6 +6,7 @@
         PermanentDamageBoost,
         TemporalDamageBoost,
         NextCardDamageBoost,
-        BuffEnergyGeneration
+        BuffEnergyGeneration,
+        BurnDamage
     }
 }

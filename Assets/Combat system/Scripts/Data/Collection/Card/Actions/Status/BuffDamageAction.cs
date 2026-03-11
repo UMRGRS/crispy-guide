@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Collection
 {
-    [CreateAssetMenu(fileName = "New buff damage action", menuName = "NueDeck/Collection/Actions/Normal/Buff damage",order = 0)]
+    [CreateAssetMenu(fileName = "New buff damage action", menuName = "NueDeck/Collection/Actions/Status/Buff damage",order = 0)]
     public class BuffDamageAction : CardActionData
     {
         [Header("Buff damage settings")]

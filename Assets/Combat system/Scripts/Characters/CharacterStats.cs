@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NueGames.NueDeck.Scripts.Characters.Status;
+using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Enums;
 
 namespace NueGames.NueDeck.Scripts.Characters
@@ -11,11 +12,14 @@ namespace NueGames.NueDeck.Scripts.Characters
         private bool isActive = false;
         private int statusValue = 0;
         private int activeTurns = 0;
+        private Action onTrigger;
         private StatusBase statusBaseData = new();
         public bool IsActive { get => isActive; set => isActive = value; }
         public int StatusValue { get => statusValue; set => statusValue = value; }
         public int ActiveTurns { get => activeTurns; set => activeTurns = value; }
+        public Action OnTrigger { get => onTrigger; set => onTrigger = value; }
         public StatusBase StatusBaseData { get => statusBaseData; set => statusBaseData = value; }
+        
     }
 
     public class CharacterStats
@@ -58,6 +62,9 @@ namespace NueGames.NueDeck.Scripts.Characters
             StatusDict[StatusType.NextCardDamageBoost].StatusBaseData.IsSingleUse = true;
 
             StatusDict[StatusType.BuffEnergyGeneration].StatusBaseData.IsSingleUse = true;
+
+            StatusDict[StatusType.BurnDamage].StatusBaseData.DecreaseOverTurn = true;
+            StatusDict[StatusType.BurnDamage].OnTrigger += BurnDamage;
         }
         #endregion
         
@@ -131,6 +138,7 @@ namespace NueGames.NueDeck.Scripts.Characters
         #region Private Methods
         private void TriggerStatus(StatusType targetStatus)
         {
+            StatusDict[targetStatus].OnTrigger?.Invoke();
             //Check status
             if (StatusDict[targetStatus].StatusValue <= 0)
             {
@@ -154,6 +162,12 @@ namespace NueGames.NueDeck.Scripts.Characters
                     ClearStatus(targetStatus);
             
             OnStatusChanged?.Invoke(targetStatus, StatusDict[targetStatus].StatusValue);
+        }
+
+        private void BurnDamage()
+        {
+            if(!StatusDict[StatusType.BurnDamage].IsActive) return;
+            Damage(StatusDict[StatusType.BurnDamage].StatusValue);
         }
         #endregion
     }
