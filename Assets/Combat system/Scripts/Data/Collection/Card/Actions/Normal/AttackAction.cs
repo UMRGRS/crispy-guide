@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using NueGames.NueDeck.Scripts.Enums;
 using UnityEngine;
 
@@ -14,7 +13,14 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         {
             if(!context.target || !context.source) return;
 
-            int totalDamage = attackValue + context.source.CharacterStats.StatusDict[StatusType.PlainPermanentDamageBoost].StatusValue;
+            int totalDamage = attackValue + 
+                            context.source.CharacterStats.StatusDict[StatusType.PermanentDamageBoost].StatusValue +
+                            context.source.CharacterStats.StatusDict[StatusType.TemporalDamageBoost].StatusValue +
+                            context.source.CharacterStats.StatusDict[StatusType.NextCardDamageBoost].StatusValue;
+
+            if (context.source.CharacterStats.StatusDict[StatusType.NextCardDamageBoost].IsActive)
+                context.source.CharacterStats.ClearStatus(StatusType.NextCardDamageBoost);
+            
             context.target.CharacterStats.Damage(Mathf.RoundToInt(totalDamage));
             
             if (context.managersContainer.FxManager != null) 

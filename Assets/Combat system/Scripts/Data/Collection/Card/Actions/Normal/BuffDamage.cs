@@ -6,15 +6,14 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     [CreateAssetMenu(fileName = "New buff damage action", menuName = "NueDeck/Collection/Actions/Normal/Buff damage",order = 0)]
     public class BuffDamageAction : CardActionData
     {
+        [Header("Buff damage action settings")]
         [Range(1,10)][SerializeField] private int value;
         [Range(1,10)][SerializeField] private int activeTurns;
-        [SerializeField] private bool isMultiplier;
         [SerializeField] private bool isPermanent;
         [SerializeField] private bool isSingleUse;
 
         public int Value => value;
         public int ActiveTurns => activeTurns;
-        public bool IsMultiplier => isMultiplier;
         public bool IsPermanent => isPermanent;
         public bool IsSingleUse => isSingleUse;
 
@@ -22,24 +21,18 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         {
             if(!context.target || !context.source) return;
 
-            if(isMultiplier && isPermanent)
-                //context.target.CharacterStats.ApplyStatus(StatusType.PlainPermanentDamageBoost, )
+            if (isPermanent)
+            {
+                context.target.CharacterStats.ApplyStatus(StatusType.PermanentDamageBoost, value);
+                return;
+            }
 
-            if(isMultiplier && isSingleUse)
+            if (isSingleUse)
+            {
+                context.target.CharacterStats.ApplyStatus(StatusType.NextCardDamageBoost, value);
                 return;
-            
-            if(isMultiplier)
-                return;
-            
-            if(isPermanent)
-                return;
-            
-            if(isSingleUse)
-                return;
-            
-            //context.target.CharacterStats.ApplyStatus(StatusType.PlainPermanentDamageBoost, )
-
-            
+            }
+            context.target.CharacterStats.ApplyStatus(StatusType.TemporalDamageBoost, value, turns:activeTurns); 
         }
     }
 }

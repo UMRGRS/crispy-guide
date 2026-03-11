@@ -9,7 +9,7 @@ namespace NueGames.NueDeck.Scripts.Characters
     {
         public StatusStats(){}
         private bool isActive = false;
-        private int statusValue = 1;
+        private int statusValue = 0;
         private int activeTurns = 0;
         private StatusBase statusBaseData = new();
         public bool IsActive { get => isActive; set => isActive = value; }
@@ -53,13 +53,9 @@ namespace NueGames.NueDeck.Scripts.Characters
             for (int i = 0; i < Enum.GetNames(typeof(StatusType)).Length; i++) 
                 StatusDict.Add((StatusType) i, new StatusStats());
             
-            StatusDict[StatusType.PlainPermanentDamageBoost].StatusBaseData.IsPermanent = true;
-            StatusDict[StatusType.PlainTemporalDamageBoost].StatusBaseData.DecreaseOverTurn = true;
-            StatusDict[StatusType.PlainNextCardDamageBoost].StatusBaseData.IsSingleUse = true;
-
-            StatusDict[StatusType.MultiplierPermanentDamageBoost].StatusBaseData.IsPermanent = true;
-            StatusDict[StatusType.MultiplierTemporalDamageBoost].StatusBaseData.DecreaseOverTurn = true;
-            StatusDict[StatusType.MultiplierNextCardDamageBoost].StatusBaseData.IsSingleUse = true;
+            StatusDict[StatusType.PermanentDamageBoost].StatusBaseData.IsPermanent = true;
+            StatusDict[StatusType.TemporalDamageBoost].StatusBaseData.DecreaseOverTurn = true;
+            StatusDict[StatusType.NextCardDamageBoost].StatusBaseData.IsSingleUse = true;
         }
         #endregion
         
@@ -124,7 +120,7 @@ namespace NueGames.NueDeck.Scripts.Characters
         public void ClearStatus(StatusType targetStatus)
         {
             StatusDict[targetStatus].IsActive = false;
-            StatusDict[targetStatus].StatusValue = 1;
+            StatusDict[targetStatus].StatusValue = 0;
             StatusDict[targetStatus].ActiveTurns = 0;
             OnStatusCleared?.Invoke(targetStatus);
         }
