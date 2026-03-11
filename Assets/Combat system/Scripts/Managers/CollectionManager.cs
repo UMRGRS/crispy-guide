@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using NueGames.NueDeck.Scripts.Card;
 using NueGames.NueDeck.Scripts.Collection;
@@ -8,14 +7,11 @@ using UnityEngine;
 namespace NueGames.NueDeck.Scripts.Managers
 {
     public class CollectionManager : MonoBehaviour
-    {
-        public CollectionManager(){}
-      
+    {      
         public static CollectionManager Instance { get; private set; }
 
         [Header("Controllers")] 
         [SerializeField] private HandController handController;
-
 
         #region Cache
 

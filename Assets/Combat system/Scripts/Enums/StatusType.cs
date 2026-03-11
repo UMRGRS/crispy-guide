@@ -2,11 +2,11 @@
 {
     public enum StatusType
     {
-        None =0,
-        Block,
-        Poison,
-        Strength,
-        Dexterity,
-        Stun
+        None = 0,
+        PermanentDamageBoost,
+        TemporalDamageBoost,
+        NextCardDamageBoost,
+        BuffEnergyGeneration,
+        BurnDamage
     }
 }

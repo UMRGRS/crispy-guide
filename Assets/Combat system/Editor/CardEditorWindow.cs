@@ -14,6 +14,7 @@ namespace NueGames.NueDeck.Editor
 {
     public class CardEditorWindow : ExtendedEditorWindow
     {
+        /*
     #if UNITY_EDITOR
         
 
@@ -923,5 +924,6 @@ namespace NueGames.NueDeck.Editor
         }
         #endregion
     #endif
+    */
     }
 }

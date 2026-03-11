@@ -11,6 +11,7 @@ using NueGames.NueDeck.Scripts.Enums;
 using NueGames.NueDeck.Scripts.Utils.Background;
 using Random = UnityEngine.Random;
 using NueGames.NueDeck.Scripts.Utils;
+using NueGames.NueDeck.Scripts.Characters.Status;
 
 namespace NueGames.NueDeck.Scripts.Managers
 {
@@ -23,7 +24,7 @@ namespace NueGames.NueDeck.Scripts.Managers
         [SerializeField] private BackgroundContainer backgroundContainer;
         [SerializeField] private List<Transform> enemyPosList;
         [SerializeField] private List<Transform> allyPosList;
- 
+        
         #region Cache
         public List<EnemyBase> CurrentEnemiesList { get; private set; } = new List<EnemyBase>();
         public List<AllyBase> CurrentAlliesList { get; private set; }= new List<AllyBase>();
@@ -31,9 +32,7 @@ namespace NueGames.NueDeck.Scripts.Managers
         public Action OnAllyTurnStarted;
         public Action OnEnemyTurnStarted;
         public List<Transform> EnemyPosList => enemyPosList;
-
         public List<Transform> AllyPosList => allyPosList;
-
         public AllyBase CurrentMainAlly => CurrentAlliesList.Count>0 ? CurrentAlliesList[0] : null;
 
         public CombatStateType CurrentCombatStateType
@@ -221,13 +220,12 @@ namespace NueGames.NueDeck.Scripts.Managers
             {
                 if (GameManager.PersistentGameplayData.RemainingActiveTurns <= 0)
                     return;
-        
-                EnergyBlockParameters energyBlockParameters =
-                    GameManager.PersistentGameplayData.EnergyBlockRules;
-        
-                if (energyBlockParameters is not null && energyBlockParameters.turns-- > 0)
+                
+                if (GameManager.PersistentGameplayData.EnergyBlockRules.Turns > 0)
+                {
+                    GameManager.PersistentGameplayData.EnergyBlockRules.Turns--;
                     return;
-        
+                }
                 EnergyPoolManager.CreateStartOfTurnEnergy();
             }
             finally
@@ -314,14 +312,5 @@ namespace NueGames.NueDeck.Scripts.Managers
             CurrentCombatStateType = CombatStateType.TurnEnd;
         }
         #endregion
-    }
-
-    public class EnergyBlockParameters
-    {
-        public int turns;
-        public EnergyBlockParameters(int newTurns)
-        {
-            turns = newTurns;   
-        }
     }
 }

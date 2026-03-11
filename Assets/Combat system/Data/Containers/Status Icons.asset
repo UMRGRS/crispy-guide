@@ -15,17 +15,14 @@ MonoBehaviour:
   statusIconBasePrefab: {fileID: 6777904196308813527, guid: f4e76bc2e67da6241b52b8d7c6034e01, type: 3}
   statusIconList:
   - iconStatus: 1
-    iconSprite: {fileID: -1513487178384027574, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
-    specialKeywords: 00000000
+    iconSprite: {fileID: 8414397559482299720, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
+    specialKeywords: 01000000
   - iconStatus: 2
-    iconSprite: {fileID: -214828719786938277, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
-    specialKeywords: 02000000
+    iconSprite: {fileID: 8414397559482299720, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
+    specialKeywords: 01000000
   - iconStatus: 3
     iconSprite: {fileID: 8414397559482299720, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
     specialKeywords: 01000000
   - iconStatus: 4
-    iconSprite: {fileID: 21300000, guid: b814f523022834b4eb4ef10d01cf8faf, type: 3}
-    specialKeywords: 04000000
-  - iconStatus: 5
-    iconSprite: {fileID: 1944889613778695005, guid: 1fb0c0cb02c616d49815abb7a9a0fc0f, type: 3}
-    specialKeywords: 05000000
+    iconSprite: {fileID: -6598036126873212134, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
+    specialKeywords: 01000000

@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using NueGames.NueDeck.Scripts.Card;
 using NueGames.NueDeck.Scripts.Characters;
-using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Enums;
 using NueGames.NueDeck.Scripts.Interfaces;
 using NueGames.NueDeck.Scripts.Managers;
@@ -281,7 +279,8 @@ namespace NueGames.NueDeck.Scripts.Collection
                     Quaternion.LookRotation(cardForward, cardUp), 80f * Time.deltaTime);
                 cardTransform.position = cardPos;
 
-                CombatManager.HighlightCardTarget(_heldCard.CardData.CardActionDataList[0].ActionTargetType);
+                if(!_heldCard.CardData.UsableWithoutTarget)
+                    CombatManager.HighlightCardTarget(_heldCard.CardData.ActionTargetType);
 
                 //if (!canSelectCards || cardTransform.position.y <= transform.position.y + 0.5f) {
                 if (!GameManager.PersistentGameplayData.CanSelectCards || _mouseInsideHand)
@@ -324,7 +323,7 @@ namespace NueGames.NueDeck.Scripts.Collection
                 {
                     GameManager.PersistentGameplayData.CanUseCards = false;
                     backToHand = false;
-                    _heldCard.Use(selfCharacter,targetCharacter,CombatManager.CurrentEnemiesList,CombatManager.CurrentAlliesList);
+                    _heldCard.Use(selfCharacter, targetCharacter);
                 }
             }
 
@@ -341,8 +340,7 @@ namespace NueGames.NueDeck.Scripts.Collection
 
         private bool IsCardCostMeet(CardBase card)
         {
-            List<EnergyQuantityData> costs = card.CardData.GatherTotalEnergyCosts(); 
-            return EnergyPoolManager.TryToFindEnergyOnPool(costs, out _);
+            return EnergyPoolManager.CanPayCosts(card.CardData);
         }
 
         private bool CheckPlayOnCharacter(Ray mainRay, bool _canUse, ref CharacterBase selfCharacter,
@@ -355,11 +353,11 @@ namespace NueGames.NueDeck.Scripts.Collection
 
                 if (character != null)
                 {
-                    bool checkEnemy = (_heldCard.CardData.CardActionDataList[0].ActionTargetType == ActionTargetType.Enemy &&
+                    bool checkEnemy = (_heldCard.CardData.ActionTargetType == ActionTargetType.Enemy &&
                                       character.GetCharacterType() == CharacterType.Enemy);
-                    bool checkAlly = (_heldCard.CardData.CardActionDataList[0].ActionTargetType == ActionTargetType.Ally &&
+                    bool checkAlly = (_heldCard.CardData.ActionTargetType == ActionTargetType.Ally &&
                                      character.GetCharacterType() == CharacterType.Ally);
-
+                    
                     if (checkEnemy || checkAlly)
                     {
                         _canUse = true;

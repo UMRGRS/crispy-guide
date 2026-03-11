@@ -28,7 +28,6 @@ namespace NueGames.NueDeck.Scripts.Card
         [SerializeField] protected TextMeshProUGUI descTextField;
         [SerializeField] protected TextMeshProUGUI manaTextField;
         [SerializeField] protected List<RarityRoot> rarityRootList;
-        
 
         #region Cache
         public CardData CardData { get; private set; }
@@ -56,7 +55,7 @@ namespace NueGames.NueDeck.Scripts.Card
             CachedWaitFrame = new WaitForEndOfFrame();
         }
 
-        public virtual void SetCard(CardData targetProfile,bool isPlayable = true)
+        public virtual void SetCard(CardData targetProfile, bool isPlayable = true)
         {
             CardData = targetProfile;
             IsPlayable = isPlayable;
@@ -74,80 +73,27 @@ namespace NueGames.NueDeck.Scripts.Card
         #endregion
         
         #region Card Methods
-        public virtual void Use(CharacterBase self,CharacterBase targetCharacter, List<EnemyBase> allEnemies, List<AllyBase> allAllies)
+        public virtual void Use(CharacterBase self,CharacterBase targetCharacter)
         {
             if (!IsPlayable) return;
          
-            StartCoroutine(CardUseRoutine(self, targetCharacter, allEnemies, allAllies));
+            StartCoroutine(CardUseRoutine(self, targetCharacter));
         }
 
-        private IEnumerator CardUseRoutine(CharacterBase self,CharacterBase targetCharacter, List<EnemyBase> allEnemies, List<AllyBase> allAllies)
+        private IEnumerator CardUseRoutine(CharacterBase self, CharacterBase targetCharacter)
         {
-            SpendEnergy(CardData.GatherActivationCost());
-
-            foreach (CardActionData playerAction in CardData.CardActionDataList)
+            CardExecutionContext context = new(self, targetCharacter);
+            foreach (CardActionData action in CardData.CardActionDataList)
             {
-                yield return new WaitForSeconds(playerAction.ActionDelay);
-                List<CharacterBase> targetList = DetermineTargets(targetCharacter, allEnemies, allAllies, playerAction);
-                foreach (var target in targetList)
-                    CardActionProcessor.GetAction(playerAction.CardActionType)
-                        .DoAction(new CardActionParameters(playerAction.ActionValue,
-                            target,self,CardData,this));
-            }
+                SpendEnergy(action.GetActivationCost());
+                action.Execute(context);
 
-            foreach (EnergyCardActionData energyAction in CardData.CardEnergyActionDataList)
-            {
-                yield return new WaitForSeconds(energyAction.ActionDelay);
-                CardActionProcessor.GetEnergyAction(energyAction.CardActionType)
-                    .DoAction(new CardEnergyActionParameters(
-                        energyAction.EnergyToCreate,
-                        energyAction.EnergyToConvert, 
-                        energyAction.EnergyToModifyStrength, 
-                        energyAction.TurnsModification,
-                        energyAction.BlockEnergyGeneration,
-                        energyAction.ModifyEnergyGenerationPool,
-                        energyAction.BlockEnergyUsage
-                        ));
+                if (action.ActionDelay > 0)
+                    yield return new WaitForSeconds(action.ActionDelay);
             }
+            
             CollectionManager.OnCardPlayed(this);
         }
-
-        private static List<CharacterBase> DetermineTargets(CharacterBase targetCharacter, List<EnemyBase> allEnemies, List<AllyBase> allAllies,
-            CardActionData playerAction)
-        {
-            List<CharacterBase> targetList = new();
-            switch (playerAction.ActionTargetType)
-            {
-                case ActionTargetType.Enemy:
-                    targetList.Add(targetCharacter);
-                    break;
-                case ActionTargetType.Ally:
-                    targetList.Add(targetCharacter);
-                    break;
-                case ActionTargetType.AllEnemies:
-                    foreach (var enemyBase in allEnemies)
-                        targetList.Add(enemyBase);
-                    break;
-                case ActionTargetType.AllAllies:
-                    foreach (var allyBase in allAllies)
-                        targetList.Add(allyBase);
-                    break;
-                case ActionTargetType.RandomEnemy:
-                    if (allEnemies.Count>0)
-                        targetList.Add(allEnemies.RandomItem());
-                    
-                    break;
-                case ActionTargetType.RandomAlly:
-                    if (allAllies.Count>0)
-                        targetList.Add(allAllies.RandomItem());
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            return targetList;
-        }
-        
         public virtual void Discard()
         {
             if (IsExhausted) return;
@@ -172,7 +118,7 @@ namespace NueGames.NueDeck.Scripts.Card
         
         public virtual void UpdateCardText()
         {
-            CardData.UpdateDescription();
+            //CardData.UpdateDescription();
             nameTextField.text = CardData.CardName;
             descTextField.text = CardData.MyDescription;
             // ---------------
