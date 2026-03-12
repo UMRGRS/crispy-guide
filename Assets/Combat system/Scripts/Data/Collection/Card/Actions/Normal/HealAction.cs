@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using NueGames.NueDeck.Scripts.Enums;
 
@@ -8,20 +7,30 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     public class HealAction : CardActionData
     {
         [Header("Heal settings")]
-        [SerializeField] private int healValue;
+        [SerializeField] private int value;
 
-        public int HealValue => healValue;
+        public int Value => value;
 
         public override void Execute(CardExecutionContext context)
         {
             if(!context.target) return;
-            context.target.CharacterStats.Heal(Mathf.RoundToInt(healValue));
+            
+            PayCost(context);
+            
+            context.target.CharacterStats.Heal(Mathf.RoundToInt(CalculateActionValue(context)));
 
             if (context.managersContainer.FxManager != null) 
                 context.managersContainer.FxManager.PlayFx(context.target.transform, FxType.Heal);
             
             if (context.managersContainer.AudioManager != null) 
                 context.managersContainer.AudioManager.PlayOneShot(audioType);
+        }
+
+        public override int CalculateActionValue(CardExecutionContext context)
+        {
+            int upToValue = IsCostUpToValue ? upToModValue : 1;
+            upToModValue = 1;
+            return value * upToValue;
         }
     }
 }

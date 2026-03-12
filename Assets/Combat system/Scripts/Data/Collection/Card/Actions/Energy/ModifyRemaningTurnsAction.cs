@@ -14,6 +14,8 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public int Value => value;
         public override void Execute(CardExecutionContext context)
         {
+            PayCost(context);
+            
             context.managersContainer.GameManager.ModifyRemainingTurns(value, type);
             // Add FX effects
 

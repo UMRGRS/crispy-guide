@@ -11,6 +11,8 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
         public override void Execute(CardExecutionContext context)
         {
+            PayCost(context);
+            
             if (context.source.CharacterStats.StatusDict[Enums.StatusType.BuffEnergyGeneration].IsActive)
             {
                 context.managersContainer.EnergyPoolManager.CreateEnergy(energyToCreate, context.source.CharacterStats.StatusDict[Enums.StatusType.BuffEnergyGeneration].StatusValue);

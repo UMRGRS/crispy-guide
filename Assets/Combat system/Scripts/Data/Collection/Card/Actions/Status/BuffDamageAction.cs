@@ -21,22 +21,31 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         {
             if(!context.target || !context.source) return;
 
+            PayCost(context);
+            
             if (isPermanent)
             {
-                context.target.CharacterStats.ApplyStatus(StatusType.PermanentDamageBoost, value);
+                context.target.CharacterStats.ApplyStatus(StatusType.PermanentDamageBoost, CalculateActionValue(context));
             }
             else if (isSingleUse)
             {
-                context.target.CharacterStats.ApplyStatus(StatusType.NextCardDamageBoost, value);
+                context.target.CharacterStats.ApplyStatus(StatusType.NextCardDamageBoost, CalculateActionValue(context));
             }
             else
             {
-                context.target.CharacterStats.ApplyStatus(StatusType.TemporalDamageBoost, value, turns:activeTurns);
+                context.target.CharacterStats.ApplyStatus(StatusType.TemporalDamageBoost, CalculateActionValue(context), turns:activeTurns);
             }
             
             // Add FX effects
 
             // Add audio effects
+        }
+
+        public override int CalculateActionValue(CardExecutionContext context)
+        {
+            int upToValue = IsCostUpToValue ? upToModValue : 1;
+            upToModValue = 1;
+            return value * upToValue;
         }
     }
 }

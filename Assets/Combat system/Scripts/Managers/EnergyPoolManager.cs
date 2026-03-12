@@ -49,17 +49,20 @@ namespace NueGames.NueDeck.Scripts.Managers
         #endregion
 
         #region Public methods
-        public void ConsumeEnergyCost(List<EnergyQuantityData> costList)
+        public int ConsumeEnergyCost(List<EnergyQuantityData> costList)
         {
+            int consumedEnergies = 0;
             foreach(EnergyQuantityData cost in costList)
             {
                 List<EnergyBase> targetEnergies = FindEnergyOnPool(cost);
 
                 foreach(EnergyBase energy in targetEnergies)
                 {
+                    consumedEnergies++;
                     energy.OnDestroy();
                 }
             }
+            return consumedEnergies;
         }
         public void CreateStartOfTurnEnergy()
         {
@@ -134,7 +137,6 @@ namespace NueGames.NueDeck.Scripts.Managers
         }
         public bool CanPayCosts(CardData card)
         {
-            
             Dictionary<EnergyColor, int> simulatedPool = new();
 
             foreach (EnergyColor color in Enum.GetValues(typeof(EnergyColor)))
@@ -146,12 +148,27 @@ namespace NueGames.NueDeck.Scripts.Managers
             {
                 foreach (EnergyQuantityData cost in action.GetTotalCost())
                 {
-                    simulatedPool[cost.EnergyColor] -= cost.Quantity;
-
-                    if (simulatedPool[cost.EnergyColor] < 0)
-                        return false;
+                    int currentAmount = simulatedPool[cost.EnergyColor];
+                    bool wasZero = currentAmount == 0;
+        
+                    currentAmount -= cost.Quantity;
+        
+                    if (currentAmount < 0)
+                    {
+                        if (action.IsCostUpToValue && !wasZero)
+                        {
+                            currentAmount = 0;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+        
+                    simulatedPool[cost.EnergyColor] = currentAmount;
                 }
             }
+        
             return true;
         }
         public void RemoveEnergyFromPool(EnergyBase targetEnergy)

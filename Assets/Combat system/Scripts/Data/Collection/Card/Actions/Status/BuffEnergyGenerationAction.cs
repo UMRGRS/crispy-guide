@@ -12,12 +12,19 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public override void Execute(CardExecutionContext context)
         {
             if(!context.source) return;
+            
+            PayCost(context);
 
-            context.source.CharacterStats.ApplyStatus(StatusType.BuffEnergyGeneration, value);
+            context.source.CharacterStats.ApplyStatus(StatusType.BuffEnergyGeneration, CalculateActionValue(context));
 
             // Add FX effects
 
             // Add audio effects
+        }
+        public override int CalculateActionValue(CardExecutionContext context)
+        {
+            int upToValue = IsCostUpToValue ? upToModValue : 1;
+            return value * upToValue;
         }
     }
 }

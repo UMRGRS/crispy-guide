@@ -12,6 +12,8 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
         public override void Execute(CardExecutionContext context)
         {
+            PayCost(context);
+            
             context.managersContainer.GameManager.PersistentGameplayData.EnergyBlockRules.Turns = turns;
 
             // Add FX effects

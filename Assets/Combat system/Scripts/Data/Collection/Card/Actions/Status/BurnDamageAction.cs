@@ -16,11 +16,18 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         {
             if(!context.target || !context.source) return;
 
-            context.target.CharacterStats.ApplyStatus(StatusType.BurnDamage, value, turns:turns);
+            PayCost(context);
+
+            context.target.CharacterStats.ApplyStatus(StatusType.BurnDamage, CalculateActionValue(context), turns:turns);
 
             // Add FX effects
 
             // Add audio effects
+        }
+        public override int CalculateActionValue(CardExecutionContext context)
+        {
+            int upToValue = IsCostUpToValue ? upToModValue : 1;
+            return value * upToValue;
         }
     }
 }

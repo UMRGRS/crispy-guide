@@ -17,6 +17,8 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
         public override void Execute(CardExecutionContext context)
         {
+            PayCost(context);
+            
             context.managersContainer.EnergyPoolManager.ModifyEnergyStrength(from, modificationType);
 
             // Add FX effects

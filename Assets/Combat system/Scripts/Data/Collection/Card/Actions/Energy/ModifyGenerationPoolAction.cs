@@ -20,6 +20,8 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public List<EnergyData> AvailableEnergies => availableEnergies;
         public override void Execute(CardExecutionContext context)
         {
+            PayCost(context);
+            
             context.managersContainer.GameManager.PersistentGameplayData.EnergyGenerationRules = 
                 new EnergyGenerationRules(
                     turns, 

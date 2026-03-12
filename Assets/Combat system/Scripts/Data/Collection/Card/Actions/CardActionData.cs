@@ -8,24 +8,38 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     {
         [Header("Action Profile")] 
         [Range(0f,10f)] [SerializeField] protected float actionDelay;
+        
         [Header("Action Settings")]
-        [SerializeField] protected List<EnergyQuantityData> costDataList;
-        [SerializeField] protected bool usableWithoutCost; 
         [SerializeField] protected bool optional; 
+        [Header("Cost settings")]
+        [SerializeField] protected List<EnergyQuantityData> costDataList;
+        [SerializeField] protected bool isCostUpToValue;
+        [SerializeField] protected bool usableWithoutCost; 
+        
         [Header("Fx")]
         [SerializeField] protected AudioActionType audioType;
 
         public float ActionDelay => actionDelay;
         public List<EnergyQuantityData> CostDataList => costDataList;
+        public bool IsCostUpToValue => isCostUpToValue;
         public bool UsableWithoutCost => usableWithoutCost;
         public bool Optional => optional;
 
         public AudioActionType AudioType => audioType;
+
+        [Header("Support variables")]
+        protected int upToModValue = 1;
         
         public abstract void Execute(CardExecutionContext context);
+        public virtual int CalculateActionValue(CardExecutionContext context)
+        {
+            return 1;
+        }
         public virtual void PayCost(CardExecutionContext context)
         {
-            context.managersContainer.EnergyPoolManager.ConsumeEnergyCost(costDataList);
+            if(usableWithoutCost) return;
+            
+            upToModValue = context.managersContainer.EnergyPoolManager.ConsumeEnergyCost(costDataList);
         }
         public virtual List<EnergyQuantityData> GetTotalCost()
         {
