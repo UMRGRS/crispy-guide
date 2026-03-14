@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Heal simple
   m_EditorClassIdentifier: 
   actionDelay: 0.1
+  optional: 0
   costDataList:
   - {fileID: 11400000, guid: 43cee11d87cc631bb90a4190ab383843, type: 2}
+  isCostUpToValue: 0
   usableWithoutCost: 0
-  optional: 0
   audioType: 7
-  healValue: 6
+  value: 2

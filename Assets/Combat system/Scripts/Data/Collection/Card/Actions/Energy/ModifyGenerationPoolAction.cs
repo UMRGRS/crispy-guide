@@ -18,6 +18,13 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public int MaxEnergiesSpawn => maxEnergiesSpawn;
         public int MinEnergiesSpawn => minEnergiesSpawn;
         public List<EnergyData> AvailableEnergies => availableEnergies;
+
+        public override bool CanExecute(CardExecutionContext context)
+        {
+            if(!context.managersContainer.EnergyPoolManager.IsEnergyOnPool(GetTotalCost())) return false;
+
+            return true; 
+        }
         public override void Execute(CardExecutionContext context)
         {
             PayCost(context);

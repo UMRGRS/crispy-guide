@@ -135,7 +135,7 @@ namespace NueGames.NueDeck.Scripts.Managers
                 energy.BlockEnergy(turns);    
             }
         }
-        public bool CanPayCosts(CardData card)
+        public bool CanPayCosts(List<CardActionData> cardActions)
         {
             Dictionary<EnergyColor, int> simulatedPool = new();
 
@@ -144,20 +144,24 @@ namespace NueGames.NueDeck.Scripts.Managers
                 simulatedPool[color] = CurrentEnergyInPool.Count(energy => energy.EnergyStats.EnergyColor == color && energy.EnergyStats.BlockTurns <= 0);
             }
 
-            foreach (CardActionData action in card.CardActionDataList)
+            foreach (CardActionData action in cardActions)
             {
                 foreach (EnergyQuantityData cost in action.GetTotalCost())
                 {
                     int currentAmount = simulatedPool[cost.EnergyColor];
-                    bool wasZero = currentAmount == 0;
+                    int lastValue = currentAmount;
         
                     currentAmount -= cost.Quantity;
         
                     if (currentAmount < 0)
                     {
-                        if (action.IsCostUpToValue && !wasZero)
+                        if (action.IsCostUpToValue && lastValue == 0)
                         {
                             currentAmount = 0;
+                        }
+                        else if (action.Optional)
+                        {
+                            currentAmount = lastValue;
                         }
                         else
                         {
@@ -169,6 +173,16 @@ namespace NueGames.NueDeck.Scripts.Managers
                 }
             }
         
+            return true;
+        }
+
+        public bool IsEnergyOnPool(List<EnergyQuantityData> neededEnergy)
+        {
+            foreach(EnergyQuantityData cost in neededEnergy)
+            {
+                var energies = FindEnergyOnPool(cost);
+                if(energies.Count() < cost.Quantity) return false;
+            }
             return true;
         }
         public void RemoveEnergyFromPool(EnergyBase targetEnergy)

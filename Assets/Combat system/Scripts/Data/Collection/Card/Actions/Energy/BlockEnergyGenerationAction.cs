@@ -9,6 +9,12 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [Header("Block energy generation settings")]
         [Range(1,10)] [SerializeField] private int turns;
         public int Turns => turns;
+        public override bool CanExecute(CardExecutionContext context)
+        {
+            if(!context.managersContainer.EnergyPoolManager.IsEnergyOnPool(GetTotalCost())) return false;
+
+            return true; 
+        }
 
         public override void Execute(CardExecutionContext context)
         {

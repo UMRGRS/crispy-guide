@@ -9,6 +9,13 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [Header("Create energy settings")]
         [SerializeField] private List<EnergyQuantityData> energyToCreate;
 
+        public override bool CanExecute(CardExecutionContext context)
+        {
+            if(!context.managersContainer.EnergyPoolManager.IsEnergyOnPool(GetTotalCost())) return false;
+
+            return true; 
+        }
+
         public override void Execute(CardExecutionContext context)
         {
             PayCost(context);

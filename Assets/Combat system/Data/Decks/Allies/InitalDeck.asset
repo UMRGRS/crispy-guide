@@ -15,4 +15,7 @@ MonoBehaviour:
   deckId: deck_default
   deckName: 
   cardList:
-  - {fileID: 11400000, guid: 4621e4b284e5adc4c90e2ea4b635a61f, type: 2}
+  - {fileID: 11400000, guid: 1e43cdb39f5836b44942f367125cadde, type: 2}
+  - {fileID: 11400000, guid: 1e43cdb39f5836b44942f367125cadde, type: 2}
+  - {fileID: 11400000, guid: 1e43cdb39f5836b44942f367125cadde, type: 2}
+  - {fileID: 11400000, guid: 1e43cdb39f5836b44942f367125cadde, type: 2}

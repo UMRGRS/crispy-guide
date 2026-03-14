@@ -24,16 +24,23 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public bool IsCostUpToValue => isCostUpToValue;
         public bool UsableWithoutCost => usableWithoutCost;
         public bool Optional => optional;
-
         public AudioActionType AudioType => audioType;
 
         [Header("Support variables")]
         protected int upToModValue = 1;
         
         public abstract void Execute(CardExecutionContext context);
+        public virtual bool CanExecute(CardExecutionContext context)
+        {
+            if(!context.target || !context.source) return false;
+
+            if(!context.managersContainer.EnergyPoolManager.IsEnergyOnPool(GetTotalCost())) return false;
+
+            return true; 
+        }
         public virtual int CalculateActionValue(CardExecutionContext context)
         {
-            return 1;
+            return 0;
         }
         public virtual void PayCost(CardExecutionContext context)
         {
@@ -47,6 +54,8 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         }
         public virtual List<EnergyQuantityData> GetActivationCost()
         {
+            if(usableWithoutCost) return new();
+            
             return costDataList;
         }
     }

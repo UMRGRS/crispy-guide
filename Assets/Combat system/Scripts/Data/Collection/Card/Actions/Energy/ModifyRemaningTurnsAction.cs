@@ -12,6 +12,13 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
         public RemainingTurnsModificationType Type => type;
         public int Value => value;
+        
+        public override bool CanExecute(CardExecutionContext context)
+        {
+            if(!context.managersContainer.EnergyPoolManager.IsEnergyOnPool(GetTotalCost())) return false;
+
+            return true; 
+        }
         public override void Execute(CardExecutionContext context)
         {
             PayCost(context);

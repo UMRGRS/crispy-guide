@@ -13,7 +13,13 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
         public EnergyQuantityData From => from;
         public EnergyQuantityData To => to;
+        
+        public override bool CanExecute(CardExecutionContext context)
+        {
+            if(!context.managersContainer.EnergyPoolManager.IsEnergyOnPool(GetTotalCost())) return false;
 
+            return true; 
+        }
         public override void Execute(CardExecutionContext context)
         {
             PayCost(context);

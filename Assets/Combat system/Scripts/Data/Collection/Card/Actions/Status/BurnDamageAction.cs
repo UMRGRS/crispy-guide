@@ -14,8 +14,6 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
         public override void Execute(CardExecutionContext context)
         {
-            if(!context.target || !context.source) return;
-
             PayCost(context);
 
             context.target.CharacterStats.ApplyStatus(StatusType.BurnDamage, CalculateActionValue(context), turns:turns);

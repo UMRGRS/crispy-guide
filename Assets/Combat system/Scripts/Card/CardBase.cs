@@ -85,6 +85,8 @@ namespace NueGames.NueDeck.Scripts.Card
             CardExecutionContext context = new(self, targetCharacter);
             foreach (CardActionData action in CardData.CardActionDataList)
             {
+                if(!action.CanExecute(context)) continue;
+                
                 action.Execute(context);
 
                 if (action.ActionDelay > 0)

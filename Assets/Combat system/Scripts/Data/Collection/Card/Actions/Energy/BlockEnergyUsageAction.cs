@@ -12,7 +12,13 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
         public int Turns => turns;
         public EnergyColor Color => color;
+        
+        public override bool CanExecute(CardExecutionContext context)
+        {
+            if(!context.managersContainer.EnergyPoolManager.IsEnergyOnPool(GetTotalCost())) return false;
 
+            return true; 
+        }
         public override void Execute(CardExecutionContext context)
         {
             PayCost(context);

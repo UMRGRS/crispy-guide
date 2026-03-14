@@ -12,8 +12,6 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public int Value => value;
         public override void Execute(CardExecutionContext context)
         {
-            if(!context.target || !context.source) return;
-
             PayCost(context);
 
             if (context.source.CharacterStats.StatusDict[StatusType.NextCardDamageBoost].IsActive)

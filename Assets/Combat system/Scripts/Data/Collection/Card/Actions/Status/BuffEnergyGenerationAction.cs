@@ -9,10 +9,18 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [Header("Buff energy generation settings")]
         [Range(1,10)][SerializeField] private int value;
         public int Value => value;
-        public override void Execute(CardExecutionContext context)
+
+        public override bool CanExecute(CardExecutionContext context)
         {
-            if(!context.source) return;
-            
+            if(!context.source) return false;
+
+            if(!context.managersContainer.EnergyPoolManager.IsEnergyOnPool(GetTotalCost())) return false;
+
+            return true; 
+        }
+
+        public override void Execute(CardExecutionContext context)
+        {            
             PayCost(context);
 
             context.source.CharacterStats.ApplyStatus(StatusType.BuffEnergyGeneration, CalculateActionValue(context));

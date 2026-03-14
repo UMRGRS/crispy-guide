@@ -13,8 +13,6 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
         public override void Execute(CardExecutionContext context)
         {
-            if(!context.target) return;
-            
             PayCost(context);
             
             context.target.CharacterStats.Heal(Mathf.RoundToInt(CalculateActionValue(context)));

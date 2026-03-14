@@ -17,10 +17,17 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public bool IsPermanent => isPermanent;
         public bool IsSingleUse => isSingleUse;
 
+        public override bool CanExecute(CardExecutionContext context)
+        {
+            if(!context.source) return false;
+
+            if(!context.managersContainer.EnergyPoolManager.IsEnergyOnPool(GetTotalCost())) return false;
+
+            return true; 
+        }
+
         public override void Execute(CardExecutionContext context)
         {
-            if(!context.target || !context.source) return;
-
             PayCost(context);
             
             if (isPermanent)
