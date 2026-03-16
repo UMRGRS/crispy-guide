@@ -18,5 +18,5 @@ MonoBehaviour:
   isCostUpToValue: 0
   usableWithoutCost: 1
   audioType: 0
-  type: 0
+  type: 1
   value: 2
