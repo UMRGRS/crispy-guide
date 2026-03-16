@@ -30,9 +30,15 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
             // Add audio effects
         }
+
         public override List<EnergyQuantityData> GetTotalCost()
         {
             return new List<EnergyQuantityData> { from }.Concat(GetActivationCost()).ToList();
+        }
+
+        public override string GetActionDescription(CardExecutionContext context)
+        {
+            return BuildActionDescription($"Convert {from.Quantity} {from.EnergyColor} to {to.Quantity} {to.EnergyColor}");
         }
     }
 }

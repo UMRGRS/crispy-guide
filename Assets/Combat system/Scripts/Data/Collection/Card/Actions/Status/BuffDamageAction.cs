@@ -1,3 +1,6 @@
+using System.Linq;
+using System.Text;
+using NueGames.NueDeck.Scripts.Characters;
 using NueGames.NueDeck.Scripts.Enums;
 using UnityEngine;
 
@@ -10,7 +13,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [Range(1,10)][SerializeField] private int value;
         [Range(1,10)][SerializeField] private int activeTurns;
         [SerializeField] private bool isPermanent;
-        [SerializeField] private bool isSingleUse;
+        [SerializeField] private bool isSingleUse;  
 
         public int Value => value;
         public int ActiveTurns => activeTurns;
@@ -31,17 +34,12 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             PayCost(context);
             
             if (isPermanent)
-            {
                 context.target.CharacterStats.ApplyStatus(StatusType.PermanentDamageBoost, CalculateActionValue(context));
-            }
             else if (isSingleUse)
-            {
                 context.target.CharacterStats.ApplyStatus(StatusType.NextCardDamageBoost, CalculateActionValue(context));
-            }
             else
-            {
                 context.target.CharacterStats.ApplyStatus(StatusType.TemporalDamageBoost, CalculateActionValue(context), turns:activeTurns);
-            }
+            
             
             // Add FX effects
 
@@ -50,9 +48,23 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
         public override int CalculateActionValue(CardExecutionContext context)
         {
-            int upToValue = IsCostUpToValue ? upToModValue : 1;
+            int upToValue = isCostUpToValue ? upToModValue : 1;
             upToModValue = 1;
             return value * upToValue;
+        }
+
+        public override string GetActionDescription(CardExecutionContext context)
+        {
+            var suffix = new StringBuilder(" damage");
+
+            if (isPermanent)
+                suffix.Append(" permanently");
+            else if (isSingleUse)
+                suffix.Append(" to the next card");
+            else
+                suffix.Append($" during {activeTurns} turns");
+
+            return BuildActionDescription($"Add + {CalculateActionValue(context)} {suffix}");
         }
     }
 }

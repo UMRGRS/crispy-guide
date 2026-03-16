@@ -1,4 +1,5 @@
 using NueGames.NueDeck.Scripts.Managers;
+using NueGames.NueDeck.Scripts.Utils;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Collection
@@ -25,6 +26,12 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             // Add FX effects
 
             // Add audio effects
+        }
+
+        public override string GetActionDescription(CardExecutionContext context)
+        {
+            var valueWord = PluralizingHelper.GetPluralizingString(turns, "turn", "turns");
+            return BuildActionDescription($"Block start of turn energy generation for {turns} {valueWord}");
         }
     }
 }

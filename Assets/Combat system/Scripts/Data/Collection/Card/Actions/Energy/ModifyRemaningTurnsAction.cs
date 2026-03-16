@@ -28,5 +28,12 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
             // Add audio effects
         }
+        public override string GetActionDescription(CardExecutionContext context)
+        {
+
+            var modType = type.Equals(RemainingTurnsModificationType.Increase) ? "Increase" : "Decrease";
+            
+            return BuildActionDescription($"{modType} the remaining energy generation turns by {value}");
+        }
     }
 }

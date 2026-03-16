@@ -35,5 +35,9 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         {
             return new List<EnergyQuantityData> {from}.Concat(GetActivationCost()).ToList();
         }
+        public override string GetActionDescription(CardExecutionContext context)
+        {
+            return BuildActionDescription($"{modificationType} {from.Quantity} {from.EnergyColor}");
+        }
     }
 }

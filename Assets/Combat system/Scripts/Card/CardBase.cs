@@ -117,9 +117,9 @@ namespace NueGames.NueDeck.Scripts.Card
             passiveImage.gameObject.SetActive(isInactive);
         }
         
-        public virtual void UpdateCardText()
+        public virtual void UpdateCardText(CardExecutionContext context)
         {
-            //CardData.UpdateDescription();
+            CardData.UpdateDescription(context);
             nameTextField.text = CardData.CardName;
             descTextField.text = CardData.MyDescription;
             // ---------------

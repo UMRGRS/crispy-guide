@@ -1,3 +1,4 @@
+using System.Text;
 using NueGames.NueDeck.Scripts.Enums;
 using UnityEngine;
 
@@ -33,6 +34,11 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
                             context.source.CharacterStats.StatusDict[StatusType.NextCardDamageBoost].StatusValue;
 
             return value * upToValue + buffsValue;
+        }
+
+        public override string GetActionDescription(CardExecutionContext context)
+        {
+            return BuildActionDescription($"Deal {CalculateActionValue(context)} damage");
         }
     }
 }

@@ -20,7 +20,7 @@ namespace NueGames.NueDeck.Scripts.Card
             _cardBase = GetComponent<CardBase>();
             _initialScale = transform.localScale;
             _cardBase.SetCard(cardData);
-            _cardBase.UpdateCardText();
+            //_cardBase.UpdateCardText();
         }
 
 

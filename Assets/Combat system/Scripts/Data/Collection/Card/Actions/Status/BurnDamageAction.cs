@@ -1,3 +1,4 @@
+using System.Text;
 using NueGames.NueDeck.Scripts.Enums;
 using UnityEngine;
 
@@ -26,6 +27,11 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         {
             int upToValue = IsCostUpToValue ? upToModValue : 1;
             return value * upToValue;
+        }
+
+        public override string GetActionDescription(CardExecutionContext context)
+        {
+            return BuildActionDescription($"Apply {CalculateActionValue(context)} burn");
         }
     }
 }

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Text;
+using NueGames.NueDeck.Scripts.Characters;
 using NueGames.NueDeck.Scripts.Enums;
 using UnityEngine;
 
@@ -25,11 +27,12 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public bool UsableWithoutCost => usableWithoutCost;
         public bool Optional => optional;
         public AudioActionType AudioType => audioType;
-
+        
         [Header("Support variables")]
         protected int upToModValue = 1;
         
         public abstract void Execute(CardExecutionContext context);
+        public abstract string GetActionDescription(CardExecutionContext context);
         public virtual bool CanExecute(CardExecutionContext context)
         {
             if(!context.target || !context.source) return false;
@@ -57,6 +60,20 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             if(usableWithoutCost) return new();
             
             return costDataList;
+        }
+
+        protected string BuildActionDescription(
+            string baseDescription)
+        {
+            var description = new StringBuilder(baseDescription);
+        
+            if (isCostUpToValue)
+                description.Append($" per energy consumed (max {costDataList[0].Quantity})");
+        
+            if (optional)
+                description.Append(" (opt)");
+        
+            return description.ToString();
         }
     }
 }

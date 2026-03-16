@@ -14,47 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 8_skill_earnMana
   cardName: Earn mana
-  costDataList:
-  - energyColor: 0
-    quantity: 1
   cardSprite: {fileID: 21300000, guid: c0629e7c358247d4291114d4e9521ddd, type: 3}
   rarity: 0
   usableWithoutTarget: 1
-  usableWithoutCost: 0
-  exhaustAfterPlay: 0
+  actionTargetType: 0
   cardActionDataList:
-  - cardActionType: 6
-    actionTargetType: 1
-    actionValue: 2
-    actionDelay: 0.1
-  cardEnergyActionDataList: []
-  cardDescriptionDataList:
-  - descriptionText: 'Earn '
-    enableOverrideColor: 0
-    overrideColor: {r: 0, g: 0, b: 0, a: 1}
-    useModifier: 0
-    modifiedActionValueIndex: 0
-    modiferStats: 0
-    usePrefixOnModifiedValue: 0
-    modifiedValuePrefix: '*'
-    overrideColorOnValueScaled: 0
-  - descriptionText: 
-    enableOverrideColor: 0
-    overrideColor: {r: 0, g: 0, b: 0, a: 1}
-    useModifier: 1
-    modifiedActionValueIndex: 0
-    modiferStats: 0
-    usePrefixOnModifiedValue: 0
-    modifiedValuePrefix: '*'
-    overrideColorOnValueScaled: 0
-  - descriptionText: ' mana'
-    enableOverrideColor: 0
-    overrideColor: {r: 0, g: 0, b: 0, a: 1}
-    useModifier: 0
-    modifiedActionValueIndex: 0
-    modiferStats: 0
-    usePrefixOnModifiedValue: 0
-    modifiedValuePrefix: '*'
-    overrideColorOnValueScaled: 0
+  - {fileID: 11400000, guid: 873dedfa98c4afe449966f4503b3deaf, type: 2}
   specialKeywordsList: 
-  audioType: 9

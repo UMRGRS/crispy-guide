@@ -1,5 +1,6 @@
 using UnityEngine;
 using NueGames.NueDeck.Scripts.Enums;
+using System.Text;
 
 namespace NueGames.NueDeck.Scripts.Data.Collection
 {
@@ -29,6 +30,11 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             int upToValue = IsCostUpToValue ? upToModValue : 1;
             upToModValue = 1;
             return value * upToValue;
+        }
+
+        public override string GetActionDescription(CardExecutionContext context)
+        {
+            return BuildActionDescription($"Heal {CalculateActionValue(context)} HP");
         }
     }
 }

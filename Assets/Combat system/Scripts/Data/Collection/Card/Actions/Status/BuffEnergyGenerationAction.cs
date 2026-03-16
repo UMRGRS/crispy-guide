@@ -1,4 +1,6 @@
+using System.Text;
 using NueGames.NueDeck.Scripts.Enums;
+using NueGames.NueDeck.Scripts.Utils;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Collection
@@ -33,6 +35,13 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         {
             int upToValue = IsCostUpToValue ? upToModValue : 1;
             return value * upToValue;
+        }
+
+        public override string GetActionDescription(CardExecutionContext context)
+        {
+            var actionValue = CalculateActionValue(context);
+            var valueWord = PluralizingHelper.GetPluralizingString(actionValue, "energy", "energies");
+            return BuildActionDescription($"Create {actionValue} extra {valueWord} with your next card");
         }
     }
 }

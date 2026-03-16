@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Collection
@@ -33,6 +34,23 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             // Add FX effects
 
             // Add audio effects
+        }
+
+        public override string GetActionDescription(CardExecutionContext context)
+        {
+            var description = new StringBuilder("Create ");
+
+            for(int i=0; i < energyToCreate.Count; i++)
+            {
+                if(i == energyToCreate.Count - 1 && i > 0)
+                    description.Append(" and ");
+                else if(i > 0)
+                    description.Append(", ");
+                
+                description.Append($"{energyToCreate[i].Quantity} {energyToCreate[i].EnergyColor}");
+            }
+
+            return BuildActionDescription(description.ToString());
         }
     }
 }

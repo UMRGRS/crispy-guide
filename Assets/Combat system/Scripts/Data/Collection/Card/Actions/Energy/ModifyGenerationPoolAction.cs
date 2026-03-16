@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Text;
 using NueGames.NueDeck.Scripts.Data.Energy;
 using NueGames.NueDeck.Scripts.Data.Settings;
+using NueGames.NueDeck.Scripts.Utils;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Collection
@@ -38,6 +40,25 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             // Add FX effects
 
             // Add audio effects
+        }
+
+        public override string GetActionDescription(CardExecutionContext context)
+        {
+
+            var colors = new StringBuilder();
+
+            for(int i=0; i < availableEnergies.Count; i++)
+            {
+                if(i == availableEnergies.Count - 1 && i > 0)
+                    colors.Append(" or ");
+                else if(i > 0)
+                    colors.Append(", ");
+                
+                colors.Append($"{availableEnergies[i].EnergyColor}");
+            }
+            
+            var valueWord = PluralizingHelper.GetPluralizingString(turns, "turn", "turns");
+            return BuildActionDescription($"The next {(turns == 1 ? "" : turns)} {valueWord} all the energies will be {colors}");
         }
     }
 }

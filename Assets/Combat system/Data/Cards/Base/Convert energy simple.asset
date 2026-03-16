@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aed015f3bab1de48b0ada96bed40b20, type: 3}
-  m_Name: Create red
+  m_Script: {fileID: 11500000, guid: 2575e02075ee92a1bbb4fba3c5c7fe53, type: 3}
+  m_Name: Convert energy simple
   m_EditorClassIdentifier: 
   actionDelay: 0.1
   optional: 0
@@ -18,6 +18,5 @@ MonoBehaviour:
   isCostUpToValue: 0
   usableWithoutCost: 1
   audioType: 0
-  energyToCreate:
-  - {fileID: 11400000, guid: 43cee11d87cc631bb90a4190ab383843, type: 2}
-  - {fileID: 11400000, guid: 26c344acbcd548aac90ccd1d58e7dff6, type: 2}
+  from: {fileID: 11400000, guid: 43cee11d87cc631bb90a4190ab383843, type: 2}
+  to: {fileID: 11400000, guid: 26c344acbcd548aac90ccd1d58e7dff6, type: 2}

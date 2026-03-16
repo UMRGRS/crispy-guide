@@ -8,7 +8,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public CharacterBase source;
         public CharacterBase target;
         public ManagersContainer managersContainer;
-        public CardExecutionContext(CharacterBase source, CharacterBase target)
+        public CardExecutionContext(CharacterBase source = null, CharacterBase target = null)
         {
             this.source = source;
             this.target = target;

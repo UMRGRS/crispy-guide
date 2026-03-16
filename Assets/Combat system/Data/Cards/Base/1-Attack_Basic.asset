@@ -19,35 +19,5 @@ MonoBehaviour:
   usableWithoutTarget: 0
   actionTargetType: 1
   cardActionDataList:
-  - {fileID: 11400000, guid: 9519d32f8beed7401acd137399a52b5d, type: 2}
-  - {fileID: 11400000, guid: 88c044803a59e53faacc8b2ea554d75c, type: 2}
-  - {fileID: 11400000, guid: 88c044803a59e53faacc8b2ea554d75c, type: 2}
-  cardDescriptionDataList:
-  - descriptionText: 'Deal '
-    enableOverrideColor: 0
-    overrideColor: {r: 0, g: 0, b: 0, a: 1}
-    useModifier: 0
-    modifiedActionValueIndex: 0
-    modiferStats: 0
-    usePrefixOnModifiedValue: 0
-    modifiedValuePrefix: '*'
-    overrideColorOnValueScaled: 0
-  - descriptionText: 
-    enableOverrideColor: 1
-    overrideColor: {r: 0.7686275, g: 0.14117648, b: 0.18823531, a: 1}
-    useModifier: 1
-    modifiedActionValueIndex: 0
-    modiferStats: 3
-    usePrefixOnModifiedValue: 1
-    modifiedValuePrefix: '*'
-    overrideColorOnValueScaled: 1
-  - descriptionText: ' damage'
-    enableOverrideColor: 0
-    overrideColor: {r: 0, g: 0, b: 0, a: 1}
-    useModifier: 0
-    modifiedActionValueIndex: 0
-    modiferStats: 0
-    usePrefixOnModifiedValue: 0
-    modifiedValuePrefix: '*'
-    overrideColorOnValueScaled: 0
+  - {fileID: 11400000, guid: 5e392710242ce0673af86e6d686212b9, type: 2}
   specialKeywordsList: 
