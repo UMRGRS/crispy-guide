@@ -14,4 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deckId: heavy_hit
   deckName: Heavy hitter
-  cardList: []
+  cardList:
+  - {fileID: 11400000, guid: 0d9d2b383ba6843a782a49c90f5efd4e, type: 2}
+  - {fileID: 11400000, guid: 086e0f4e8fc63743da343be72182c0b5, type: 2}
+  - {fileID: 11400000, guid: 5d58dc5a93feff295947cf6bc3be8e22, type: 2}
+  - {fileID: 11400000, guid: f274d667bbc6b3bfaab3bbb678c2744d, type: 2}
+  - {fileID: 11400000, guid: ee39754a70fe48f88ac755439b8ac0f1, type: 2}
+  - {fileID: 11400000, guid: de0ecd354f1447612a6ab69c5a625a47, type: 2}
+  - {fileID: 11400000, guid: 8d87c2cad9b16790aa145c87db1ca1a8, type: 2}
+  - {fileID: 11400000, guid: 7d8b37943fb1c829997623fb5b541c72, type: 2}
