@@ -340,7 +340,7 @@ namespace NueGames.NueDeck.Scripts.Collection
 
         private bool IsCardCostMeet(CardBase card)
         {
-            return EnergyPoolManager.CanPayCosts(card.CardData);
+            return EnergyPoolManager.CanPayCosts(card.CardData.CardActionDataList);
         }
 
         private bool CheckPlayOnCharacter(Ray mainRay, bool _canUse, ref CharacterBase selfCharacter,

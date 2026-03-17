@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51f1cb11a5f68cec28446cb667afead8, type: 3}
-  m_Name: Small attack
+  m_Script: {fileID: 11500000, guid: 2575e02075ee92a1bbb4fba3c5c7fe53, type: 3}
+  m_Name: Convert energy simple
   m_EditorClassIdentifier: 
   actionDelay: 0.1
   optional: 0
-  costDataList:
-  - {fileID: 11400000, guid: 43cee11d87cc631bb90a4190ab383843, type: 2}
+  costDataList: []
   isCostUpToValue: 0
-  usableWithoutCost: 0
+  usableWithoutCost: 1
   audioType: 0
-  value: 2
+  from: {fileID: 11400000, guid: 43cee11d87cc631bb90a4190ab383843, type: 2}
+  to: {fileID: 11400000, guid: 26c344acbcd548aac90ccd1d58e7dff6, type: 2}

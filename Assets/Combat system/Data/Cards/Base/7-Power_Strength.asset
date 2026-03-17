@@ -17,35 +17,7 @@ MonoBehaviour:
   cardSprite: {fileID: 21300000, guid: a0c75614ede963a46af4bc352b3faabd, type: 3}
   rarity: 0
   usableWithoutTarget: 1
+  actionTargetType: 0
   cardActionDataList:
-  - cardActionType: 3
-    actionTargetType: 1
-    actionValue: 4
-    costDataList:
-    - energyColor: 0
-      quantity: 1
-    usableWithoutCost: 0
-    optional: 0
-    actionDelay: 0.1
-  cardEnergyActionDataList: []
-  cardDescriptionDataList:
-  - descriptionText: 'Increase your strength by '
-    enableOverrideColor: 0
-    overrideColor: {r: 0, g: 0, b: 0, a: 1}
-    useModifier: 0
-    modifiedActionValueIndex: 0
-    modiferStats: 0
-    usePrefixOnModifiedValue: 0
-    modifiedValuePrefix: '*'
-    overrideColorOnValueScaled: 0
-  - descriptionText: 
-    enableOverrideColor: 0
-    overrideColor: {r: 0.9245283, g: 0.5322869, b: 0.06541473, a: 1}
-    useModifier: 1
-    modifiedActionValueIndex: 0
-    modiferStats: 0
-    usePrefixOnModifiedValue: 0
-    modifiedValuePrefix: '*'
-    overrideColorOnValueScaled: 0
+  - {fileID: 11400000, guid: abfbd7d96e81807babf6f89fc72cfe89, type: 2}
   specialKeywordsList: 01000000
-  audioType: 9

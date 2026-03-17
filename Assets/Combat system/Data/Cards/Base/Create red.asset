@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Create red
   m_EditorClassIdentifier: 
   actionDelay: 0.1
-  costDataList: []
-  usableWithoutCost: 1
   optional: 0
+  costDataList: []
+  isCostUpToValue: 0
+  usableWithoutCost: 1
   audioType: 0
   energyToCreate:
   - {fileID: 11400000, guid: 43cee11d87cc631bb90a4190ab383843, type: 2}
+  - {fileID: 11400000, guid: 26c344acbcd548aac90ccd1d58e7dff6, type: 2}

@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51f1cb11a5f68cec28446cb667afead8, type: 3}
-  m_Name: Small attack
+  m_Script: {fileID: 11500000, guid: f0ec9cffc36c3daa291eb232c62f81ba, type: 3}
+  m_Name: Modify strength simple
   m_EditorClassIdentifier: 
-  actionDelay: 0.1
+  actionDelay: 0
   optional: 0
-  costDataList:
-  - {fileID: 11400000, guid: 43cee11d87cc631bb90a4190ab383843, type: 2}
+  costDataList: []
   isCostUpToValue: 0
-  usableWithoutCost: 0
+  usableWithoutCost: 1
   audioType: 0
-  value: 2
+  from: {fileID: 11400000, guid: 26c344acbcd548aac90ccd1d58e7dff6, type: 2}
+  modificationType: 1

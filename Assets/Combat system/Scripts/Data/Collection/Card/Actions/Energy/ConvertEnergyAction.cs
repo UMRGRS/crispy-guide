@@ -13,18 +13,32 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
         public EnergyQuantityData From => from;
         public EnergyQuantityData To => to;
+        
+        public override bool CanExecute(CardExecutionContext context)
+        {
+            if(!context.managersContainer.EnergyPoolManager.IsEnergyOnPool(GetTotalCost())) return false;
 
+            return true; 
+        }
         public override void Execute(CardExecutionContext context)
         {
+            PayCost(context);
+            
             context.managersContainer.EnergyPoolManager.ConvertEnergy(from, to);
 
             // Add FX effects
 
             // Add audio effects
         }
+
         public override List<EnergyQuantityData> GetTotalCost()
         {
-            return new List<EnergyQuantityData> {from, to}.Concat(GetActivationCost()).ToList();
+            return new List<EnergyQuantityData> { from }.Concat(GetActivationCost()).ToList();
+        }
+
+        public override string GetActionDescription(CardExecutionContext context)
+        {
+            return BuildActionDescription($"Convert {from.Quantity} {from.EnergyColor} to {to.Quantity} {to.EnergyColor}");
         }
     }
 }

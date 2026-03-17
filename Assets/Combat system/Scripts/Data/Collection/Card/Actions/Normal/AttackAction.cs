@@ -1,3 +1,4 @@
+using System.Text;
 using NueGames.NueDeck.Scripts.Enums;
 using UnityEngine;
 
@@ -7,28 +8,37 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     public class AttackAction : CardActionData
     {
         [Header("Attack settings")]
-        [SerializeField] private int attackValue;
+        [SerializeField] private int value;
 
-        public int AttackValue => attackValue;
+        public int Value => value;
         public override void Execute(CardExecutionContext context)
         {
-            if(!context.target || !context.source) return;
-
-            int totalDamage = attackValue + 
-                            context.source.CharacterStats.StatusDict[StatusType.PermanentDamageBoost].StatusValue +
-                            context.source.CharacterStats.StatusDict[StatusType.TemporalDamageBoost].StatusValue +
-                            context.source.CharacterStats.StatusDict[StatusType.NextCardDamageBoost].StatusValue;
+            PayCost(context);
 
             if (context.source.CharacterStats.StatusDict[StatusType.NextCardDamageBoost].IsActive)
                 context.source.CharacterStats.ClearStatus(StatusType.NextCardDamageBoost);
             
-            context.target.CharacterStats.Damage(Mathf.RoundToInt(totalDamage));
+            context.target.CharacterStats.Damage(Mathf.RoundToInt(CalculateActionValue(context)));
             
             if (context.managersContainer.FxManager != null) 
                 context.managersContainer.FxManager.PlayFx(context.target.transform, FxType.Attack);
             
             if (context.managersContainer.AudioManager != null) 
                 context.managersContainer.AudioManager.PlayOneShot(audioType);
+        }
+        public override int CalculateActionValue(CardExecutionContext context)
+        {
+            int upToValue = IsCostUpToValue ? upToModValue : 1;
+            int buffsValue = context.source.CharacterStats.StatusDict[StatusType.PermanentDamageBoost].StatusValue +
+                            context.source.CharacterStats.StatusDict[StatusType.TemporalDamageBoost].StatusValue +
+                            context.source.CharacterStats.StatusDict[StatusType.NextCardDamageBoost].StatusValue;
+
+            return value * upToValue + buffsValue;
+        }
+
+        public override string GetActionDescription(CardExecutionContext context)
+        {
+            return BuildActionDescription($"Deal {CalculateActionValue(context)} damage");
         }
     }
 }

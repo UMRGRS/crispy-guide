@@ -85,7 +85,8 @@ namespace NueGames.NueDeck.Scripts.Card
             CardExecutionContext context = new(self, targetCharacter);
             foreach (CardActionData action in CardData.CardActionDataList)
             {
-                SpendEnergy(action.GetActivationCost());
+                if(!action.CanExecute(context)) continue;
+                
                 action.Execute(context);
 
                 if (action.ActionDelay > 0)
@@ -116,9 +117,9 @@ namespace NueGames.NueDeck.Scripts.Card
             passiveImage.gameObject.SetActive(isInactive);
         }
         
-        public virtual void UpdateCardText()
+        public virtual void UpdateCardText(CardExecutionContext context)
         {
-            //CardData.UpdateDescription();
+            CardData.UpdateDescription(context);
             nameTextField.text = CardData.CardName;
             descTextField.text = CardData.MyDescription;
             // ---------------

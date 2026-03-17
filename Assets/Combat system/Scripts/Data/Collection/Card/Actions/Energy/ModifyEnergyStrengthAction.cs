@@ -14,9 +14,17 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
         public EnergyQuantityData From => from;
         public EnergyModificationType ModificationType => modificationType;
+        
+        public override bool CanExecute(CardExecutionContext context)
+        {
+            if(!context.managersContainer.EnergyPoolManager.IsEnergyOnPool(GetTotalCost())) return false;
 
+            return true; 
+        }
         public override void Execute(CardExecutionContext context)
         {
+            PayCost(context);
+            
             context.managersContainer.EnergyPoolManager.ModifyEnergyStrength(from, modificationType);
 
             // Add FX effects
@@ -26,6 +34,10 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public override List<EnergyQuantityData> GetTotalCost()
         {
             return new List<EnergyQuantityData> {from}.Concat(GetActivationCost()).ToList();
+        }
+        public override string GetActionDescription(CardExecutionContext context)
+        {
+            return BuildActionDescription($"{modificationType} {from.Quantity} {from.EnergyColor}");
         }
     }
 }

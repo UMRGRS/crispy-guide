@@ -1,3 +1,4 @@
+using System.Text;
 using NueGames.NueDeck.Scripts.Enums;
 using UnityEngine;
 
@@ -14,13 +15,23 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
         public override void Execute(CardExecutionContext context)
         {
-            if(!context.target || !context.source) return;
+            PayCost(context);
 
-            context.target.CharacterStats.ApplyStatus(StatusType.BurnDamage, value, turns:turns);
+            context.target.CharacterStats.ApplyStatus(StatusType.BurnDamage, CalculateActionValue(context), turns:turns);
 
             // Add FX effects
 
             // Add audio effects
+        }
+        public override int CalculateActionValue(CardExecutionContext context)
+        {
+            int upToValue = IsCostUpToValue ? upToModValue : 1;
+            return value * upToValue;
+        }
+
+        public override string GetActionDescription(CardExecutionContext context)
+        {
+            return BuildActionDescription($"Apply {CalculateActionValue(context)} burn");
         }
     }
 }

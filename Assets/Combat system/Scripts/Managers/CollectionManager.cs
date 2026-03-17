@@ -76,9 +76,11 @@ namespace NueGames.NueDeck.Scripts.Managers
                 currentDrawCount++;
                 UIManager.CombatCanvas.SetPileTexts();
             }
+
+            var cardContext = new CardExecutionContext(source: CombatManager.CurrentMainAlly);
             
             foreach (var cardObject in HandController.hand)
-                cardObject.UpdateCardText();
+                cardObject.UpdateCardText(cardContext);
         }
         public void DiscardHand()
         {
@@ -97,9 +99,11 @@ namespace NueGames.NueDeck.Scripts.Managers
         public void OnCardPlayed(CardBase targetCard)
         {
             targetCard.Discard();
+
+            var cardContext = new CardExecutionContext(source: CombatManager.CurrentMainAlly);
           
             foreach (var cardObject in HandController.hand)
-                cardObject.UpdateCardText();
+                cardObject.UpdateCardText(cardContext);
             
             GameManager.PersistentGameplayData.CanUseCards = true;
         }
