@@ -1,5 +1,6 @@
 using System.Text;
 using NueGames.NueDeck.Scripts.Enums;
+using NueGames.NueDeck.Scripts.Utils;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Collection
@@ -31,7 +32,9 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
         public override string GetActionDescription(CardExecutionContext context)
         {
-            return BuildActionDescription($"Apply {CalculateActionValue(context)} burn");
+            var actionValue = CalculateActionValue(context);
+            var valueWord = PluralizingHelper.GetPluralizingString(actionValue, "turn", "turns");
+            return BuildActionDescription($"Apply {actionValue} burn during {turns} {valueWord}");
         }
     }
 }

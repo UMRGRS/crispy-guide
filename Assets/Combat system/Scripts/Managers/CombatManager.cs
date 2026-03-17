@@ -29,8 +29,9 @@ namespace NueGames.NueDeck.Scripts.Managers
         public List<EnemyBase> CurrentEnemiesList { get; private set; } = new List<EnemyBase>();
         public List<AllyBase> CurrentAlliesList { get; private set; }= new List<AllyBase>();
 
-        public Action OnAllyTurnStarted;
-        public Action OnEnemyTurnStarted;
+        public Action OnAllyStatusTrigger;
+        public Action OnEnemyActionDeclaration;
+        public Action OnEnemyStatusTrigger;
         public List<Transform> EnemyPosList => enemyPosList;
         public List<Transform> AllyPosList => allyPosList;
         public AllyBase CurrentMainAlly => CurrentAlliesList.Count>0 ? CurrentAlliesList[0] : null;
@@ -235,11 +236,11 @@ namespace NueGames.NueDeck.Scripts.Managers
         }
         private void EnemyActionsDeclaration()
         {
+            OnEnemyActionDeclaration?.Invoke();
             CurrentCombatStateType = CombatStateType.AllyTurn;
         }
         private void AllyTurn()
         {
-            OnAllyTurnStarted?.Invoke();
             if (CurrentMainAlly.CharacterStats.IsStunned)
             {
                 EndAllyTurn();
@@ -252,12 +253,13 @@ namespace NueGames.NueDeck.Scripts.Managers
         private void EnemyTurn()
         {
             GameManager.PersistentGameplayData.CanSelectCards = false;
-            OnEnemyTurnStarted?.Invoke();
             CollectionManager.DiscardHand();
             StartCoroutine(nameof(EnemyTurnRoutine));
         }
         private void TurnEnd()
         {
+            OnEnemyStatusTrigger?.Invoke();
+            OnAllyStatusTrigger?.Invoke();
             EnergyPoolManager.DecayAllEnergy();
             EnergyPoolManager.OnBlockEnergy?.Invoke();
             if(GameManager.PersistentGameplayData.RemainingActiveTurns-- <= 0 && EnergyPoolManager.CurrentEnergyInPool.Count == 0)

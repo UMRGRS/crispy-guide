@@ -30,14 +30,14 @@ namespace NueGames.NueDeck.Scripts.Characters
             CharacterStats = new CharacterStats(EnemyCharacterData.MaxHealth,EnemyCanvas);
             CharacterStats.OnDeath += OnDeath;
             CharacterStats.SetCurrentHealth(CharacterStats.CurrentHealth);
-            CombatManager.OnAllyTurnStarted += ShowNextAbility;
-            CombatManager.OnEnemyTurnStarted += CharacterStats.TriggerAllStatus;
+            CombatManager.OnEnemyActionDeclaration += ShowNextAbility;
+            CombatManager.OnEnemyStatusTrigger += CharacterStats.TriggerAllStatus;
         }
         protected override void OnDeath()
         {
             base.OnDeath();
-            CombatManager.OnAllyTurnStarted -= ShowNextAbility;
-            CombatManager.OnEnemyTurnStarted -= CharacterStats.TriggerAllStatus;
+            CombatManager.OnEnemyActionDeclaration -= ShowNextAbility;
+            CombatManager.OnEnemyStatusTrigger -= CharacterStats.TriggerAllStatus;
            
             CombatManager.OnEnemyDeath(this);
             AudioManager.PlayOneShot(DeathSoundProfileData.GetRandomClip());
