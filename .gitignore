@@ -30,6 +30,7 @@
 *.userprefs
 *.pidb
 *.booproj
+*.dwlt
 
 # =========================
 # OS generated
