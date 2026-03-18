@@ -30,7 +30,7 @@
 *.userprefs
 *.pidb
 *.booproj
-*.dwlt
+
 
 # =========================
 # OS generated
@@ -73,3 +73,8 @@ sysinfo.txt
 [Bb]uilds/**/*.meta
 [Ll]ogs/**/*.meta
 [Mm]emoryCaptures/**/*.meta
+
+# =========================
+#Settings
+# =========================
+*.dwlt

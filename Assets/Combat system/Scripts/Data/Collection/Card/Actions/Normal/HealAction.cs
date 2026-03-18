@@ -16,13 +16,22 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         {
             PayCost(context);
             
-            context.target.CharacterStats.Heal(Mathf.RoundToInt(CalculateActionValue(context)));
+            context.source.CharacterStats.Heal(Mathf.RoundToInt(CalculateActionValue(context)));
 
             if (context.managersContainer.FxManager != null) 
-                context.managersContainer.FxManager.PlayFx(context.target.transform, FxType.Heal);
+                context.managersContainer.FxManager.PlayFx(context.source.transform, FxType.Heal);
             
             if (context.managersContainer.AudioManager != null) 
                 context.managersContainer.AudioManager.PlayOneShot(audioType);
+        }
+
+        public override bool CanExecute(CardExecutionContext context)
+        {
+            if(!context.source) return false;
+
+            if(!context.managersContainer.EnergyPoolManager.IsEnergyOnPool(GetTotalCost())) return false;
+
+            return true; 
         }
 
         public override int CalculateActionValue(CardExecutionContext context)

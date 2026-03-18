@@ -14,15 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   specialKeywordBaseList:
   - specialKeyword: 0
-    contentText: Block damages
+    KeywordName: Optional
+    contentText: Card can be used even if the action doesn't meet cost
   - specialKeyword: 1
-    contentText: Increase your attack damage
-  - specialKeyword: 4
-    contentText: Increase your block amount
+    KeywordName: Energy block
+    contentText: Affected energies cannot be used
   - specialKeyword: 2
-    contentText: Damage per round. Ignores <color=blue>block</color>.
+    KeywordName: Burn
+    contentText: Deal damage over time
   - specialKeyword: 3
-    contentText: After using <color=yellow>Exhaust</color>, remove it from your deck
-      for this combat
+    KeywordName: Permanent damage boost
+    contentText: Add damage equal to the value for the rest of the combat
+  - specialKeyword: 4
+    KeywordName: Temporal damage boost
+    contentText: Add damage equal to the value for the specified amount of turns
   - specialKeyword: 5
-    contentText: Can not use any action
+    KeywordName: Next card damage boost
+    contentText: Add damage equal to the value to your next attack action

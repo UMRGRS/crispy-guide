@@ -24,8 +24,8 @@ namespace NueGames.NueDeck.Scripts.EnemyBehaviour.EnemyActions
             if (FxManager != null)
                 FxManager.PlayFx(newTarget.transform,FxType.Block);
 
-            if (AudioManager != null)
-                AudioManager.PlayOneShot(AudioActionType.Block);
+            //if (AudioManager != null)
+                //AudioManager.PlayOneShot(AudioActionType.Block);
         }
     }
 }

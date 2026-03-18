@@ -40,7 +40,7 @@ namespace NueGames.NueDeck.Scripts.Characters
             CharacterStats.SetCurrentHealth(CharacterStats.CurrentHealth);
             
             if (CombatManager != null)
-                CombatManager.OnAllyTurnStarted += CharacterStats.TriggerAllStatus;
+                CombatManager.OnAllyStatusTrigger += CharacterStats.TriggerAllStatus;
         }
         
         protected override void OnDeath()
@@ -48,7 +48,7 @@ namespace NueGames.NueDeck.Scripts.Characters
             base.OnDeath();
             if (CombatManager != null)
             {
-                CombatManager.OnAllyTurnStarted -= CharacterStats.TriggerAllStatus;
+                CombatManager.OnAllyStatusTrigger -= CharacterStats.TriggerAllStatus;
                 CombatManager.OnAllyDeath(this);
             }
 

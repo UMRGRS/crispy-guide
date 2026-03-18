@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6903f06e96c43789549f142f8956d64, type: 3}
+  m_Name: 6-Decrease-remaining-turns
+  m_EditorClassIdentifier: 
+  id: ED_Decrease_Turns
+  cardName: Decrease remaining turns
+  cardSprite: {fileID: 21300000, guid: 8510ca3a47f6c23479e9992c04455698, type: 3}
+  rarity: 0
+  usableWithoutTarget: 1
+  actionTargetType: 0
+  cardActionDataList:
+  - {fileID: 11400000, guid: 3b1de9a974e9a0f98af04457ceee12af, type: 2}
+  specialKeywordsList: 
