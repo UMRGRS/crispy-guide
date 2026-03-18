@@ -1,7 +1,9 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using NueGames.NueDeck.Scripts.Data.Characters;
+using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Data.Containers;
-using NueGames.NueDeck.Scripts.EnemyBehaviour;
 using NueGames.NueDeck.Scripts.Enums;
 using NueGames.NueDeck.Scripts.Interfaces;
 using NueGames.NueDeck.Scripts.Managers;
@@ -17,7 +19,6 @@ namespace NueGames.NueDeck.Scripts.Characters
         [SerializeField] protected EnemyCanvas enemyCanvas;
         [SerializeField] protected SoundProfileData deathSoundProfileData;
         protected EnemyAbilityData NextAbility;
-        
         public EnemyCharacterData EnemyCharacterData => enemyCharacterData;
         public EnemyCanvas EnemyCanvas => enemyCanvas;
         public SoundProfileData DeathSoundProfileData => deathSoundProfileData;
@@ -25,6 +26,7 @@ namespace NueGames.NueDeck.Scripts.Characters
         #region Setup
         public override void BuildCharacter()
         {
+            
             base.BuildCharacter();
             EnemyCanvas.InitCanvas();
             CharacterStats = new CharacterStats(EnemyCharacterData.MaxHealth,EnemyCanvas);
@@ -46,25 +48,31 @@ namespace NueGames.NueDeck.Scripts.Characters
         #endregion
         
         #region Private Methods
-
-        private int _usedAbilityCount;
         private void ShowNextAbility()
         {
-            NextAbility = EnemyCharacterData.GetAbility(_usedAbilityCount);
+            NextAbility = SelectUsableCard();
             EnemyCanvas.IntentImage.sprite = NextAbility.Intention.IntentionSprite;
-            
-            if (NextAbility.HideActionValue)
-            {
-                EnemyCanvas.NextActionValueText.gameObject.SetActive(false);
-            }
-            else
-            {
-                EnemyCanvas.NextActionValueText.gameObject.SetActive(true);
-                EnemyCanvas.NextActionValueText.text = NextAbility.ActionList[0].ActionValue.ToString();
-            }
-
-            _usedAbilityCount++;
+            //Change to display all the energy values
+            EnemyCanvas.NextActionValueText.text = "2";
+            EnemyCanvas.NextActionValueText.gameObject.SetActive(!NextAbility.HideActionValue);
             EnemyCanvas.IntentImage.gameObject.SetActive(true);
+        }
+
+        private EnemyAbilityData SelectUsableCard()
+        {
+            List<EnemyAbilityData> availableAbilities = new();
+
+            foreach(EnemyAbilityData ability in EnemyCharacterData.EnemyDeck.CardList)
+            {
+                if(EnergyPoolManager.CanPayCosts(ability.Card.CardActionDataList))
+                    availableAbilities.Add(ability);    
+            }
+            
+            availableAbilities = availableAbilities
+                .OrderByDescending(x => x.Card.GetCostNumber())
+                .ToList();
+
+            return availableAbilities[0];
         }
         #endregion
         
@@ -101,7 +109,16 @@ namespace NueGames.NueDeck.Scripts.Characters
             
             yield return StartCoroutine(MoveToTargetRoutine(waitFrame, startPos, endPos, startRot, endRot, 5));
           
-            targetAbility.ActionList.ForEach(x=>EnemyActionProcessor.GetAction(x.ActionType).DoAction(new EnemyActionParameters(x.ActionValue,target,this)));
+            CardExecutionContext context = new(this, CombatManager.CurrentMainAlly);
+            foreach (CardActionData action in targetAbility.Card.CardActionDataList)
+            {
+                if(!action.CanExecute(context)) continue;
+                
+                action.Execute(context);
+
+                if (action.ActionDelay > 0)
+                    yield return new WaitForSeconds(action.ActionDelay);
+            }
             
             yield return StartCoroutine(MoveToTargetRoutine(waitFrame, endPos, startPos, endRot, startRot, 5));
         }
@@ -120,7 +137,8 @@ namespace NueGames.NueDeck.Scripts.Characters
             
             yield return StartCoroutine(MoveToTargetRoutine(waitFrame, startPos, endPos, startRot, endRot, 5));
             
-            targetAbility.ActionList.ForEach(x=>EnemyActionProcessor.GetAction(x.ActionType).DoAction(new EnemyActionParameters(x.ActionValue,target,this)));
+            //Insert execute here
+            //targetAbility.ActionList.ForEach(x=>EnemyActionProcessor.GetAction(x.ActionType).DoAction(new EnemyActionParameters(x.ActionValue,target,this)));
             
             yield return StartCoroutine(MoveToTargetRoutine(waitFrame, endPos, startPos, endRot, startRot, 5));
         }

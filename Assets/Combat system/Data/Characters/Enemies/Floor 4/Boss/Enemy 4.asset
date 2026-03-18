@@ -17,12 +17,4 @@ MonoBehaviour:
   characterDescription: Enemy Description
   maxHealth: 10
   enemyPrefab: {fileID: 243822687015991123, guid: 36d8b1640cc4b9146b1bdcae06c505a1, type: 3}
-  followAbilityPattern: 0
-  enemyAbilityList:
-  - name: Attack Single
-    intention: {fileID: 11400000, guid: 2af475f5121b73d4c99b67551230aa48, type: 2}
-    hideActionValue: 0
-    actionList:
-    - actionType: 0
-      minActionValue: 0
-      maxActionValue: 0
+  enemyDeck: {fileID: 11400000, guid: 6a5d9979fea7d73218e23a50d4589841, type: 2}

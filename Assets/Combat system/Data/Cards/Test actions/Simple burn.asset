@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Simple burn
   m_EditorClassIdentifier: 
   actionDelay: 0.1
-  costDataList: []
-  usableWithoutCost: 1
   optional: 0
+  costDataList: []
+  isCostUpToValue: 0
+  usableWithoutCost: 1
   audioType: 0
   value: 5
   turns: 2

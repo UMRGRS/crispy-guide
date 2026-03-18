@@ -61,7 +61,6 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             
             return costDataList;
         }
-
         protected string BuildActionDescription(
             string baseDescription)
         {

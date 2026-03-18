@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using NueGames.NueDeck.Scripts.Enums;
 using UnityEngine;
@@ -46,6 +47,33 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             }
             
             MyDescription = str.ToString();
+        }
+
+        public List<EnergyQuantityData> GatherCardCosts()
+        {
+            Dictionary<EnergyColor, int> totals = new();
+
+            foreach(CardActionData action in cardActionDataList)
+            {
+                foreach(EnergyQuantityData cost in action.CostDataList)
+                {
+                    totals.TryGetValue(cost.EnergyColor, out var current);
+                    totals[cost.EnergyColor] = current + cost.Quantity;
+                }
+                
+            }
+
+            List<EnergyQuantityData> results = new(totals.Count);
+
+            foreach(var kvp in totals)
+                results.Add(new EnergyQuantityData(kvp.Key, kvp.Value));
+
+            return results;
+        }
+
+        public int GetCostNumber()
+        {
+            return GatherCardCosts().Sum(x=> x.Quantity);
         }
         #endregion
     }

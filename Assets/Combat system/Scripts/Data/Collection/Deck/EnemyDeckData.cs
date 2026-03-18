@@ -1,0 +1,32 @@
+using System;
+using System.Collections.Generic;
+using NueGames.NueDeck.Scripts.Data.Containers;
+using UnityEngine;
+
+namespace NueGames.NueDeck.Scripts.Data.Collection
+{
+    [CreateAssetMenu(fileName = "Enemy Deck Data", menuName = "NueDeck/Collection/Enemy Deck", order = 1)]
+    public class EnemyDeckData : ScriptableObject
+    {
+        [SerializeField] private string deckId;
+        [SerializeField] private string deckName;
+        [SerializeField] private List<EnemyAbilityData> cardList;
+        
+        public List<EnemyAbilityData> CardList => cardList;
+        public string DeckId => deckId;
+        public string DeckName => deckName;
+    }
+
+    [Serializable]
+    public class EnemyAbilityData
+    {
+        [Header("Settings")]
+        [SerializeField] private CardData card;
+        [SerializeField] private EnemyIntentionData intention;
+        [SerializeField] private bool hideActionValue;
+        
+        public CardData Card => card;
+        public EnemyIntentionData Intention => intention;
+        public bool HideActionValue => hideActionValue;
+    }  
+}

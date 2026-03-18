@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Characters
 {
-    public abstract class AllyBase : CharacterBase,IAlly
+    public abstract class AllyBase : CharacterBase, IAlly
     {
         [Header("Ally Base Settings")]
         [SerializeField] private AllyCanvas allyCanvas;

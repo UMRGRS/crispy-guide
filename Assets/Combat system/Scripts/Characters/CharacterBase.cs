@@ -21,6 +21,7 @@ namespace NueGames.NueDeck.Scripts.Characters
         protected CombatManager CombatManager => CombatManager.Instance;
         protected CollectionManager CollectionManager => CollectionManager.Instance;
         protected UIManager UIManager => UIManager.Instance;
+        protected EnergyPoolManager EnergyPoolManager => EnergyPoolManager.Instance; 
 
         #endregion
        

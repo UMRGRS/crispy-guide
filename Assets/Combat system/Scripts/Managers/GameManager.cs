@@ -3,10 +3,8 @@ using NueGames.NueDeck.Scripts.Card;
 using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Data.Containers;
 using NueGames.NueDeck.Scripts.Data.Settings;
-using NueGames.NueDeck.Scripts.EnemyBehaviour;
 using NueGames.NueDeck.Scripts.Enums;
 using NueGames.NueDeck.Scripts.Floors;
-using NueGames.NueDeck.Scripts.NueExtentions;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Managers
@@ -44,7 +42,6 @@ namespace NueGames.NueDeck.Scripts.Managers
                 transform.parent = null;
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
-                EnemyActionProcessor.Initialize();
                 InitGameplayData();
                 SetInitialHand();
             }
