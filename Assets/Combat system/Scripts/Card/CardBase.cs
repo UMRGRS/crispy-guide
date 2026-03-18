@@ -83,6 +83,7 @@ namespace NueGames.NueDeck.Scripts.Card
         private IEnumerator CardUseRoutine(CharacterBase self, CharacterBase targetCharacter)
         {
             CardExecutionContext context = new(self, targetCharacter);
+
             foreach (CardActionData action in CardData.CardActionDataList)
             {
                 if(!action.CanExecute(context)) continue;

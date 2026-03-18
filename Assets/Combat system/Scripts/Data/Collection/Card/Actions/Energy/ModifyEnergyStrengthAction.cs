@@ -37,7 +37,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         }
         public override string GetActionDescription(CardExecutionContext context)
         {
-            return BuildActionDescription($"{modificationType} {from.Quantity} {from.EnergyColor}");
+            return BuildActionDescription($"{modificationType} {from.Quantity} {from.Color}");
         }
     }
 }

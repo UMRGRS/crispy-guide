@@ -109,7 +109,7 @@ namespace NueGames.NueDeck.Scripts.Managers
                 Transform spawnPos = energy.transform;
                 energy.OnDestroy();
             
-                EnergyData energyData = availableEnergies.FirstOrDefault(energy => energy.EnergyColor == to.EnergyColor);
+                EnergyData energyData = availableEnergies.FirstOrDefault(energy => energy.EnergyColor == to.Color);
                 EnergyBase clone = Instantiate(energyData.EnergyPrefab, spawnPos.position, spawnPos.rotation);
                 clone.transform.SetParent(spawnPos.parent, true);
                 
@@ -148,7 +148,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             {
                 foreach (EnergyQuantityData cost in action.GetTotalCost())
                 {
-                    int currentAmount = simulatedPool[cost.EnergyColor];
+                    int currentAmount = simulatedPool[cost.Color];
                     int lastValue = currentAmount;
         
                     currentAmount -= cost.Quantity;
@@ -169,7 +169,7 @@ namespace NueGames.NueDeck.Scripts.Managers
                         }
                     }
         
-                    simulatedPool[cost.EnergyColor] = currentAmount;
+                    simulatedPool[cost.Color] = currentAmount;
                 }
             }
         
@@ -209,14 +209,18 @@ namespace NueGames.NueDeck.Scripts.Managers
             List<EnergyQuantityData> results = new(totals.Count);
 
             foreach(var kvp in totals)
-                results.Add(new EnergyQuantityData(kvp.Key, kvp.Value));
+            {
+                var instance = ScriptableObject.CreateInstance<EnergyQuantityData>();
+                instance.Initialize(kvp.Key, kvp.Value);
+                results.Add(instance);
+            }
 
             return results;
         }
         private List<EnergyBase> FindEnergyOnPool(EnergyQuantityData energiesToFind)
         {
             return CurrentEnergyInPool.
-                Where(energy => energy.EnergyStats.EnergyColor == energiesToFind.EnergyColor && energy.EnergyStats.BlockTurns <= 0)
+                Where(energy => energy.EnergyStats.EnergyColor == energiesToFind.Color && energy.EnergyStats.BlockTurns <= 0)
                 .OrderBy(energy => energy.EnergyStats.EnergyStrength)
                 .Take(energiesToFind.Quantity)
                 .ToList();            
@@ -230,7 +234,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             {
                 for(int i=0; i < data.Quantity + modifier; i++)
                 {
-                    EnergyData energyData = availableEnergies.FirstOrDefault(energy => energy.EnergyColor == data.EnergyColor);
+                    EnergyData energyData = availableEnergies.FirstOrDefault(energy => energy.EnergyColor == data.Color);
                     int spawnPosition = UnityEngine.Random.Range(0, energyPosList.Count);
                     EnergyBase clone = Instantiate(energyData.EnergyPrefab, energyPosList[spawnPosition]);
                     clone.BuildEnergy();

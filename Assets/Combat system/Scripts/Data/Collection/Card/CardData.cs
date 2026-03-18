@@ -57,8 +57,8 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             {
                 foreach(EnergyQuantityData cost in action.CostDataList)
                 {
-                    totals.TryGetValue(cost.EnergyColor, out var current);
-                    totals[cost.EnergyColor] = current + cost.Quantity;
+                    totals.TryGetValue(cost.Color, out var current);
+                    totals[cost.Color] = current + cost.Quantity;
                 }
                 
             }
@@ -66,7 +66,11 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             List<EnergyQuantityData> results = new(totals.Count);
 
             foreach(var kvp in totals)
-                results.Add(new EnergyQuantityData(kvp.Key, kvp.Value));
+            {
+                var instance = ScriptableObject.CreateInstance<EnergyQuantityData>();
+                instance.Initialize(kvp.Key, kvp.Value);
+                results.Add(instance);
+            }
 
             return results;
         }

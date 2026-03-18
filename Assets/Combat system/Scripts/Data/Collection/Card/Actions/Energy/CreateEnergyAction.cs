@@ -47,7 +47,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
                 else if(i > 0)
                     description.Append(", ");
                 
-                description.Append($"{energyToCreate[i].Quantity} {energyToCreate[i].EnergyColor}");
+                description.Append($"{energyToCreate[i].Quantity} {energyToCreate[i].Color}");
             }
 
             return BuildActionDescription(description.ToString());
