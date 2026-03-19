@@ -49,10 +49,10 @@ namespace NueGames.NueDeck.Scripts.Managers
         #endregion
 
         #region Public methods
-        public int ConsumeEnergyCost(List<EnergyQuantityData> costList)
+        public int ConsumeEnergyCost(List<EnergyQuantityContainer> costList)
         {
             int consumedEnergies = 0;
-            foreach(EnergyQuantityData cost in costList)
+            foreach(EnergyQuantityContainer cost in costList)
             {
                 List<EnergyBase> targetEnergies = FindEnergyOnPool(cost);
 
@@ -85,9 +85,10 @@ namespace NueGames.NueDeck.Scripts.Managers
                         ));
             }
         }
-        public void CreateEnergy(List<EnergyQuantityData> energyQuantityDataList, int modifier = 0)
+        public void CreateEnergy(List<EnergyQuantityContainer> EnergyQuantityContainerList, int modifier = 0)
         {
-            StartCoroutine(CreateEnergyRoutine(energyQuantityDataList, modifier));
+            if(GameManager.PersistentGameplayData.EnergyBlockRules.Turns <= 0)
+                StartCoroutine(CreateEnergyRoutine(EnergyQuantityContainerList, modifier));
         }
         public void DecayAllEnergy()
         {
@@ -99,7 +100,7 @@ namespace NueGames.NueDeck.Scripts.Managers
                     energy.EnergyStats.ModifyStrength(EnergyModificationType.Weaken);
             }
         }
-        public void ConvertEnergy(EnergyQuantityData from, EnergyQuantityData to)
+        public void ConvertEnergy(EnergyQuantityContainer from, EnergyQuantityContainer to)
         {
             List<EnergyBase> energyToConvert = FindEnergyOnPool(from);
             
@@ -117,7 +118,7 @@ namespace NueGames.NueDeck.Scripts.Managers
                 CurrentEnergyInPool.Add(clone);
             }
         }
-        public void ModifyEnergyStrength(EnergyQuantityData from, EnergyModificationType modificationType)
+        public void ModifyEnergyStrength(EnergyQuantityContainer from, EnergyModificationType modificationType)
         {
             List<EnergyBase> energyToModify = FindEnergyOnPool(from);
 
@@ -146,7 +147,7 @@ namespace NueGames.NueDeck.Scripts.Managers
 
             foreach (CardActionData action in cardActions)
             {
-                foreach (EnergyQuantityData cost in action.GetTotalCost())
+                foreach (EnergyQuantityContainer cost in action.GetTotalCost())
                 {
                     int currentAmount = simulatedPool[cost.Color];
                     int lastValue = currentAmount;
@@ -176,9 +177,9 @@ namespace NueGames.NueDeck.Scripts.Managers
             return true;
         }
 
-        public bool IsEnergyOnPool(List<EnergyQuantityData> neededEnergy)
+        public bool IsEnergyOnPool(List<EnergyQuantityContainer> neededEnergy)
         {
-            foreach(EnergyQuantityData cost in neededEnergy)
+            foreach(EnergyQuantityContainer cost in neededEnergy)
             {
                 var energies = FindEnergyOnPool(cost);
                 if(energies.Count() < cost.Quantity) return false;
@@ -192,7 +193,7 @@ namespace NueGames.NueDeck.Scripts.Managers
         #endregion
 
         #region Private methods
-        private List<EnergyQuantityData> DetermineEnergiesToCreate(EnergyGenerationRules energyGenerationRules)
+        private List<EnergyQuantityContainer> DetermineEnergiesToCreate(EnergyGenerationRules energyGenerationRules)
         {
             Dictionary<EnergyColor, int> totals = new();
 
@@ -206,18 +207,14 @@ namespace NueGames.NueDeck.Scripts.Managers
                 totals[energyData.EnergyColor] = current + 1;
             }
 
-            List<EnergyQuantityData> results = new(totals.Count);
+            List<EnergyQuantityContainer> results = new(totals.Count);
 
             foreach(var kvp in totals)
-            {
-                var instance = ScriptableObject.CreateInstance<EnergyQuantityData>();
-                instance.Initialize(kvp.Key, kvp.Value);
-                results.Add(instance);
-            }
-
+                results.Add(new(kvp.Key, kvp.Value));
+            
             return results;
         }
-        private List<EnergyBase> FindEnergyOnPool(EnergyQuantityData energiesToFind)
+        private List<EnergyBase> FindEnergyOnPool(EnergyQuantityContainer energiesToFind)
         {
             return CurrentEnergyInPool.
                 Where(energy => energy.EnergyStats.EnergyColor == energiesToFind.Color && energy.EnergyStats.BlockTurns <= 0)
@@ -228,9 +225,9 @@ namespace NueGames.NueDeck.Scripts.Managers
         #endregion 
 
         #region Routines
-        private IEnumerator CreateEnergyRoutine(List<EnergyQuantityData> energyQuantityDataList, int modifier = 0)
+        private IEnumerator CreateEnergyRoutine(List<EnergyQuantityContainer> EnergyQuantityContainerList, int modifier = 0)
         {
-            foreach(EnergyQuantityData data in energyQuantityDataList)
+            foreach(EnergyQuantityContainer data in EnergyQuantityContainerList)
             {
                 for(int i=0; i < data.Quantity + modifier; i++)
                 {

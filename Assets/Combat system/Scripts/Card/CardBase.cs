@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using NueGames.NueDeck.Scripts.Characters;
 using NueGames.NueDeck.Scripts.Data.Collection;
+using NueGames.NueDeck.Scripts.Data.Energy;
 using NueGames.NueDeck.Scripts.Enums;
 using NueGames.NueDeck.Scripts.Managers;
 using NueGames.NueDeck.Scripts.NueExtentions;
@@ -103,7 +104,7 @@ namespace NueGames.NueDeck.Scripts.Card
             CollectionManager.OnCardDiscarded(this);
             StartCoroutine(DiscardRoutine());
         }
-        protected virtual void SpendEnergy(List<EnergyQuantityData> cost)
+        protected virtual void SpendEnergy(List<EnergyQuantityContainer> cost)
         {
             if (!IsPlayable) return;
             EnergyPoolManager.ConsumeEnergyCost(cost);

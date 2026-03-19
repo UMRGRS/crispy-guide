@@ -22,6 +22,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     {
         [Header("Settings")]
         [SerializeField] private CardData card;
+        //Possible deletion
         [SerializeField] private EnemyIntentionData intention;
         [SerializeField] private bool hideActionValue;
         

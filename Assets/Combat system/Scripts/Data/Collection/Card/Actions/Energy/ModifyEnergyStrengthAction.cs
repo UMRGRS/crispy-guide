@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using NueGames.NueDeck.Scripts.Data.Energy;
 using NueGames.NueDeck.Scripts.Enums;
 using UnityEngine;
 
@@ -9,10 +10,10 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     public class ModifyEnergyStrengthAction : CardActionData
     {
         [Header("Modify energy strength settings")]
-        [SerializeField] private EnergyQuantityData from;
+        [SerializeField] private EnergyQuantityContainer from;
         [SerializeField] private EnergyModificationType modificationType;
 
-        public EnergyQuantityData From => from;
+        public EnergyQuantityContainer From => from;
         public EnergyModificationType ModificationType => modificationType;
         
         public override bool CanExecute(CardExecutionContext context)
@@ -31,9 +32,9 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
             // Add audio effects
         }
-        public override List<EnergyQuantityData> GetTotalCost()
+        public override List<EnergyQuantityContainer> GetTotalCost()
         {
-            return new List<EnergyQuantityData> {from}.Concat(GetActivationCost()).ToList();
+            return new List<EnergyQuantityContainer> {from}.Concat(GetActivationCost()).ToList();
         }
         public override string GetActionDescription(CardExecutionContext context)
         {

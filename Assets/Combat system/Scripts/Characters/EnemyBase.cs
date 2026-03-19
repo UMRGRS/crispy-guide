@@ -51,11 +51,11 @@ namespace NueGames.NueDeck.Scripts.Characters
         private void ShowNextAbility()
         {
             NextAbility = SelectUsableCard();
-            EnemyCanvas.IntentImage.sprite = NextAbility.Intention.IntentionSprite;
-            //Change to display all the energy values
-            EnemyCanvas.NextActionValueText.text = "2";
-            EnemyCanvas.NextActionValueText.gameObject.SetActive(!NextAbility.HideActionValue);
-            EnemyCanvas.IntentImage.gameObject.SetActive(true);
+            //EnemyCanvas.RedIntentImage.sprite = NextAbility.Intention.IntentionSprite;
+            ////Change to display all the energy values
+            //EnemyCanvas.NextActionValueText.text = "2";
+            //EnemyCanvas.NextActionValueText.gameObject.SetActive(!NextAbility.HideActionValue);
+            //EnemyCanvas.RedIntentImage.gameObject.SetActive(true);
         }
 
         private EnemyAbilityData SelectUsableCard()
@@ -68,11 +68,7 @@ namespace NueGames.NueDeck.Scripts.Characters
                     availableAbilities.Add(ability);    
             }
             
-            availableAbilities = availableAbilities
-                .OrderByDescending(x => x.Card.GetCostNumber())
-                .ToList();
-
-            return availableAbilities[0];
+            return availableAbilities.RandomItem();
         }
         #endregion
         
@@ -82,7 +78,7 @@ namespace NueGames.NueDeck.Scripts.Characters
             if (CharacterStats.IsStunned)
                 yield break;
             
-            EnemyCanvas.IntentImage.gameObject.SetActive(false);
+            //EnemyCanvas.RedIntentImage.gameObject.SetActive(false);
             if (NextAbility.Intention.EnemyIntentionType == EnemyIntentionType.Attack || NextAbility.Intention.EnemyIntentionType == EnemyIntentionType.Debuff)
             {
                 yield return StartCoroutine(AttackRoutine(NextAbility));

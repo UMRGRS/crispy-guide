@@ -31,7 +31,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public override string GetActionDescription(CardExecutionContext context)
         {
             var valueWord = PluralizingHelper.GetPluralizingString(turns, "turn", "turns");
-            return BuildActionDescription($"Block start of turn energy generation for {turns} {valueWord}");
+            return BuildActionDescription($"Block energy generation for {turns} {valueWord}");
         }
     }
 }
