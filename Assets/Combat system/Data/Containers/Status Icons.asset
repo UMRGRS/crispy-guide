@@ -16,16 +16,16 @@ MonoBehaviour:
   statusIconList:
   - iconStatus: 1
     iconSprite: {fileID: 8414397559482299720, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
-    specialKeywords: 01000000
+    specialKeywords: 05000000
   - iconStatus: 2
     iconSprite: {fileID: 8414397559482299720, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
-    specialKeywords: 01000000
+    specialKeywords: 06000000
   - iconStatus: 3
     iconSprite: {fileID: 8414397559482299720, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
-    specialKeywords: 01000000
+    specialKeywords: 07000000
   - iconStatus: 4
     iconSprite: {fileID: -6598036126873212134, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
-    specialKeywords: 01000000
+    specialKeywords: 03000000
   - iconStatus: 5
     iconSprite: {fileID: -214828719786938277, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
-    specialKeywords: 02000000
+    specialKeywords: 04000000

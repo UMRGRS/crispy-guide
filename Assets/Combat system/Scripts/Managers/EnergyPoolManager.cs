@@ -30,6 +30,7 @@ namespace NueGames.NueDeck.Scripts.Managers
         public List<EnergyBase> CurrentEnergyInPool {get; private set;} = new List<EnergyBase>();
         public List<Transform> EnergyPostList => energyPosList;
         private GameManager GameManager => GameManager.Instance;
+        private CombatManager CombatManager => CombatManager.Instance;
         #endregion
 
         #region Setup
@@ -72,17 +73,18 @@ namespace NueGames.NueDeck.Scripts.Managers
             if(modifiedEnergyGenerationParameters.turns > 0)
             {
                 modifiedEnergyGenerationParameters.turns--;
-                CreateEnergy(DetermineEnergiesToCreate(modifiedEnergyGenerationParameters));
+
+                StartCoroutine(CreateStartOfTurnEnergyRoutine(DetermineEnergiesToCreate(modifiedEnergyGenerationParameters), 0));
             }
             else
             {
-                CreateEnergy(DetermineEnergiesToCreate(
+                StartCoroutine(CreateStartOfTurnEnergyRoutine(DetermineEnergiesToCreate(
                     new EnergyGenerationRules(
                         0, 
                         currentEncounterData.MaxEnergySpawn, 
                         currentEncounterData.MaxEnergySpawn, 
                         currentEncounterData.AvailableEnergies)
-                        ));
+                        ), 0));
             }
         }
         public void CreateEnergy(List<EnergyQuantityContainer> EnergyQuantityContainerList, int modifier = 0)
@@ -225,6 +227,11 @@ namespace NueGames.NueDeck.Scripts.Managers
         #endregion 
 
         #region Routines
+        private IEnumerator CreateStartOfTurnEnergyRoutine(List<EnergyQuantityContainer> EnergyQuantityContainerList, int modifier = 0)
+        {
+            yield return StartCoroutine(CreateEnergyRoutine(EnergyQuantityContainerList, modifier));
+            CombatManager.EndStartOfTurn();
+        }
         private IEnumerator CreateEnergyRoutine(List<EnergyQuantityContainer> EnergyQuantityContainerList, int modifier = 0)
         {
             foreach(EnergyQuantityContainer data in EnergyQuantityContainerList)

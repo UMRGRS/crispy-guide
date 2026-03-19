@@ -16,18 +16,24 @@ MonoBehaviour:
   - specialKeyword: 0
     KeywordName: Optional
     contentText: Card can be used even if the action doesn't meet cost
-  - specialKeyword: 1
-    KeywordName: Energy block
-    contentText: Affected energies cannot be used
   - specialKeyword: 2
+    KeywordName: Energy usage block
+    contentText: Affected energies cannot be used
+  - specialKeyword: 4
     KeywordName: Burn
     contentText: Deal damage over time
-  - specialKeyword: 3
+  - specialKeyword: 5
     KeywordName: Permanent damage boost
     contentText: Add damage equal to the value for the rest of the combat
-  - specialKeyword: 4
+  - specialKeyword: 6
     KeywordName: Temporal damage boost
     contentText: Add damage equal to the value for the specified amount of turns
-  - specialKeyword: 5
+  - specialKeyword: 7
     KeywordName: Next card damage boost
     contentText: Add damage equal to the value to your next attack action
+  - specialKeyword: 1
+    KeywordName: Energy generation block
+    contentText: Any card card that would create energy will create 0 instead
+  - specialKeyword: 3
+    KeywordName: Buff energy generation
+    contentText: Your next card will create extra energy equal to the value

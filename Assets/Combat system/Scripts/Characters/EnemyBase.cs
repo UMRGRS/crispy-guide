@@ -51,11 +51,7 @@ namespace NueGames.NueDeck.Scripts.Characters
         private void ShowNextAbility()
         {
             NextAbility = SelectUsableCard();
-            //EnemyCanvas.RedIntentImage.sprite = NextAbility.Intention.IntentionSprite;
-            ////Change to display all the energy values
-            //EnemyCanvas.NextActionValueText.text = "2";
-            //EnemyCanvas.NextActionValueText.gameObject.SetActive(!NextAbility.HideActionValue);
-            //EnemyCanvas.RedIntentImage.gameObject.SetActive(true);
+            EnemyCanvas.SetEnemyIntention(NextAbility);
         }
 
         private EnemyAbilityData SelectUsableCard()
@@ -78,7 +74,7 @@ namespace NueGames.NueDeck.Scripts.Characters
             if (CharacterStats.IsStunned)
                 yield break;
             
-            //EnemyCanvas.RedIntentImage.gameObject.SetActive(false);
+            EnemyCanvas.SetIntentionVisibility(false);
             if (NextAbility.Intention.EnemyIntentionType == EnemyIntentionType.Attack || NextAbility.Intention.EnemyIntentionType == EnemyIntentionType.Debuff)
             {
                 yield return StartCoroutine(AttackRoutine(NextAbility));
