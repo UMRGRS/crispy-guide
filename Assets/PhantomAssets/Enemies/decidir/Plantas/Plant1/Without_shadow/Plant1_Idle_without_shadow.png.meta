@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -108,7 +108,343 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Plant1_Idle_without_shadow_0
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 207
+        width: 29
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a4d3324a5b8089e2b042c2c2983dc21
+      internalID: -1905011461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Idle_without_shadow_1
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 209
+        width: 27
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 290578ec348c0b3279fd3a3f99061d88
+      internalID: -1099007613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Idle_without_shadow_2
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 209
+        width: 26
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d2b62c76cf9179d89eb1c431f5c7173
+      internalID: -928889558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Idle_without_shadow_3
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 209
+        width: 27
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f94eee7c46643b2c8e2e3217f95f8b9
+      internalID: 2129614175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Idle_without_shadow_4
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 143
+        width: 29
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f2622799507caf1ea3710cf87dc0ad1
+      internalID: 2099997388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Idle_without_shadow_5
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 145
+        width: 27
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e121199224a345e7a52a221751eaf90
+      internalID: 1024589827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Idle_without_shadow_6
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 146
+        width: 26
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a7d4f918020e61ef920c22a41fb20c7
+      internalID: -300007361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Idle_without_shadow_7
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 145
+        width: 27
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ee24f3c7da0b1251b4c7e096233479f
+      internalID: -1442609653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Idle_without_shadow_8
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 81
+        width: 36
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd9959b9ac572511d9dfa3fbf540f87e
+      internalID: 106720797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Idle_without_shadow_9
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 81
+        width: 35
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20233e0d1f1fd925aa8332a3dce6115a
+      internalID: -1987453108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Idle_without_shadow_10
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 81
+        width: 33
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4b2bac625d4401d0bdd5c2f3a2ac8cd
+      internalID: 1437528042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Idle_without_shadow_11
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 81
+        width: 35
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2b1849e885b5da1fb7c526c26cf50f7
+      internalID: -235891129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Idle_without_shadow_12
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 17
+        width: 36
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c90d36dd7f93f16384b3098d6fa5b9d
+      internalID: -1758278492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Idle_without_shadow_13
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 17
+        width: 35
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da6f8f7e8559d0a16bf9c3e8b17868af
+      internalID: -2052394636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Idle_without_shadow_14
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 17
+        width: 33
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87b4bead822aa3ca6bf5796c066a7e80
+      internalID: -657225874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Idle_without_shadow_15
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 17
+        width: 35
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8c97d88f544581f6bdd19d820eb078b
+      internalID: -1715988336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +455,23 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Plant1_Idle_without_shadow_0: -1905011461
+      Plant1_Idle_without_shadow_1: -1099007613
+      Plant1_Idle_without_shadow_10: 1437528042
+      Plant1_Idle_without_shadow_11: -235891129
+      Plant1_Idle_without_shadow_12: -1758278492
+      Plant1_Idle_without_shadow_13: -2052394636
+      Plant1_Idle_without_shadow_14: -657225874
+      Plant1_Idle_without_shadow_15: -1715988336
+      Plant1_Idle_without_shadow_2: -928889558
+      Plant1_Idle_without_shadow_3: 2129614175
+      Plant1_Idle_without_shadow_4: 2099997388
+      Plant1_Idle_without_shadow_5: 1024589827
+      Plant1_Idle_without_shadow_6: -300007361
+      Plant1_Idle_without_shadow_7: -1442609653
+      Plant1_Idle_without_shadow_8: 106720797
+      Plant1_Idle_without_shadow_9: -1987453108
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
