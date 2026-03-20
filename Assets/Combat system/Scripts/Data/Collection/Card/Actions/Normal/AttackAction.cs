@@ -9,16 +9,17 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     {
         [Header("Attack settings")]
         [SerializeField] private int value;
+        [SerializeField] private bool isSelfDamage;
 
         public int Value => value;
         public override void Execute(CardExecutionContext context)
         {
             PayCost(context);
 
+            context.target.CharacterStats.Damage(Mathf.RoundToInt(CalculateActionValue(context)));
+
             if (context.source.CharacterStats.StatusDict[StatusType.NextCardDamageBoost].IsActive)
                 context.source.CharacterStats.ClearStatus(StatusType.NextCardDamageBoost);
-            
-            context.target.CharacterStats.Damage(Mathf.RoundToInt(CalculateActionValue(context)));
             
             if (context.managersContainer.FxManager != null) 
                 context.managersContainer.FxManager.PlayFx(context.target.transform, FxType.Attack);
@@ -33,12 +34,18 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
                             context.source.CharacterStats.StatusDict[StatusType.TemporalDamageBoost].StatusValue +
                             context.source.CharacterStats.StatusDict[StatusType.NextCardDamageBoost].StatusValue;
 
+            buffsValue = !isSelfDamage ? buffsValue : 0;
+
             return value * upToValue + buffsValue;
         }
 
         public override string GetActionDescription(CardExecutionContext context)
         {
-            return BuildActionDescription($"Deal {CalculateActionValue(context)} damage");
+            var suffix =  new StringBuilder("damage");
+
+            if(isSelfDamage) suffix.Append(" to your self");
+
+            return BuildActionDescription($"Deal {CalculateActionValue(context)} {suffix}");
         }
     }
 }
