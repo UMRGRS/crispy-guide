@@ -20,5 +20,5 @@ MonoBehaviour:
     greenCost: 0
   isCostUpToValue: 0
   usableWithoutCost: 0
-  audioType: 0
+  audioType: 4
   value: 2

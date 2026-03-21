@@ -19,5 +19,5 @@ MonoBehaviour:
   usableWithoutTarget: 0
   actionTargetType: 1
   cardActionDataList:
-  - {fileID: 11400000, guid: 5c77a43419c0bea61b521df7450acd88, type: 2}
+  - {fileID: 11400000, guid: 0be697cb868337216b4fb3c878871e3a, type: 2}
   specialKeywordsList: 

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6903f06e96c43789549f142f8956d64, type: 3}
+  m_Name: 3-Buff-next-card
+  m_EditorClassIdentifier: 
+  id: HO_Buff_Next_Card
+  cardName: Buff next card
+  cardSprite: {fileID: -1513487178384027574, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
+  rarity: 0
+  usableWithoutTarget: 1
+  actionTargetType: 0
+  cardActionDataList:
+  - {fileID: 11400000, guid: b88a7404fe8d6798199d14ddeb0e6365, type: 2}
+  specialKeywordsList: 07000000

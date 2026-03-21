@@ -22,3 +22,4 @@ MonoBehaviour:
   usableWithoutCost: 1
   audioType: 0
   value: 4
+  isSelfDamage: 1

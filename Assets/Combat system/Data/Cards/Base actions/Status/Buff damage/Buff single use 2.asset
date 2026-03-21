@@ -20,8 +20,8 @@ MonoBehaviour:
     greenCost: 2
   isCostUpToValue: 0
   usableWithoutCost: 0
-  audioType: 0
-  value: 1
-  activeTurns: 2
+  audioType: 3
+  value: 2
+  activeTurns: 1
   isPermanent: 0
   isSingleUse: 1

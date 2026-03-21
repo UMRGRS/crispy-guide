@@ -14,9 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionDelay: 0.1
   optional: 0
-  costDataList: []
+  costData:
+    redCost: 0
+    blueCost: 0
+    greenCost: 0
   isCostUpToValue: 0
   usableWithoutCost: 1
-  audioType: 0
-  from: {fileID: 11400000, guid: c85dd38eec5140baaa62aeab337c0a11, type: 2}
+  audioType: 10
+  from:
+    color: 0
+    quantity: 1
   modificationType: 1

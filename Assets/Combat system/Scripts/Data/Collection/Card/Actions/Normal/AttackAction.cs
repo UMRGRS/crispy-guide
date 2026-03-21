@@ -18,7 +18,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
             context.target.CharacterStats.Damage(Mathf.RoundToInt(CalculateActionValue(context)));
 
-            if (context.source.CharacterStats.StatusDict[StatusType.NextCardDamageBoost].IsActive)
+            if (context.source.CharacterStats.StatusDict[StatusType.NextCardDamageBoost].IsActive && !isSelfDamage)
                 context.source.CharacterStats.ClearStatus(StatusType.NextCardDamageBoost);
             
             if (context.managersContainer.FxManager != null) 

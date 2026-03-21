@@ -20,6 +20,6 @@ MonoBehaviour:
     greenCost: 1
   isCostUpToValue: 0
   usableWithoutCost: 0
-  audioType: 0
+  audioType: 12
   type: 1
   value: 1
