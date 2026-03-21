@@ -22,7 +22,7 @@ MonoBehaviour:
   usableWithoutCost: 1
   audioType: 8
   from:
-    color: 2
+    color: 1
     quantity: 2
   to:
     color: 0

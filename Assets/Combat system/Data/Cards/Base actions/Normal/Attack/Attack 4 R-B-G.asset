@@ -10,16 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51f1cb11a5f68cec28446cb667afead8, type: 3}
-  m_Name: Attack 4 G OPT
+  m_Name: Attack 4 R-B-G
   m_EditorClassIdentifier: 
   actionDelay: 0.1
-  optional: 1
   costData:
-    redCost: 0
-    blueCost: 0
+    redCost: 2
+    blueCost: 2
     greenCost: 2
   isCostUpToValue: 0
   usableWithoutCost: 0
   audioType: 0
-  value: 4
+  value: 12
   isSelfDamage: 0

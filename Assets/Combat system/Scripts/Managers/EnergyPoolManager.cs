@@ -162,10 +162,6 @@ namespace NueGames.NueDeck.Scripts.Managers
                         {
                             currentAmount = 0;
                         }
-                        else if (action.Optional)
-                        {
-                            currentAmount = lastValue;
-                        }
                         else
                         {
                             return false;

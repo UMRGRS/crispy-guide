@@ -14,8 +14,6 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [Header("Action Profile")] 
         [Range(0f,10f)] [SerializeField] protected float actionDelay;
         
-        [Header("Action Settings")]
-        [SerializeField] protected bool optional; 
         [Header("Cost settings")]
         [SerializeField] protected ActionCostData costData;
         [SerializeField] protected bool isCostUpToValue;
@@ -28,7 +26,6 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public ActionCostData CostData => costData;
         public bool IsCostUpToValue => isCostUpToValue;
         public bool UsableWithoutCost => usableWithoutCost;
-        public bool Optional => optional;
         public AudioActionType AudioType => audioType;
         
         [Header("Support variables")]
@@ -71,9 +68,6 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         
             if (isCostUpToValue)
                 description.Append($" per energy consumed (max {costData.RedCost + costData.GreenCost + costData.BlueCost})");
-        
-            if (optional)
-                description.Append(" (opt)");
         
             return description.ToString();
         }

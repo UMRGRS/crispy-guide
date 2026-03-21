@@ -2,7 +2,6 @@
 {
     public enum SpecialKeywords
     {
-        Optional,
         EnergyGenBlock,
         EnergyUsgBlock,
         BuffEnergyGen,
