@@ -14,6 +14,7 @@ namespace NueGames.NueDeck.Scripts.Characters
         [SerializeField] private Image redIntentImage;
         [SerializeField] private Image blueIntentImage;
         [SerializeField] private Image greenIntentImage;
+        [SerializeField] private Image noCostIntentImage;
         [SerializeField] private TextMeshProUGUI redCostValue;
         [SerializeField] private TextMeshProUGUI blueCostValue;
         [SerializeField] private TextMeshProUGUI greenCostValue;
@@ -21,6 +22,12 @@ namespace NueGames.NueDeck.Scripts.Characters
         public void SetEnemyIntention(EnemyAbilityData ability)
         {
             ActionCostData totalEnergyCost = ability.Card.GatherCardCosts();
+
+            if(totalEnergyCost.RedCost == 0 && totalEnergyCost.BlueCost == 0 && totalEnergyCost.GreenCost == 0)
+            {
+                noCostIntentImage.gameObject.SetActive(true);
+                return;
+            }
 
             SetValueVisibility(!ability.HideActionValue);
 
@@ -39,6 +46,7 @@ namespace NueGames.NueDeck.Scripts.Characters
             redIntentImage.gameObject.SetActive(value);
             blueIntentImage.gameObject.SetActive(value);
             greenIntentImage.gameObject.SetActive(value);
+            noCostIntentImage.gameObject.SetActive(value);
         }
 
         public void SetValueVisibility(bool value)
