@@ -1,9 +1,9 @@
 ﻿namespace NueGames.NueDeck.Scripts.Enums
 {
-    public enum EnemyTargetType
+    public enum ActionAnimationType
     {
         Self,
-        Player,
+        Enemy,
         EnergyPool
     }
 }

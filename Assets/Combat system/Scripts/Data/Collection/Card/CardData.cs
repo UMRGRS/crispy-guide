@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using NueGames.NueDeck.Scripts.Data.Energy;
 using NueGames.NueDeck.Scripts.Enums;
 using UnityEngine;
 
@@ -20,6 +18,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [SerializeField] private bool usableWithoutTarget;
         [SerializeField] private ActionTargetType actionTargetType;
         [SerializeField] private List<CardActionData> cardActionDataList;
+        [SerializeField] private ActionAnimationType animationType;
         
         [Header("Description")]
         [SerializeField] private List<SpecialKeywords> specialKeywordsList;
@@ -31,6 +30,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public string CardName => cardName;
         public Sprite CardSprite => cardSprite;
         public List<CardActionData> CardActionDataList => cardActionDataList;
+        public ActionAnimationType AnimationType => animationType;
         public List<SpecialKeywords> KeywordsList => specialKeywordsList;
         public string MyDescription { get; set; }
         public RarityType Rarity => rarity;
