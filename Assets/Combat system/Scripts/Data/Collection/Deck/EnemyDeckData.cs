@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using NueGames.NueDeck.Scripts.Data.Containers;
 using UnityEngine;
 
@@ -25,9 +26,19 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         //Possible deletion
         [SerializeField] private EnemyIntentionData intention;
         [SerializeField] private bool hideActionValue;
+        private bool wasUsedLastTurn;
         
         public CardData Card => card;
         public EnemyIntentionData Intention => intention;
         public bool HideActionValue => hideActionValue;
+        public bool WasUsedLastTurn => wasUsedLastTurn;
+        public void SetAsUsed()
+        {
+            wasUsedLastTurn = true;
+        }
+        public void SetAsUnused()
+        {
+            wasUsedLastTurn = false;
+        }
     }  
 }

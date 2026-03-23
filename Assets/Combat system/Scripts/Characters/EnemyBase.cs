@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NueGames.NueDeck.Scripts.Data.Characters;
@@ -18,7 +19,9 @@ namespace NueGames.NueDeck.Scripts.Characters
         [SerializeField] protected EnemyCharacterData enemyCharacterData;
         [SerializeField] protected EnemyCanvas enemyCanvas;
         [SerializeField] protected SoundProfileData deathSoundProfileData;
+        [SerializeField] protected EnemyAbilityData defaultAbility;
         protected EnemyAbilityData NextAbility;
+        protected Action SetAbilitiesAsUnused;
         public EnemyCharacterData EnemyCharacterData => enemyCharacterData;
         public EnemyCanvas EnemyCanvas => enemyCanvas;
         public SoundProfileData DeathSoundProfileData => deathSoundProfileData;
@@ -60,11 +63,15 @@ namespace NueGames.NueDeck.Scripts.Characters
 
             foreach(EnemyAbilityData ability in EnemyCharacterData.EnemyDeck.CardList)
             {
-                if(EnergyPoolManager.CanPayCosts(ability.Card.CardActionDataList))
+                if(EnergyPoolManager.CanPayCosts(ability.Card.CardActionDataList) && !ability.WasUsedLastTurn)
                     availableAbilities.Add(ability);    
             }
-            
-            return availableAbilities.RandomItem();
+
+            var selectedAbility = availableAbilities.RandomItem() ?? defaultAbility;
+            selectedAbility.SetAsUsed();
+            SetAbilitiesAsUnused?.Invoke();
+            SetAbilitiesAsUnused += selectedAbility.SetAsUnused;
+            return selectedAbility;
         }
         #endregion
         
@@ -104,6 +111,7 @@ namespace NueGames.NueDeck.Scripts.Characters
             CardExecutionContext context = new(this, CombatManager.CurrentMainAlly);
             foreach (CardActionData action in targetAbility.Card.CardActionDataList)
             {
+                //Insert unable to used ability animation here
                 if(!action.CanExecute(context)) continue;
                 
                 action.Execute(context);

@@ -13,22 +13,19 @@ MonoBehaviour:
   m_Name: Special Keyword
   m_EditorClassIdentifier: 
   specialKeywordBaseList:
-  - specialKeyword: 0
-    KeywordName: Optional
-    contentText: Card can be used even if the action doesn't meet cost
-  - specialKeyword: 2
+  - specialKeyword: 1
     KeywordName: Energy usage block
     contentText: Affected energies cannot be used
-  - specialKeyword: 4
+  - specialKeyword: 3
     KeywordName: Burn
     contentText: Deal damage over time
-  - specialKeyword: 5
+  - specialKeyword: 4
     KeywordName: Permanent damage boost
     contentText: Add damage equal to the value for the rest of the combat
-  - specialKeyword: 6
+  - specialKeyword: 5
     KeywordName: Temporal damage boost
     contentText: Add damage equal to the value for the specified amount of turns
-  - specialKeyword: 7
+  - specialKeyword: 6
     KeywordName: Next card damage boost
     contentText: Add damage equal to the value to your next attack action
   - specialKeyword: 1
