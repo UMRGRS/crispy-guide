@@ -16,26 +16,21 @@ MonoBehaviour:
   deckName: Feeder-hoarder
   cardList:
   - card: {fileID: 11400000, guid: 908c343f34223534ba21235687454ad0, type: 2}
-    intention: {fileID: 11400000, guid: 2af475f5121b73d4c99b67551230aa48, type: 2}
     hideActionValue: 0
   - card: {fileID: 11400000, guid: 71541f4c44c55574c908c3d99922d0b8, type: 2}
-    intention: {fileID: 11400000, guid: 2af475f5121b73d4c99b67551230aa48, type: 2}
     hideActionValue: 0
   - card: {fileID: 11400000, guid: fd8b0e3069032ff1c8074dcd9c666c73, type: 2}
-    intention: {fileID: 11400000, guid: 2af475f5121b73d4c99b67551230aa48, type: 2}
     hideActionValue: 0
   - card: {fileID: 11400000, guid: 374521b8965130d78aab8cb71d6bd6d3, type: 2}
-    intention: {fileID: 11400000, guid: 2af475f5121b73d4c99b67551230aa48, type: 2}
     hideActionValue: 0
   - card: {fileID: 11400000, guid: a4e5a8719d5490f538360a857dedea2e, type: 2}
-    intention: {fileID: 11400000, guid: 2af475f5121b73d4c99b67551230aa48, type: 2}
     hideActionValue: 0
   - card: {fileID: 11400000, guid: 7b69a14ba3c6b48c4bce088dbb0c915b, type: 2}
-    intention: {fileID: 11400000, guid: 2af475f5121b73d4c99b67551230aa48, type: 2}
     hideActionValue: 0
   - card: {fileID: 11400000, guid: 5ff8f0df26d0e67b1ab118cbd818aec8, type: 2}
-    intention: {fileID: 11400000, guid: 2af475f5121b73d4c99b67551230aa48, type: 2}
     hideActionValue: 0
   - card: {fileID: 11400000, guid: c1c5cc5d5201f2436b92340c2e6ee59a, type: 2}
-    intention: {fileID: 11400000, guid: 2af475f5121b73d4c99b67551230aa48, type: 2}
+    hideActionValue: 0
+  defaultAbility:
+    card: {fileID: 11400000, guid: 2836fe81e57afcc56a87fe65d47c8aa2, type: 2}
     hideActionValue: 0

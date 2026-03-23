@@ -20,4 +20,5 @@ MonoBehaviour:
   actionTargetType: 0
   cardActionDataList:
   - {fileID: 11400000, guid: 983e738bb36777df6b02426cc77902be, type: 2}
+  animationType: 2
   specialKeywordsList: 

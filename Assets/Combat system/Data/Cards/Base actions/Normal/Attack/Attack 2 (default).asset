@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51f1cb11a5f68cec28446cb667afead8, type: 3}
   m_Name: Attack 2 (default)
   m_EditorClassIdentifier: 
-  actionDelay: 0
+  actionDelay: 0.1
   costData:
     redCost: 0
     blueCost: 0
     greenCost: 0
   isCostUpToValue: 0
-  usableWithoutCost: 0
+  usableWithoutCost: 1
   audioType: 0
-  value: 0
+  value: 2
   isSelfDamage: 0
