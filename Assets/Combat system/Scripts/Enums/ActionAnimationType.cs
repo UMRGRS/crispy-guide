@@ -4,6 +4,9 @@
     {
         Self,
         Enemy,
-        EnergyPool
+        EnergyPool,
+        Death,
+        Hurt,
+        Interruption
     }
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 243822687015991123}
   - component: {fileID: 735061151}
   - component: {fileID: 735061152}
+  - component: {fileID: -206700637344189406}
   m_Layer: 8
   m_Name: Enemy 1
   m_TagString: Untagged
@@ -53,6 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterType: 1
   textSpawnRoot: {fileID: 2463341200963954810}
+  characterAnimator: {fileID: -206700637344189406}
   enemyCharacterData: {fileID: 11400000, guid: ab4b1aaf78f9c8747a5708430c68f051, type: 2}
   enemyCanvas: {fileID: 7422249267346903092}
   deathSoundProfileData: {fileID: 11400000, guid: 7e15e2a10065ab54c8eaf26154af0156, type: 2}
@@ -104,6 +106,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 0.75, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &-206700637344189406
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243822687015991148}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 312496b25d842af4a938e96c7d5aaee0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &243822687401075088
 GameObject:
   m_ObjectHideFlags: 0

@@ -37,6 +37,7 @@ namespace NueGames.NueDeck.Scripts.Characters
             }
             
             CharacterStats.OnDeath += OnDeath;
+            CharacterStats.OnTakeDamageAction += RunDamageAnimation;
             CharacterStats.SetCurrentHealth(CharacterStats.CurrentHealth);
             
             if (CombatManager != null)

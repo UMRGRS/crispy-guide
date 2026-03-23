@@ -97,6 +97,9 @@ namespace NueGames.NueDeck.Scripts.Card
         {
             CardExecutionContext context = new(self, targetCharacter);
 
+            if(CardData.AnimationType != Enums.ActionAnimationType.Hurt)
+                self.TriggerAnimation(CardData.AnimationType);
+
             foreach (CardActionData action in CardData.CardActionDataList)
             {
                 if(!action.CanExecute(context)) continue;
