@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using NueGames.NueDeck.Scripts.Characters;
 using NueGames.NueDeck.Scripts.Data.Collection;
-using NueGames.NueDeck.Scripts.Enums;
+using NueGames.NueDeck.Scripts.Data.Energy;
 using NueGames.NueDeck.Scripts.Managers;
-using NueGames.NueDeck.Scripts.NueExtentions;
 using NueGames.NueDeck.Scripts.Utils;
 using NueGames.NueDeck.ThirdParty.NueTooltip.Core;
 using NueGames.NueDeck.ThirdParty.NueTooltip.CursorSystem;
@@ -24,10 +23,14 @@ namespace NueGames.NueDeck.Scripts.Card
         [SerializeField] protected Transform descriptionRoot;
         [SerializeField] protected Image cardImage;
         [SerializeField] protected Image passiveImage;
-        [SerializeField] protected TextMeshProUGUI nameTextField;
         [SerializeField] protected TextMeshProUGUI descTextField;
-        [SerializeField] protected TextMeshProUGUI manaTextField;
         [SerializeField] protected List<RarityRoot> rarityRootList;
+        [SerializeField] private Image redCostImage;
+        [SerializeField] private Image blueCostImage;
+        [SerializeField] private Image greenCostImage;
+        [SerializeField] private TextMeshProUGUI redCostValue;
+        [SerializeField] private TextMeshProUGUI blueCostValue;
+        [SerializeField] private TextMeshProUGUI greenCostValue;
 
         #region Cache
         public CardData CardData { get; private set; }
@@ -59,15 +62,25 @@ namespace NueGames.NueDeck.Scripts.Card
         {
             CardData = targetProfile;
             IsPlayable = isPlayable;
-            nameTextField.text = CardData.CardName;
             descTextField.text = CardData.MyDescription;
-             // ---------------
-            // Change to display the cost correctly
-             // ---------------
-            //manaTextField.text = CardData.CostDataList.ToString();
+            SetCardCosts();
             cardImage.sprite = CardData.CardSprite;
             foreach (var rarityRoot in RarityRootList)
                 rarityRoot.gameObject.SetActive(rarityRoot.Rarity == CardData.Rarity);
+        }
+
+        public void SetCardCosts()
+        {
+            ActionCostData totalEnergyCost = CardData.GatherCardCosts();
+
+            redCostValue.text = totalEnergyCost.RedCost.ToString();
+            redCostImage.gameObject.SetActive(totalEnergyCost.RedCost > 0);
+
+            blueCostValue.text = totalEnergyCost.BlueCost.ToString();
+            blueCostImage.gameObject.SetActive(totalEnergyCost.BlueCost > 0);
+
+            greenCostValue.text = totalEnergyCost.GreenCost.ToString();
+            greenCostImage.gameObject.SetActive(totalEnergyCost.GreenCost > 0);
         }
         
         #endregion
@@ -83,6 +96,7 @@ namespace NueGames.NueDeck.Scripts.Card
         private IEnumerator CardUseRoutine(CharacterBase self, CharacterBase targetCharacter)
         {
             CardExecutionContext context = new(self, targetCharacter);
+
             foreach (CardActionData action in CardData.CardActionDataList)
             {
                 if(!action.CanExecute(context)) continue;
@@ -102,7 +116,7 @@ namespace NueGames.NueDeck.Scripts.Card
             CollectionManager.OnCardDiscarded(this);
             StartCoroutine(DiscardRoutine());
         }
-        protected virtual void SpendEnergy(List<EnergyQuantityData> cost)
+        protected virtual void SpendEnergy(List<EnergyQuantityContainer> cost)
         {
             if (!IsPlayable) return;
             EnergyPoolManager.ConsumeEnergyCost(cost);
@@ -120,12 +134,8 @@ namespace NueGames.NueDeck.Scripts.Card
         public virtual void UpdateCardText(CardExecutionContext context)
         {
             CardData.UpdateDescription(context);
-            nameTextField.text = CardData.CardName;
+            
             descTextField.text = CardData.MyDescription;
-            // ---------------
-            // Modify to show the text correctly
-             // ---------------
-            manaTextField.text = "0";
         }
         
         #endregion
@@ -167,7 +177,7 @@ namespace NueGames.NueDeck.Scripts.Card
         #region Pointer Events
         public virtual void OnPointerEnter(PointerEventData eventData)
         {
-            ShowTooltipInfo();
+            //ShowTooltipInfo();
         }
 
         public virtual void OnPointerExit(PointerEventData eventData)
@@ -210,6 +220,6 @@ namespace NueGames.NueDeck.Scripts.Card
             tooltipManager.HideTooltip();
         }
         #endregion
-       
+
     }
 }

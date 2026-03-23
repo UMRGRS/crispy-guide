@@ -35,12 +35,12 @@ namespace NueGames.NueDeck.Scripts.Data.Containers
     {
         [Header("Possible enemies settings")]
         [SerializeField] private List<EnemyCharacterData> availableEnemies;
-        [SerializeField] private int minEnemiesSpawn;
-        [SerializeField] private int maxEnemiesSpawn;
+        [SerializeField] [Range(0, 10)] private int minEnemiesSpawn;
+        [SerializeField] [Range(0, 10)] private int maxEnemiesSpawn;
         [Header("Energy pool settings")]
         [SerializeField] private List<EnergyData> availableEnergies;
-        [SerializeField] private int minEnergySpawn;
-        [SerializeField] private int maxEnergySpawn;
+        [SerializeField] [Range(0, 10)] private int minEnergySpawn;
+        [SerializeField] [Range(0, 10)] private int maxEnergySpawn;
         [Range(1,10)][SerializeField] private int energyGenerationTurns;
         [Header("Background settings")]
         [SerializeField] private BackgroundTypes targetBackgroundType;

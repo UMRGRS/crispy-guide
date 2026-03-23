@@ -2,8 +2,9 @@
 {
     public enum SpecialKeywords
     {
-        Optional,
-        EnergyBlock,
+        EnergyGenBlock,
+        EnergyUsgBlock,
+        BuffEnergyGen,
         Burn,
         PermanentDamageBoost,
         TemporalDamageBoost,

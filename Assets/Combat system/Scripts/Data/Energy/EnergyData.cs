@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using NueGames.NueDeck.Scripts.Energy;
 using NueGames.NueDeck.Scripts.Enums;
 using UnityEngine;

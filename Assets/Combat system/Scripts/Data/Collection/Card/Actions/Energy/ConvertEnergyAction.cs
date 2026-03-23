@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using NueGames.NueDeck.Scripts.Data.Energy;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Collection
@@ -8,11 +9,11 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     public class ConvertEnergyAction : CardActionData
     {
         [Header("Convert energy settings")]
-        [SerializeField] private EnergyQuantityData from;
-        [SerializeField] private EnergyQuantityData to;
+        [SerializeField] private EnergyQuantityContainer from;
+        [SerializeField] private EnergyQuantityContainer to;
 
-        public EnergyQuantityData From => from;
-        public EnergyQuantityData To => to;
+        public EnergyQuantityContainer From => from;
+        public EnergyQuantityContainer To => to;
         
         public override bool CanExecute(CardExecutionContext context)
         {
@@ -31,14 +32,14 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             // Add audio effects
         }
 
-        public override List<EnergyQuantityData> GetTotalCost()
+        public override List<EnergyQuantityContainer> GetTotalCost()
         {
-            return new List<EnergyQuantityData> { from }.Concat(GetActivationCost()).ToList();
+            return new List<EnergyQuantityContainer> { from }.Concat(GetActivationCost()).ToList();
         }
 
         public override string GetActionDescription(CardExecutionContext context)
         {
-            return BuildActionDescription($"Convert {from.Quantity} {from.EnergyColor} to {to.Quantity} {to.EnergyColor}");
+            return BuildActionDescription($"Convert {from.Quantity} {from.Color} to {to.Quantity} {to.Color}");
         }
     }
 }

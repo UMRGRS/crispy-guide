@@ -16,7 +16,7 @@ using UnityEngine.UI;
 namespace NueGames.NueDeck.Scripts.Characters
 {
     [RequireComponent(typeof(Canvas))]
-    public abstract class CharacterCanvas : MonoBehaviour,I2DTooltipTarget
+    public abstract class CharacterCanvas : MonoBehaviour, I2DTooltipTarget
     {
         [Header("References")]
         [SerializeField] protected Transform statusIconRoot;
@@ -97,7 +97,7 @@ namespace NueGames.NueDeck.Scripts.Characters
         #region Pointer Events
         public void OnPointerEnter(PointerEventData eventData)
         {
-            ShowTooltipInfo();
+            //ShowTooltipInfo();
         }
 
         public void OnPointerExit(PointerEventData eventData)
@@ -142,9 +142,7 @@ namespace NueGames.NueDeck.Scripts.Characters
         {
             tooltipManager.HideTooltip();
         }
-        
-
         #endregion
-       
+
     }
 }

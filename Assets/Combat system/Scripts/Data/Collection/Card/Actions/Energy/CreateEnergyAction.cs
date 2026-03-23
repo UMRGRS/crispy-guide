@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
+using NueGames.NueDeck.Scripts.Data.Energy;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Collection
@@ -8,7 +9,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     public class CreateEnergyAction : CardActionData
     {
         [Header("Create energy settings")]
-        [SerializeField] private List<EnergyQuantityData> energyToCreate;
+        [SerializeField] private List<EnergyQuantityContainer> energyToCreate;
 
         public override bool CanExecute(CardExecutionContext context)
         {
@@ -47,7 +48,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
                 else if(i > 0)
                     description.Append(", ");
                 
-                description.Append($"{energyToCreate[i].Quantity} {energyToCreate[i].EnergyColor}");
+                description.Append($"{energyToCreate[i].Quantity} {energyToCreate[i].Color}");
             }
 
             return BuildActionDescription(description.ToString());

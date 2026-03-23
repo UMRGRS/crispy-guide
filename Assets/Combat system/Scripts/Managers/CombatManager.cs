@@ -128,6 +128,10 @@ namespace NueGames.NueDeck.Scripts.Managers
         {
             CurrentCombatStateType = CombatStateType.EnemyTurn;
         }
+        public void EndStartOfTurn()
+        {
+            CurrentCombatStateType = CombatStateType.EnemyDeclaration;
+        }
         public void OnAllyDeath(AllyBase targetAlly)
         {
             var targetAllyData = GameManager.PersistentGameplayData.AllyList.Find(x =>
@@ -217,22 +221,20 @@ namespace NueGames.NueDeck.Scripts.Managers
         }
         private void TurnStart()
         {
-            try
-            {
-                if (GameManager.PersistentGameplayData.RemainingActiveTurns <= 0)
-                    return;
-                
-                if (GameManager.PersistentGameplayData.EnergyBlockRules.Turns > 0)
-                {
-                    GameManager.PersistentGameplayData.EnergyBlockRules.Turns--;
-                    return;
-                }
-                EnergyPoolManager.CreateStartOfTurnEnergy();
-            }
-            finally
+            if (GameManager.PersistentGameplayData.RemainingActiveTurns <= 0)
             {
                 CurrentCombatStateType = CombatStateType.EnemyDeclaration;
+                return;
             }
+                
+
+            if (GameManager.PersistentGameplayData.EnergyBlockRules.Turns > 0)
+            {
+                GameManager.PersistentGameplayData.EnergyBlockRules.Turns--;
+                CurrentCombatStateType = CombatStateType.EnemyDeclaration;
+                return;
+            }
+            EnergyPoolManager.CreateStartOfTurnEnergy();
         }
         private void EnemyActionsDeclaration()
         {

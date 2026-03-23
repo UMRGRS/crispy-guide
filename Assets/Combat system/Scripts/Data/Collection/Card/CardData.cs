@@ -18,6 +18,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [SerializeField] private bool usableWithoutTarget;
         [SerializeField] private ActionTargetType actionTargetType;
         [SerializeField] private List<CardActionData> cardActionDataList;
+        [SerializeField] private ActionAnimationType animationType;
         
         [Header("Description")]
         [SerializeField] private List<SpecialKeywords> specialKeywordsList;
@@ -29,6 +30,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public string CardName => cardName;
         public Sprite CardSprite => cardSprite;
         public List<CardActionData> CardActionDataList => cardActionDataList;
+        public ActionAnimationType AnimationType => animationType;
         public List<SpecialKeywords> KeywordsList => specialKeywordsList;
         public string MyDescription { get; set; }
         public RarityType Rarity => rarity;
@@ -47,6 +49,23 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             
             MyDescription = str.ToString();
         }
+
+        public ActionCostData GatherCardCosts()
+        {
+            int totalRedCost = 0;
+            int totalBlueCost = 0;
+            int totalGreenCost = 0;
+
+            foreach(CardActionData action in cardActionDataList)
+            {
+                totalRedCost += action.CostData.RedCost;
+                totalBlueCost += action.CostData.BlueCost;
+                totalGreenCost += action.CostData.GreenCost;
+            }
+
+            return new ActionCostData(newRedCost:totalRedCost, newBlueCost: totalBlueCost, newGreenCost: totalGreenCost);
+        }
+
         #endregion
     }
 }

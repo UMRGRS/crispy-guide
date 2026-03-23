@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
-using NueGames.NueDeck.Scripts.Characters;
+using NueGames.NueDeck.Scripts.Data.Energy;
 using NueGames.NueDeck.Scripts.Enums;
+using NueGames.NueDeck.Scripts.Utils;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Collection
@@ -11,10 +14,8 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [Header("Action Profile")] 
         [Range(0f,10f)] [SerializeField] protected float actionDelay;
         
-        [Header("Action Settings")]
-        [SerializeField] protected bool optional; 
         [Header("Cost settings")]
-        [SerializeField] protected List<EnergyQuantityData> costDataList;
+        [SerializeField] protected ActionCostData costData;
         [SerializeField] protected bool isCostUpToValue;
         [SerializeField] protected bool usableWithoutCost; 
         
@@ -22,10 +23,9 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [SerializeField] protected AudioActionType audioType;
 
         public float ActionDelay => actionDelay;
-        public List<EnergyQuantityData> CostDataList => costDataList;
+        public ActionCostData CostData => costData;
         public bool IsCostUpToValue => isCostUpToValue;
         public bool UsableWithoutCost => usableWithoutCost;
-        public bool Optional => optional;
         public AudioActionType AudioType => audioType;
         
         [Header("Support variables")]
@@ -48,32 +48,51 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public virtual void PayCost(CardExecutionContext context)
         {
             if(usableWithoutCost) return;
-            
-            upToModValue = context.managersContainer.EnergyPoolManager.ConsumeEnergyCost(costDataList);
+
+            upToModValue = context.managersContainer.EnergyPoolManager.ConsumeEnergyCost(GetCostAsQuantityContainer());
         }
-        public virtual List<EnergyQuantityData> GetTotalCost()
+        public virtual List<EnergyQuantityContainer> GetTotalCost()
         {
             return GetActivationCost();
         }
-        public virtual List<EnergyQuantityData> GetActivationCost()
+        public virtual List<EnergyQuantityContainer> GetActivationCost()
         {
             if(usableWithoutCost) return new();
             
-            return costDataList;
+            return GetCostAsQuantityContainer();
         }
-
         protected string BuildActionDescription(
             string baseDescription)
         {
             var description = new StringBuilder(baseDescription);
         
             if (isCostUpToValue)
-                description.Append($" per energy consumed (max {costDataList[0].Quantity})");
-        
-            if (optional)
-                description.Append(" (opt)");
+                description.Append($" per energy consumed (max {costData.RedCost + costData.GreenCost + costData.BlueCost})");
         
             return description.ToString();
+        }
+        protected List<EnergyQuantityContainer> GetCostAsQuantityContainer()
+        {
+            return CostDataToEnergyContainerHelper.ToEnergyContainerHelper(costData);
+        }
+    }
+
+    [Serializable]
+    public class ActionCostData
+    {
+        [SerializeField] [Range(0, 10)] private int redCost;
+        [SerializeField] [Range(0, 10)] private int blueCost;
+        [SerializeField] [Range(0, 10)] private int greenCost;
+
+        public int RedCost => redCost;
+        public int BlueCost => blueCost;
+        public int GreenCost => greenCost;
+
+        public ActionCostData(int newRedCost = 0, int newBlueCost = 0, int newGreenCost = 0)
+        {
+            redCost = newRedCost;
+            blueCost = newBlueCost;
+            greenCost = newGreenCost;
         }
     }
 }
