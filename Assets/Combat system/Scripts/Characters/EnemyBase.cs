@@ -19,7 +19,6 @@ namespace NueGames.NueDeck.Scripts.Characters
         [SerializeField] protected EnemyCharacterData enemyCharacterData;
         [SerializeField] protected EnemyCanvas enemyCanvas;
         [SerializeField] protected SoundProfileData deathSoundProfileData;
-        [SerializeField] protected EnemyAbilityData defaultAbility;
         protected EnemyAbilityData NextAbility;
         protected Action SetAbilitiesAsUnused;
         public EnemyCharacterData EnemyCharacterData => enemyCharacterData;
@@ -67,7 +66,7 @@ namespace NueGames.NueDeck.Scripts.Characters
                     availableAbilities.Add(ability);    
             }
 
-            var selectedAbility = availableAbilities.RandomItem() ?? defaultAbility;
+            var selectedAbility = availableAbilities.RandomItem() ?? EnemyCharacterData.EnemyDeck.DefaultAbility;
             selectedAbility.SetAsUsed();
             SetAbilitiesAsUnused?.Invoke();
             SetAbilitiesAsUnused += selectedAbility.SetAsUnused;
@@ -82,17 +81,10 @@ namespace NueGames.NueDeck.Scripts.Characters
                 yield break;
             
             EnemyCanvas.SetIntentionVisibility(false);
-            if (NextAbility.Intention.EnemyIntentionType == EnemyIntentionType.Attack || NextAbility.Intention.EnemyIntentionType == EnemyIntentionType.Debuff)
-            {
-                yield return StartCoroutine(AttackRoutine(NextAbility));
-            }
-            else
-            {
-                yield return StartCoroutine(BuffRoutine(NextAbility));
-            }
+            yield return StartCoroutine(RunAbilityRoutine(NextAbility));
         }
         
-        protected virtual IEnumerator AttackRoutine(EnemyAbilityData targetAbility)
+        protected virtual IEnumerator RunAbilityRoutine(EnemyAbilityData targetAbility)
         {
             var waitFrame = new WaitForEndOfFrame();
 
@@ -114,31 +106,12 @@ namespace NueGames.NueDeck.Scripts.Characters
                 //Insert unable to used ability animation here
                 if(!action.CanExecute(context)) continue;
                 
+                //Insert corresponding animation here
                 action.Execute(context);
 
                 if (action.ActionDelay > 0)
                     yield return new WaitForSeconds(action.ActionDelay);
             }
-            
-            yield return StartCoroutine(MoveToTargetRoutine(waitFrame, endPos, startPos, endRot, startRot, 5));
-        }
-        
-        protected virtual IEnumerator BuffRoutine(EnemyAbilityData targetAbility)
-        {
-            var waitFrame = new WaitForEndOfFrame();
-            
-            var target = CombatManager.CurrentEnemiesList.RandomItem();
-            
-            var startPos = transform.position;
-            var endPos = startPos+new Vector3(0,0.2f,0);
-            
-            var startRot = transform.localRotation;
-            var endRot = transform.localRotation;
-            
-            yield return StartCoroutine(MoveToTargetRoutine(waitFrame, startPos, endPos, startRot, endRot, 5));
-            
-            //Insert execute here
-            //targetAbility.ActionList.ForEach(x=>EnemyActionProcessor.GetAction(x.ActionType).DoAction(new EnemyActionParameters(x.ActionValue,target,this)));
             
             yield return StartCoroutine(MoveToTargetRoutine(waitFrame, endPos, startPos, endRot, startRot, 5));
         }

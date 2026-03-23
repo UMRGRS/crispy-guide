@@ -12,10 +12,12 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [SerializeField] private string deckId;
         [SerializeField] private string deckName;
         [SerializeField] private List<EnemyAbilityData> cardList;
+        [SerializeField] private EnemyAbilityData defaultAbility;
         
         public List<EnemyAbilityData> CardList => cardList;
         public string DeckId => deckId;
         public string DeckName => deckName;
+        public EnemyAbilityData DefaultAbility => defaultAbility;
     }
 
     [Serializable]

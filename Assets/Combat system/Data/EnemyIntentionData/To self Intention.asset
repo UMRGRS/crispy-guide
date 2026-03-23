@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fad084001f184a46bfe95bcf171cf34d, type: 3}
-  m_Name: Attack Intention
+  m_Name: To self Intention
   m_EditorClassIdentifier: 
-  enemyIntentionType: 0
+  targetType: 1
   intentionSprite: {fileID: -2470339811056895368, guid: 1fb0c0cb02c616d49815abb7a9a0fc0f, type: 3}

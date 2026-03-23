@@ -6,11 +6,10 @@ namespace NueGames.NueDeck.Scripts.Data.Containers
     [CreateAssetMenu(fileName = "Enemy Intention", menuName = "NueDeck/Containers/EnemyIntention", order = 0)]
     public class EnemyIntentionData : ScriptableObject
     {
-        [SerializeField] private EnemyIntentionType enemyIntentionType;
+        [SerializeField] private EnemyTargetType targetType;
         [SerializeField] private Sprite intentionSprite;
 
-        public EnemyIntentionType EnemyIntentionType => enemyIntentionType;
-
+        public EnemyTargetType TargetType => targetType;
         public Sprite IntentionSprite => intentionSprite;
     }
 }
