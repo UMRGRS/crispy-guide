@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using NueGames.NueDeck.Scripts.Data.Containers;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Collection
