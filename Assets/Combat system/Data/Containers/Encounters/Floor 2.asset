@@ -23,7 +23,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: a1a6f141bf73b779ca86f93b21b8d3dd, type: 2}
     - {fileID: 11400000, guid: 9729e17d189b30d61ba312c3b1a446ee, type: 2}
     - {fileID: 11400000, guid: c1fe76b1e1f1fe15785b788636587766, type: 2}
-    - {fileID: 11400000, guid: 6954026565f13cee3ac16867e51f5488, type: 2}
     minEnergySpawn: 4
     maxEnergySpawn: 4
     energyGenerationTurns: 0

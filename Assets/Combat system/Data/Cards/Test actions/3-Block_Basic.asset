@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: 3-Block_Basic
   m_EditorClassIdentifier: 
   id: 3_block_basic
-  cardName: Basic block
+  cardName: Pool
   cardSprite: {fileID: -1513487178384027574, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
   rarity: 0
-  usableWithoutTarget: 0
+  usableWithoutTarget: 1
   actionTargetType: 1
   cardActionDataList:
-  - {fileID: 11400000, guid: bfb4d8236ab251297a463f8e6636828b, type: 2}
-  - {fileID: 11400000, guid: 6d854609b71fae6389b3f0042d586cd0, type: 2}
+  - {fileID: 11400000, guid: 873dedfa98c4afe449966f4503b3deaf, type: 2}
+  animationType: 2
   specialKeywordsList: 00000000

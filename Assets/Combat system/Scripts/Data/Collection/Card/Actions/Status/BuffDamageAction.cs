@@ -34,11 +34,11 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             PayCost(context);
             
             if (isPermanent)
-                context.target.CharacterStats.ApplyStatus(StatusType.PermanentDamageBoost, CalculateActionValue(context));
+                context.source.CharacterStats.ApplyStatus(StatusType.PermanentDamageBoost, CalculateActionValue(context));
             else if (isSingleUse)
-                context.target.CharacterStats.ApplyStatus(StatusType.NextCardDamageBoost, CalculateActionValue(context));
+                context.source.CharacterStats.ApplyStatus(StatusType.NextCardDamageBoost, CalculateActionValue(context));
             else
-                context.target.CharacterStats.ApplyStatus(StatusType.TemporalDamageBoost, CalculateActionValue(context), turns:activeTurns);
+                context.source.CharacterStats.ApplyStatus(StatusType.TemporalDamageBoost, CalculateActionValue(context), turns:activeTurns);
             
             
             // Add FX effects

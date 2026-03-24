@@ -62,7 +62,7 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
             remainingActiveTurns = 1;
             energyGenerationRules = new EnergyGenerationRules();
             energyBlockRules = new EnergyBlockParameters();
-            currentFloor = FloorId.firstFloor;
+            currentFloor = FloorId.thirdFloor;
             CurrentCardsList = new List<CardData>();
             allyHealthDataDataList = new List<AllyHealthData>();
         }
