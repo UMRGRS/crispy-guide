@@ -73,8 +73,6 @@ namespace NueGames.NueDeck.Scripts.Managers
         {
             int modifierValue = type == RemainingTurnsModificationType.Increase ? value : value*-1;
             PersistentGameplayData.RemainingActiveTurns += modifierValue;
-
-            Debug.Log(PersistentGameplayData.RemainingActiveTurns);
         }
         public void NextFloor()
         {
