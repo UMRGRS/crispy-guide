@@ -102,3 +102,22 @@ InitTestScene*.unity*
 #Settings
 # =========================
 *.dwlt
+
+# =========================
+# Firebase / Android
+# =========================
+.gradle/
+firebase-debug.log
+.firebase/
+Assets/GeneratedLocalRepo/
+Assets/Firebase/Plugins/x86_64/
+Assets/Firebase/Plugins/iOS/
+Assets/Firebase/Plugins/x86/
+Assets/Firebase/Plugins/arm64-v8a/
+Assets/Firebase/Plugins/armeabi-v7a/
+
+# =========================
+# Secrets
+# =========================
+google-services.json
+GoogleService-Info.plist
