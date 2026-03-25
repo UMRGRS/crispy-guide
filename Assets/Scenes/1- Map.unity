@@ -677,6 +677,10 @@ PrefabInstance:
       value: MapManager
       objectReference: {fileID: 0}
     - target: {fileID: 4910681921299813756, guid: 6888e9c09cfb0d743ae01323df723b8c, type: 3}
+      propertyPath: encounterButtonList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4910681921299813756, guid: 6888e9c09cfb0d743ae01323df723b8c, type: 3}
       propertyPath: encounterButtonList.Array.data[3]
       value: 
       objectReference: {fileID: 0}
@@ -855,6 +859,10 @@ PrefabInstance:
     - target: {fileID: 4910681922548103487, guid: 6888e9c09cfb0d743ae01323df723b8c, type: 3}
       propertyPath: m_fontSizeBase
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4910681922908483215, guid: 6888e9c09cfb0d743ae01323df723b8c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7948929784167822856, guid: 6888e9c09cfb0d743ae01323df723b8c, type: 3}
       propertyPath: m_SizeDelta.y
