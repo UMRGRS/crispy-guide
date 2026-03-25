@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 using NueGames.NueDeck.Scripts.Enums;
 
 namespace NueGames.NueDeck.Scripts.Energy
@@ -15,7 +13,6 @@ namespace NueGames.NueDeck.Scripts.Energy
     
             if (!Enum.IsDefined(typeof(EnergyStrength), newValue))
             {
-                Debug.Log("EnergyStrength is out of valid range.");
                 return startingValue;
             }
     

@@ -11,7 +11,6 @@ using NueGames.NueDeck.Scripts.Enums;
 using NueGames.NueDeck.Scripts.Utils.Background;
 using Random = UnityEngine.Random;
 using NueGames.NueDeck.Scripts.Utils;
-using NueGames.NueDeck.Scripts.Characters.Status;
 
 namespace NueGames.NueDeck.Scripts.Managers
 {
@@ -195,7 +194,7 @@ namespace NueGames.NueDeck.Scripts.Managers
         private void BuildEnemies()
         {
             EncounterData currentFloorData = GameManager.EncounterData.First(encounterData => encounterData.Floor == GameManager.PersistentGameplayData.CurrentFloor);
-            GameManager.PersistentGameplayData.CurrentEncounter = currentFloorData.GetEnemyEncounter();
+            GameManager.PersistentGameplayData.CurrentEncounter = currentFloorData.GetEnemyEncounter(isBoss: true);
             
             EnemyEncounter currentEncounter = GameManager.PersistentGameplayData.CurrentEncounter;
             GameManager.PersistentGameplayData.RemainingActiveTurns = currentEncounter.EnergyGenerationTurns;

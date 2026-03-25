@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using NueGames.NueDeck.Scripts.Data.Characters;
 using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Data.Containers;
@@ -20,7 +19,7 @@ namespace NueGames.NueDeck.Scripts.Characters
         [SerializeField] protected EnemyCanvas enemyCanvas;
         [SerializeField] protected SoundProfileData deathSoundProfileData;
         protected EnemyAbilityData NextAbility;
-        protected Action SetAbilitiesAsUnused;
+        protected string lastAbilityID = "";
         public EnemyCharacterData EnemyCharacterData => enemyCharacterData;
         public EnemyCanvas EnemyCanvas => enemyCanvas;
         public SoundProfileData DeathSoundProfileData => deathSoundProfileData;
@@ -33,6 +32,7 @@ namespace NueGames.NueDeck.Scripts.Characters
             EnemyCanvas.InitCanvas();
             CharacterStats = new CharacterStats(EnemyCharacterData.MaxHealth,EnemyCanvas);
             CharacterStats.OnDeath += OnDeath;
+            CharacterStats.OnTakeDamageAction += RunDamageAnimation;
             CharacterStats.SetCurrentHealth(CharacterStats.CurrentHealth);
             CombatManager.OnEnemyActionDeclaration += ShowNextAbility;
             CombatManager.OnEnemyStatusTrigger += CharacterStats.TriggerAllStatus;
@@ -45,7 +45,6 @@ namespace NueGames.NueDeck.Scripts.Characters
            
             CombatManager.OnEnemyDeath(this);
             AudioManager.PlayOneShot(DeathSoundProfileData.GetRandomClip());
-            Destroy(gameObject);
         }
         #endregion
         
@@ -62,14 +61,15 @@ namespace NueGames.NueDeck.Scripts.Characters
 
             foreach(EnemyAbilityData ability in EnemyCharacterData.EnemyDeck.CardList)
             {
-                if(EnergyPoolManager.CanPayCosts(ability.Card.CardActionDataList) && !ability.WasUsedLastTurn)
+                if(EnergyPoolManager.CanPayCosts(ability.Card.CardActionDataList) && lastAbilityID != ability.Card.Id)
                     availableAbilities.Add(ability);    
             }
 
-            var selectedAbility = availableAbilities.RandomItem() ?? EnemyCharacterData.EnemyDeck.DefaultAbility;
-            selectedAbility.SetAsUsed();
-            SetAbilitiesAsUnused?.Invoke();
-            SetAbilitiesAsUnused += selectedAbility.SetAsUnused;
+            var selectedAbility = EnemyCharacterData.EnemyDeck.DefaultAbility;
+            if(availableAbilities.Count > 0)
+                selectedAbility = availableAbilities.RandomItem();
+
+            lastAbilityID = selectedAbility.Card.Id;
             return selectedAbility;
         }
         #endregion
@@ -83,59 +83,31 @@ namespace NueGames.NueDeck.Scripts.Characters
             EnemyCanvas.SetIntentionVisibility(false);
             yield return StartCoroutine(RunAbilityRoutine(NextAbility));
         }
-        
+
         protected virtual IEnumerator RunAbilityRoutine(EnemyAbilityData targetAbility)
         {
-            var waitFrame = new WaitForEndOfFrame();
-
             if (CombatManager == null) yield break;
             
-            var target = CombatManager.CurrentAlliesList.RandomItem();
-            
-            var startPos = transform.position;
-            var endPos = target.transform.position;
-
-            var startRot = transform.localRotation;
-            var endRot = Quaternion.Euler(60, 0, 60);
-            
-            yield return StartCoroutine(MoveToTargetRoutine(waitFrame, startPos, endPos, startRot, endRot, 5));
-          
             CardExecutionContext context = new(this, CombatManager.CurrentMainAlly);
             foreach (CardActionData action in targetAbility.Card.CardActionDataList)
             {
-                //Insert unable to used ability animation here
-                if(!action.CanExecute(context)) continue;
-                
-                //Insert corresponding animation here
+                if (!action.CanExecute(context))
+                {
+                    yield return WaitForAnimationEnd(ActionAnimationType.Interruption);
+                    yield break;
+                }                
+            }
+
+            yield return WaitForAnimationEnd(targetAbility.Card.AnimationType);
+
+            foreach (CardActionData action in targetAbility.Card.CardActionDataList)
+            {
                 action.Execute(context);
 
                 if (action.ActionDelay > 0)
-                    yield return new WaitForSeconds(action.ActionDelay);
-            }
-            
-            yield return StartCoroutine(MoveToTargetRoutine(waitFrame, endPos, startPos, endRot, startRot, 5));
-        }
-        #endregion
-        
-        #region Other Routines
-        private IEnumerator MoveToTargetRoutine(WaitForEndOfFrame waitFrame,Vector3 startPos, Vector3 endPos, Quaternion startRot, Quaternion endRot, float speed)
-        {
-            var timer = 0f;
-            while (true)
-            {
-                timer += Time.deltaTime*speed;
-
-                transform.position = Vector3.Lerp(startPos, endPos, timer);
-                transform.localRotation = Quaternion.Lerp(startRot,endRot,timer);
-                if (timer>=1f)
-                {
-                    break;
-                }
-
-                yield return waitFrame;
+                    yield return new WaitForSeconds(action.ActionDelay);              
             }
         }
-
         #endregion
     }
 }

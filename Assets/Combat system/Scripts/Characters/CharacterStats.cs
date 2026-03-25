@@ -36,7 +36,6 @@ namespace NueGames.NueDeck.Scripts.Characters
         private readonly Action<StatusType> OnStatusCleared;
         public Action OnHealAction;
         public Action OnTakeDamageAction;
-        public Action OnShieldGained;
         
         public readonly Dictionary<StatusType, StatusStats> StatusDict = new();
         
@@ -103,7 +102,7 @@ namespace NueGames.NueDeck.Scripts.Characters
         {
             CurrentHealth += value;
             if (CurrentHealth>MaxHealth)  CurrentHealth = MaxHealth;
-            OnHealthChanged?.Invoke(CurrentHealth,MaxHealth);
+            OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
         }
         
         public void Damage(int value)

@@ -17,4 +17,4 @@ MonoBehaviour:
   characterDescription: Enemy Description
   maxHealth: 100
   enemyPrefab: {fileID: 243822687015991123, guid: 12422914cfeeb1349afec0d663b87504, type: 3}
-  enemyDeck: {fileID: 11400000, guid: 6a5d9979fea7d73218e23a50d4589841, type: 2}
+  enemyDeck: {fileID: 11400000, guid: e498f70e63bca6cab81cb1736ace607a, type: 2}

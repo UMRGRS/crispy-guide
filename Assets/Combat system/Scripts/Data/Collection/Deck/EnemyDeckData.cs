@@ -24,17 +24,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [Header("Settings")]
         [SerializeField] private CardData card;
         [SerializeField] private bool hideActionValue;
-        private bool wasUsedLastTurn;
         public CardData Card => card;
         public bool HideActionValue => hideActionValue;
-        public bool WasUsedLastTurn => wasUsedLastTurn;
-        public void SetAsUsed()
-        {
-            wasUsedLastTurn = true;
-        }
-        public void SetAsUnused()
-        {
-            wasUsedLastTurn = false;
-        }
     }  
 }

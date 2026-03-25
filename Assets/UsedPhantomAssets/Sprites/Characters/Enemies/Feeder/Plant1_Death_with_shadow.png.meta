@@ -1,0 +1,460 @@
+fileFormatVersion: 2
+guid: 493bc9bb6be0a68f7ab4612557346d48
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Plant1_Death_with_shadow_60
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 77
+        width: 36
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6544fcc7061f966bb29a964062ca17f
+      internalID: 1115613513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Death_with_shadow_61
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 77
+        width: 31
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ce2ba99fdc3a170d8f71859f16a9a4b
+      internalID: 2010606158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Death_with_shadow_62
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 76
+        width: 36
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7b54b472fd6e92abb7197c3577d915c
+      internalID: 942023883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Death_with_shadow_86
+      rect:
+        serializedVersion: 2
+        x: 526
+        y: 74
+        width: 42
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3f89991e039e28358ca5068cf9812b2
+      internalID: -458417207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Death_with_shadow_87
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 74
+        width: 40
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df3341ef2d97ee2be8a84291f3e8d6e3
+      internalID: 1468254898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Death_with_shadow_0
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 75
+        width: 34
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45c9b254a41ef11678dae6882848fce8
+      internalID: -17745793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Death_with_shadow_1
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 74
+        width: 40
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3306f179b26d4990b804b64f09122760
+      internalID: -1237546293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Death_with_shadow_2
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 74
+        width: 42
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 597c00a60716a85c29a0f4b6a88d6acf
+      internalID: -558797063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Death_with_shadow_3
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 73
+        width: 44
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e496f09b66e1e60fb56be5104d834fd
+      internalID: -855135716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plant1_Death_with_shadow_4
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 74
+        width: 44
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f3763bfb400de2f4b7476cb534fd8f7
+      internalID: -1036498926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Plant1_Death_with_shadow_0: -17745793
+      Plant1_Death_with_shadow_1: -1237546293
+      Plant1_Death_with_shadow_10: -40124648
+      Plant1_Death_with_shadow_100: 1483637225
+      Plant1_Death_with_shadow_101: 2119409383
+      Plant1_Death_with_shadow_102: -1617156438
+      Plant1_Death_with_shadow_103: -472882250
+      Plant1_Death_with_shadow_104: -216151880
+      Plant1_Death_with_shadow_105: 1910788826
+      Plant1_Death_with_shadow_106: -1009805595
+      Plant1_Death_with_shadow_107: -253694703
+      Plant1_Death_with_shadow_108: -21255971
+      Plant1_Death_with_shadow_109: 241471097
+      Plant1_Death_with_shadow_11: -1139645088
+      Plant1_Death_with_shadow_110: 309837317
+      Plant1_Death_with_shadow_111: -514518401
+      Plant1_Death_with_shadow_112: -158365342
+      Plant1_Death_with_shadow_113: 715359277
+      Plant1_Death_with_shadow_114: -1903723005
+      Plant1_Death_with_shadow_115: -949068162
+      Plant1_Death_with_shadow_116: -208557638
+      Plant1_Death_with_shadow_117: -580546316
+      Plant1_Death_with_shadow_118: 1801837744
+      Plant1_Death_with_shadow_119: -995830740
+      Plant1_Death_with_shadow_12: 963125990
+      Plant1_Death_with_shadow_120: 567440355
+      Plant1_Death_with_shadow_121: -105118954
+      Plant1_Death_with_shadow_122: 858137598
+      Plant1_Death_with_shadow_13: -1981881098
+      Plant1_Death_with_shadow_14: 2069008849
+      Plant1_Death_with_shadow_15: -475458035
+      Plant1_Death_with_shadow_16: -1256503038
+      Plant1_Death_with_shadow_17: 515506330
+      Plant1_Death_with_shadow_18: 1403837710
+      Plant1_Death_with_shadow_19: 938732819
+      Plant1_Death_with_shadow_2: -558797063
+      Plant1_Death_with_shadow_20: 240337365
+      Plant1_Death_with_shadow_21: 957933523
+      Plant1_Death_with_shadow_22: 873798343
+      Plant1_Death_with_shadow_23: -441525100
+      Plant1_Death_with_shadow_24: -1632606996
+      Plant1_Death_with_shadow_25: 746639772
+      Plant1_Death_with_shadow_26: -950395771
+      Plant1_Death_with_shadow_27: -676710490
+      Plant1_Death_with_shadow_28: 2107894995
+      Plant1_Death_with_shadow_29: -2002642773
+      Plant1_Death_with_shadow_3: -855135716
+      Plant1_Death_with_shadow_30: -1837068197
+      Plant1_Death_with_shadow_31: -2130221733
+      Plant1_Death_with_shadow_32: 1161957458
+      Plant1_Death_with_shadow_33: 9813488
+      Plant1_Death_with_shadow_34: -2144429213
+      Plant1_Death_with_shadow_35: 347146391
+      Plant1_Death_with_shadow_36: 1840295835
+      Plant1_Death_with_shadow_37: -1660041208
+      Plant1_Death_with_shadow_38: -1194458364
+      Plant1_Death_with_shadow_39: 1445890795
+      Plant1_Death_with_shadow_4: -1036498926
+      Plant1_Death_with_shadow_40: 1256849189
+      Plant1_Death_with_shadow_41: -393384667
+      Plant1_Death_with_shadow_42: 931760107
+      Plant1_Death_with_shadow_43: -1280045337
+      Plant1_Death_with_shadow_44: 1931126132
+      Plant1_Death_with_shadow_45: -1285241709
+      Plant1_Death_with_shadow_46: -343198881
+      Plant1_Death_with_shadow_47: -469714586
+      Plant1_Death_with_shadow_48: -1499975368
+      Plant1_Death_with_shadow_49: 1238032485
+      Plant1_Death_with_shadow_5: 2103280863
+      Plant1_Death_with_shadow_50: -1317537185
+      Plant1_Death_with_shadow_51: -1673751570
+      Plant1_Death_with_shadow_52: 623184115
+      Plant1_Death_with_shadow_53: 1094453570
+      Plant1_Death_with_shadow_54: -970940317
+      Plant1_Death_with_shadow_55: -510098734
+      Plant1_Death_with_shadow_56: 910156857
+      Plant1_Death_with_shadow_57: -590041071
+      Plant1_Death_with_shadow_58: 963551747
+      Plant1_Death_with_shadow_59: 208938019
+      Plant1_Death_with_shadow_6: -368575183
+      Plant1_Death_with_shadow_60: 1115613513
+      Plant1_Death_with_shadow_61: 2010606158
+      Plant1_Death_with_shadow_62: 942023883
+      Plant1_Death_with_shadow_63: -1110515293
+      Plant1_Death_with_shadow_64: 1807954139
+      Plant1_Death_with_shadow_65: -137538690
+      Plant1_Death_with_shadow_66: 1797843793
+      Plant1_Death_with_shadow_67: 1839514758
+      Plant1_Death_with_shadow_68: -1333540974
+      Plant1_Death_with_shadow_69: -1973825446
+      Plant1_Death_with_shadow_7: 1778636246
+      Plant1_Death_with_shadow_70: 1135666295
+      Plant1_Death_with_shadow_71: -1410485937
+      Plant1_Death_with_shadow_72: 858301340
+      Plant1_Death_with_shadow_73: -2118911093
+      Plant1_Death_with_shadow_74: 1404550798
+      Plant1_Death_with_shadow_75: 1806229874
+      Plant1_Death_with_shadow_76: -817560646
+      Plant1_Death_with_shadow_77: -1853268345
+      Plant1_Death_with_shadow_78: -2076461688
+      Plant1_Death_with_shadow_79: -1965304399
+      Plant1_Death_with_shadow_8: -436768156
+      Plant1_Death_with_shadow_80: 1715202733
+      Plant1_Death_with_shadow_81: 879894673
+      Plant1_Death_with_shadow_82: -2118699925
+      Plant1_Death_with_shadow_83: 378439454
+      Plant1_Death_with_shadow_84: -1502379074
+      Plant1_Death_with_shadow_85: -1089550539
+      Plant1_Death_with_shadow_86: -458417207
+      Plant1_Death_with_shadow_87: 1468254898
+      Plant1_Death_with_shadow_88: 1483114371
+      Plant1_Death_with_shadow_89: 1771193830
+      Plant1_Death_with_shadow_9: 21294342
+      Plant1_Death_with_shadow_90: -1219228407
+      Plant1_Death_with_shadow_91: 147772942
+      Plant1_Death_with_shadow_92: -1346564883
+      Plant1_Death_with_shadow_93: 1242053223
+      Plant1_Death_with_shadow_94: -465664357
+      Plant1_Death_with_shadow_95: -723127449
+      Plant1_Death_with_shadow_96: -44180420
+      Plant1_Death_with_shadow_97: -1880048062
+      Plant1_Death_with_shadow_98: -1154105730
+      Plant1_Death_with_shadow_99: -1721631894
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

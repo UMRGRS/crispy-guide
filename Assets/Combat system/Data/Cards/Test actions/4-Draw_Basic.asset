@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: 4-Draw_Basic
   m_EditorClassIdentifier: 
   id: 4_draw_basic
-  cardName: Basic draw
+  cardName: Death
   cardSprite: {fileID: 21300000, guid: 6d79f0e0e016ca64592cdb3293bf37da, type: 3}
   rarity: 0
   usableWithoutTarget: 1
   actionTargetType: 0
   cardActionDataList:
-  - {fileID: 11400000, guid: 0be697cb868337216b4fb3c878871e3a, type: 2}
+  - {fileID: 11400000, guid: 873dedfa98c4afe449966f4503b3deaf, type: 2}
+  animationType: 3
   specialKeywordsList: 
