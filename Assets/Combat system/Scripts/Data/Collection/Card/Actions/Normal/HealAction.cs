@@ -15,8 +15,13 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public override void Execute(CardExecutionContext context)
         {
             PayCost(context);
+
+            int healToDeal = CalculateActionValue(context);
             
-            context.source.CharacterStats.Heal(Mathf.RoundToInt(CalculateActionValue(context)));
+            context.source.CharacterStats.Heal(Mathf.RoundToInt(healToDeal));
+
+            if(context.registerScore)
+                context.managersContainer.ScoreManager.Healing += healToDeal;
 
             if (context.managersContainer.FxManager != null) 
                 context.managersContainer.FxManager.PlayFx(context.source.transform, FxType.Heal);

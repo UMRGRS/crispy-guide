@@ -11,6 +11,7 @@ namespace NueGames.NueDeck.Scripts.Managers
 
         #region private fields
         private FirebaseFirestore db;
+        private readonly string scoreCollectionName = "scores";
         #endregion
 
         #region Setup
@@ -27,11 +28,15 @@ namespace NueGames.NueDeck.Scripts.Managers
                 db = FirebaseFirestore.DefaultInstance;
             }
         }
+        #endregion
 
-        public void Start()
+        #region Public methods
+        
+        public void SaveScore(Dictionary<string, object> data)
         {
-            
+            db.Collection(scoreCollectionName).Document().SetAsync(data);
         }
+
         #endregion
     }
 }

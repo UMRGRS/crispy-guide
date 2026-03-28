@@ -39,6 +39,7 @@ namespace NueGames.NueDeck.Scripts.Collection
         protected CollectionManager CollectionManager => CollectionManager.Instance;
         protected UIManager UIManager => UIManager.Instance;
         protected EnergyPoolManager EnergyPoolManager => EnergyPoolManager.Instance;
+        protected ScoreManager ScoreManager => ScoreManager.Instance;
         
         private Plane _plane; // world XY plane, used for mouse position raycasts
         private Vector3 _a, _b, _c; // Used for shaping hand into curve
@@ -323,11 +324,12 @@ namespace NueGames.NueDeck.Scripts.Collection
                 {
                     GameManager.PersistentGameplayData.CanUseCards = false;
                     backToHand = false;
+                    ScoreManager.UsedCards++;
                     _heldCard.Use(selfCharacter, targetCharacter);
                 }
             }
 
-            if (backToHand) // Cannot use card / Not enough mana! Return card to hand!
+            if (backToHand) // Cannot use card / Not enough energy! Return card to hand!
                 AddCardToHand(_heldCard, _selected);
 
             _heldCard = null;

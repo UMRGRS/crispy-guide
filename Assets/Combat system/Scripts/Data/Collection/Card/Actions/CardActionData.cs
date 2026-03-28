@@ -49,7 +49,12 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         {
             if(usableWithoutCost) return;
 
-            upToModValue = context.managersContainer.EnergyPoolManager.ConsumeEnergyCost(GetCostAsQuantityContainer());
+            int usedEnergies = context.managersContainer.EnergyPoolManager.ConsumeEnergyCost(GetCostAsQuantityContainer());
+            
+            if(context.registerScore)
+                context.managersContainer.ScoreManager.UsedEnergy += usedEnergies;
+            
+            upToModValue = usedEnergies;
         }
         public virtual List<EnergyQuantityContainer> GetTotalCost()
         {

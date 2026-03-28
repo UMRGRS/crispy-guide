@@ -8,5 +8,6 @@ namespace NueGames.NueDeck.Scripts.Managers
         public CombatManager CombatManager => CombatManager.Instance;
         public CollectionManager CollectionManager => CollectionManager.Instance;
         public EnergyPoolManager EnergyPoolManager => EnergyPoolManager.Instance;
+        public ScoreManager ScoreManager => ScoreManager.Instance;
     }
 }
