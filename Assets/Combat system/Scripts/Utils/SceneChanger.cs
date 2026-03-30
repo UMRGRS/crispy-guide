@@ -4,6 +4,8 @@ using NueGames.NueDeck.Scripts.Managers;
 using NueGames.NueDeck.ThirdParty.NueTooltip.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using NueGames.NueDeck.Scripts.Enums;
+
 
 namespace NueGames.NueDeck.Scripts.Utils
 {
@@ -82,6 +84,11 @@ namespace NueGames.NueDeck.Scripts.Utils
         {
             GameManager.OnExitApp();
             Application.Quit();
+        }
+        public void OpenCombatSceneWithFloor(int floorId)
+        {
+            GameManager.PersistentGameplayData.CurrentFloor = (FloorId)floorId;
+            StartCoroutine(DelaySceneChange(SceneType.Combat));
         }
     }
 }
