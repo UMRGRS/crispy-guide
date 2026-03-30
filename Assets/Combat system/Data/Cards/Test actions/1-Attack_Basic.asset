@@ -16,9 +16,9 @@ MonoBehaviour:
   cardName: Enemy
   cardSprite: {fileID: 21300000, guid: 8510ca3a47f6c23479e9992c04455698, type: 3}
   rarity: 0
-  usableWithoutTarget: 0
+  usableWithoutTarget: 1
   actionTargetType: 0
   cardActionDataList:
-  - {fileID: 11400000, guid: 873dedfa98c4afe449966f4503b3deaf, type: 2}
+  - {fileID: 11400000, guid: c58f3752381f84a4fa8ec1af6a08fdc0, type: 2}
   animationType: 1
   specialKeywordsList: 

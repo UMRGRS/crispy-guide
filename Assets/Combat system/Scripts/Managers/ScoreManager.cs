@@ -15,8 +15,7 @@ namespace NueGames.NueDeck.Scripts.Managers
         private int healing;
         private int usedCards;
         private int usedEnergy;
-
-        private FirebaseManager FirebaseManager => FirebaseManager.Instance;
+        
         #endregion
 
         #region Public getters/setters

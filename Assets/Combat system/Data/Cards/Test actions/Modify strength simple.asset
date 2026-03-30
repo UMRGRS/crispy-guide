@@ -13,10 +13,14 @@ MonoBehaviour:
   m_Name: Modify strength simple
   m_EditorClassIdentifier: 
   actionDelay: 0
-  optional: 0
-  costDataList: []
+  costData:
+    redCost: 0
+    blueCost: 0
+    greenCost: 0
   isCostUpToValue: 0
   usableWithoutCost: 1
   audioType: 0
-  from: {fileID: 11400000, guid: 26c344acbcd548aac90ccd1d58e7dff6, type: 2}
+  from:
+    color: 0
+    quantity: 1
   modificationType: 1
