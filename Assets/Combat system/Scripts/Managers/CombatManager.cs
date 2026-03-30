@@ -49,12 +49,13 @@ namespace NueGames.NueDeck.Scripts.Managers
         }
         
         private CombatStateType _currentCombatStateType;
-        protected FxManager FxManager => FxManager.Instance;
-        protected AudioManager AudioManager => AudioManager.Instance;
-        protected GameManager GameManager => GameManager.Instance;
-        protected UIManager UIManager => UIManager.Instance;
-        protected CollectionManager CollectionManager => CollectionManager.Instance;
-        protected EnergyPoolManager EnergyPoolManager => EnergyPoolManager.Instance;
+        private FxManager FxManager => FxManager.Instance;
+        private AudioManager AudioManager => AudioManager.Instance;
+        private GameManager GameManager => GameManager.Instance;
+        private UIManager UIManager => UIManager.Instance;
+        private CollectionManager CollectionManager => CollectionManager.Instance;
+        private EnergyPoolManager EnergyPoolManager => EnergyPoolManager.Instance;
+        private ScoreManager ScoreManager => ScoreManager.Instance;
 
         #endregion
         
@@ -85,9 +86,11 @@ namespace NueGames.NueDeck.Scripts.Managers
             backgroundContainer.OpenSelectedBackground();
           
             CollectionManager.SetGameDeck();
-           
+            ScoreManager.ClearScore();
+
             UIManager.CombatCanvas.gameObject.SetActive(true);
             UIManager.InformationCanvas.gameObject.SetActive(true);
+
             CurrentCombatStateType = CombatStateType.TurnStart;
         }
         
@@ -269,6 +272,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             }
             else
             {
+                ScoreManager.TurnsToComplete++;
                 CurrentCombatStateType = CombatStateType.TurnStart;
             }
         }

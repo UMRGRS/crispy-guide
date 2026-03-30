@@ -95,7 +95,7 @@ namespace NueGames.NueDeck.Scripts.Card
 
         private IEnumerator CardUseRoutine(CharacterBase self, CharacterBase targetCharacter)
         {
-            CardExecutionContext context = new(self, targetCharacter);
+            CardExecutionContext context = new(self, targetCharacter, true);
 
             if(CardData.AnimationType != Enums.ActionAnimationType.Hurt)
                 self.TriggerAnimation(CardData.AnimationType);
