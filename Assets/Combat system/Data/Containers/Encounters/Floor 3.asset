@@ -26,7 +26,7 @@ MonoBehaviour:
     minEnergySpawn: 4
     maxEnergySpawn: 4
     energyGenerationTurns: 10
-    targetBackgroundType: 0
+    targetBackgroundType: 2
   bossEncounterList:
   - availableEnemies:
     - {fileID: 11400000, guid: 2a3e3cac54ff7a84a81dc5f60d34fb2b, type: 2}
@@ -37,4 +37,4 @@ MonoBehaviour:
     minEnergySpawn: 6
     maxEnergySpawn: 8
     energyGenerationTurns: 10
-    targetBackgroundType: 0
+    targetBackgroundType: 2
