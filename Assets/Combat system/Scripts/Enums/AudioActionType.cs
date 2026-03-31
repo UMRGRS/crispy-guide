@@ -14,6 +14,8 @@
         CreateEnergy,
         ModifyEnergyStrength,
         ModifyGenPool,
-        ModifyRemainingTurns
+        ModifyRemainingTurns,
+        MenuMusic,
+        BattleMusic
     }
 }
