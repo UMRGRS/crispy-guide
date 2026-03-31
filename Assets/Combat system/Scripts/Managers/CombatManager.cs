@@ -83,7 +83,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             BuildEnemies();
             BuildAllies();
 
-            //backgroundContainer.OpenSelectedBackground();
+            backgroundContainer.OpenSelectedBackground();
             
             CollectionManager.SetGameDeck();
             ScoreManager.ClearScore();
