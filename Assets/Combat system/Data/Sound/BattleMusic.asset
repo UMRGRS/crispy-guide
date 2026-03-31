@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: BattleMusic
   m_EditorClassIdentifier: 
   audioType: 13
-  randomClipList: []
+  randomClipList:
+  - {fileID: 8300000, guid: 2a50c4428106d624f8eb26ee9e87f4ec, type: 3}

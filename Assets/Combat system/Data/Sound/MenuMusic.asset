@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: MenuMusic
   m_EditorClassIdentifier: 
   audioType: 13
-  randomClipList: []
+  randomClipList:
+  - {fileID: 8300000, guid: 69e745a07b5cc237f97c465113865795, type: 3}
