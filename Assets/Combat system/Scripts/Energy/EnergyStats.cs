@@ -10,6 +10,7 @@ namespace NueGames.NueDeck.Scripts.Energy
         public int BlockTurns { get; private set; }
         public Action OnInert;
         public Action OnEnergyUnblock;
+        public Action OnEnergyStrengthModification;
 
         #region setup
         public EnergyStats(EnergyColor energyColor, EnergyStrength energyStrength, int blockTurns)
@@ -25,7 +26,11 @@ namespace NueGames.NueDeck.Scripts.Energy
         {
             EnergyStrength = EnergyStrengthHelper.GetNewEnergyStrengthValue(EnergyStrength, modificationType);
             if(EnergyStrength == EnergyStrength.Inert)
+            {
                 OnInert?.Invoke();
+                return;
+            }
+            OnEnergyStrengthModification?.Invoke();
         }
         public void ModifyBlockTurns(int turns, BlockTurnsModificationType modificationType)
         {
