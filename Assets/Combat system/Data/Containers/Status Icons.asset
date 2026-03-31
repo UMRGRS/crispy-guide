@@ -12,20 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f964cc6b134ac99d71c4559321fc49, type: 3}
   m_Name: Status Icons
   m_EditorClassIdentifier: 
-  statusIconBasePrefab: {fileID: 6777904196308813527, guid: f4e76bc2e67da6241b52b8d7c6034e01, type: 3}
+  statusIconBasePrefab: {fileID: 5336940138129574555, guid: 78474f42afcbea363bc5d388260185ae, type: 3}
   statusIconList:
   - iconStatus: 2
-    iconSprite: {fileID: 8414397559482299720, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
+    iconSprite: {fileID: -1649176400, guid: 85d900617a53ab32a9db8946691b7007, type: 3}
     specialKeywords: 05000000
-  - iconStatus: 3
-    iconSprite: {fileID: 8414397559482299720, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
+  - iconStatus: 1
+    iconSprite: {fileID: 1624850664, guid: 85d900617a53ab32a9db8946691b7007, type: 3}
     specialKeywords: 06000000
   - iconStatus: 3
-    iconSprite: {fileID: 8414397559482299720, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
+    iconSprite: {fileID: 430045433, guid: 85d900617a53ab32a9db8946691b7007, type: 3}
     specialKeywords: 06000000
   - iconStatus: 4
-    iconSprite: {fileID: -6598036126873212134, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
+    iconSprite: {fileID: -1526804947, guid: 85d900617a53ab32a9db8946691b7007, type: 3}
     specialKeywords: 02000000
   - iconStatus: 5
-    iconSprite: {fileID: -214828719786938277, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
+    iconSprite: {fileID: -596046692, guid: 85d900617a53ab32a9db8946691b7007, type: 3}
     specialKeywords: 03000000

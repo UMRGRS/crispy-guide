@@ -85,6 +85,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             ScoreManager.ClearScore();
             
             UIManager.CombatCanvas.gameObject.SetActive(true);
+            UIManager.CombatCanvas.SetTurnsLeft();
 
             CurrentCombatStateType = CombatStateType.TurnStart;
         }
@@ -266,6 +267,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             }
             else
             {
+                UIManager.CombatCanvas.SetTurnsLeft();
                 ScoreManager.TurnsToComplete++;
                 CurrentCombatStateType = CombatStateType.TurnStart;
             }

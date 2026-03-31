@@ -15,12 +15,10 @@ namespace NueGames.NueDeck.Scripts.UI
         public Image StatusImage => statusImage;
 
         public TextMeshProUGUI StatusValueText => statusValueText;
-
         public void SetStatus(StatusIconData statusIconData)
         {
             MyStatusIconData = statusIconData;
             StatusImage.sprite = statusIconData.IconSprite;
-            
         }
 
         public void SetStatusValue(int statusValue)
