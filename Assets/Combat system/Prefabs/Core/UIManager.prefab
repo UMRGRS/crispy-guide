@@ -482,7 +482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4550346563000777829, guid: 3cb5ee0c41b0f3145bdb870938f278a7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4550346563000777829, guid: 3cb5ee0c41b0f3145bdb870938f278a7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -524,7 +524,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: CombatCanvas
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 6447349071978735998, guid: 3cb5ee0c41b0f3145bdb870938f278a7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527810615368772838, guid: 3cb5ee0c41b0f3145bdb870938f278a7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527810615368772838, guid: 3cb5ee0c41b0f3145bdb870938f278a7, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527810615368772838, guid: 3cb5ee0c41b0f3145bdb870938f278a7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -182
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 923730600599088881, guid: 3cb5ee0c41b0f3145bdb870938f278a7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
