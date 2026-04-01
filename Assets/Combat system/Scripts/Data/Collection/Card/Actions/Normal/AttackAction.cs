@@ -50,6 +50,8 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
 
             if(isSelfDamage) suffix.Append(" to your self");
 
+            if(isCostUpToValue) return BuildActionDescription($"Deal {value} {suffix}"); 
+
             return BuildActionDescription($"Deal {CalculateActionValue(context)} {suffix}");
         }
     }

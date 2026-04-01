@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NueGames.NueDeck.Scripts.Enums;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Data.Collection
@@ -8,12 +9,13 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
     {
         [SerializeField] private string deckId;
         [SerializeField] private string deckName;
-
+        [SerializeField] private FloorId floor;
         [SerializeField] private List<CardData> cardList;
-        public List<CardData> CardList => cardList;
 
         public string DeckId => deckId;
-
         public string DeckName => deckName;
+        public FloorId Floor => floor;
+        public List<CardData> CardList => cardList;
+
     }
 }

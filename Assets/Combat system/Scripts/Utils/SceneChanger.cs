@@ -52,7 +52,6 @@ namespace NueGames.NueDeck.Scripts.Utils
                     UIManager.SetCanvas(UIManager.RewardCanvas,false,true);
                    
                     GameManager.InitGameplayData();
-                    GameManager.SetInitialHand();
                     break;
                 case SceneType.Map:
                     UIManager.ChangeScene(GameManager.SceneData.mapSceneIndex);
@@ -64,7 +63,7 @@ namespace NueGames.NueDeck.Scripts.Utils
                     UIManager.ChangeScene(GameManager.SceneData.combatSceneIndex);
                     UIManager.SetCanvas(UIManager.CombatCanvas,false,true);
                     UIManager.SetCanvas(UIManager.RewardCanvas,false,true);
-                    
+                    GameManager.SetInitialHand();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);

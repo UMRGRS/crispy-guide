@@ -15,7 +15,10 @@ MonoBehaviour:
   drawCount: 2
   initialAllyList:
   - {fileID: 2835035829204582327, guid: 6472d62dc90afc04db103b9a3f293860, type: 3}
-  initialDeck: {fileID: 11400000, guid: c404095e39f1c51299fced609ae68319, type: 2}
+  availableDecks:
+  - {fileID: 11400000, guid: c404095e39f1c51299fced609ae68319, type: 2}
+  - {fileID: 11400000, guid: fa81d60817b3499cfa122bcdd056d1be, type: 2}
+  - {fileID: 11400000, guid: 129ffae5e26d7436c9af73e8f512a3a8, type: 2}
   maxCardOnHand: 10
   allCardsList:
   - {fileID: 11400000, guid: 1e43cdb39f5836b44942f367125cadde, type: 2}

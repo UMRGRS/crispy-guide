@@ -32,7 +32,6 @@ namespace NueGames.NueDeck.Scripts.UI
         public void SetTurnsLeft()
         {
             turnsLeftTextField.text = $"Turns left: {GameManager.PersistentGameplayData.RemainingActiveTurns}";
-            Debug.Log(GameManager.PersistentGameplayData.RemainingActiveTurns);
         }
 
         public override void ResetCanvas()
