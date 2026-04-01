@@ -24,7 +24,6 @@ namespace NueGames.NueDeck.Scripts.Card
         [SerializeField] protected Image cardImage;
         [SerializeField] protected Image passiveImage;
         [SerializeField] protected TextMeshProUGUI descTextField;
-        [SerializeField] protected List<RarityRoot> rarityRootList;
         [SerializeField] private Image redCostImage;
         [SerializeField] private Image blueCostImage;
         [SerializeField] private Image greenCostImage;
@@ -39,7 +38,6 @@ namespace NueGames.NueDeck.Scripts.Card
         protected WaitForEndOfFrame CachedWaitFrame { get; set; }
         public bool IsPlayable { get; protected set; } = true;
 
-        public List<RarityRoot> RarityRootList => rarityRootList;
         protected FxManager FxManager => FxManager.Instance;
         protected AudioManager AudioManager => AudioManager.Instance;
         protected GameManager GameManager => GameManager.Instance;
@@ -65,8 +63,6 @@ namespace NueGames.NueDeck.Scripts.Card
             descTextField.text = CardData.MyDescription;
             SetCardCosts();
             cardImage.sprite = CardData.CardSprite;
-            foreach (var rarityRoot in RarityRootList)
-                rarityRoot.gameObject.SetActive(rarityRoot.Rarity == CardData.Rarity);
         }
 
         public void SetCardCosts()
