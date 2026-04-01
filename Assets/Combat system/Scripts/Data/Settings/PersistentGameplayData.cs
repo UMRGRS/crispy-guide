@@ -25,23 +25,34 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
         [SerializeField] private List<CardData> currentCardsList;
         [SerializeField] private List<AllyHealthData> allyHealthDataDataList;
         [SerializeField] private bool isBossEncounter;
-        [SerializeField] private int currentTurn;
 
-         #region Encapsulation
+        #region Encapsulation
 
         public int DrawCount{get => drawCount; set => drawCount = value;}
         public bool CanUseCards{get => canUseCards; set => canUseCards = value;}
         public bool CanSelectCards{get => canSelectCards; set => canSelectCards = value;}
         public List<AllyBase> AllyList{get => allyList; set => allyList = value;}
         public EnemyEncounter CurrentEncounter{get => currentEncounter; set => currentEncounter = value;}
-        public int RemainingActiveTurns{get => remainingActiveTurns; set => remainingActiveTurns = value;}
+        public int RemainingActiveTurns{
+            get => remainingActiveTurns; 
+            set 
+            {
+                if(value < 0)
+                {
+                    remainingActiveTurns = 0;
+                }
+                else
+                {
+                    remainingActiveTurns = value;
+                }
+            }
+        }
         public EnergyGenerationRules EnergyGenerationRules{get => energyGenerationRules; set => energyGenerationRules = value;}
         public EnergyBlockParameters EnergyBlockRules{get => energyBlockRules; set => energyBlockRules = value;}
         public FloorId CurrentFloor{get => currentFloor; set => currentFloor = value;}
         public List<CardData> CurrentCardsList{get => currentCardsList; set => currentCardsList = value;}
         public List<AllyHealthData> AllyHealthDataList{get => allyHealthDataDataList; set => allyHealthDataDataList = value;}
         public bool IsBossEncounter { get => isBossEncounter; set => isBossEncounter = value; }
-        public int CurrentTurn { get => currentTurn; set => currentTurn = value; }
 
         #endregion
 
@@ -51,7 +62,6 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
 
             InitData();
         }
-        
         public void SetAllyHealthData(string id,int newCurrentHealth, int newMaxHealth)
         {
             var data = allyHealthDataDataList.Find(x => x.CharacterId == id);
@@ -71,7 +81,7 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
                 allyHealthDataDataList.Add(newData);
             }
         } 
-        private void InitData()
+        public void InitData()
         {
             drawCount = _gameplayData.DrawCount;
             canUseCards = true;
@@ -84,10 +94,7 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
             currentFloor = FloorId.firstFloor;
             currentCardsList = new List<CardData>();
             allyHealthDataDataList = new List<AllyHealthData>();
-            currentTurn = 1;
         }
-
-       
     }
     public class EnergyBlockParameters
     {

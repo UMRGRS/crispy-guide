@@ -25,13 +25,14 @@ namespace NueGames.NueDeck.Scripts.UI
         {
             CombatWinPanel.SetActive(false);
             CombatLosePanel.SetActive(false);
-        }
+        }   
         #endregion
 
         #region Public Methods
         public void SetTurnsLeft()
         {
             turnsLeftTextField.text = $"Turns left: {GameManager.PersistentGameplayData.RemainingActiveTurns}";
+            Debug.Log(GameManager.PersistentGameplayData.RemainingActiveTurns);
         }
 
         public override void ResetCanvas()

@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: SS_Change_Gen_G
   cardName: Change generation to green
-  cardSprite: {fileID: 21300000, guid: 07720b55bb7cb3c45a9e509ca5b5e01c, type: 3}
-  rarity: 0
+  cardSprite: {fileID: 715689205, guid: 85d900617a53ab32a9db8946691b7007, type: 3}
   usableWithoutTarget: 1
   actionTargetType: 0
   cardActionDataList:

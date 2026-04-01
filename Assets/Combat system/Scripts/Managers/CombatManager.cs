@@ -78,6 +78,7 @@ namespace NueGames.NueDeck.Scripts.Managers
         }
         public void StartCombat()
         {
+            SetInitialData();
             BuildEnemies();
             BuildAllies();
             
@@ -189,13 +190,20 @@ namespace NueGames.NueDeck.Scripts.Managers
         #endregion
         
         #region Private Methods
-        private void BuildEnemies()
+        private void SetInitialData()
         {
             EncounterData currentFloorData = GameManager.EncounterData.First(encounterData => encounterData.Floor == GameManager.PersistentGameplayData.CurrentFloor);
             GameManager.PersistentGameplayData.CurrentEncounter = currentFloorData.GetEnemyEncounter(isBoss: true);
-            
+
             EnemyEncounter currentEncounter = GameManager.PersistentGameplayData.CurrentEncounter;
             GameManager.PersistentGameplayData.RemainingActiveTurns = currentEncounter.EnergyGenerationTurns;
+
+            GameManager.PersistentGameplayData.EnergyGenerationRules = new Data.Settings.EnergyGenerationRules();
+            GameManager.PersistentGameplayData.EnergyBlockRules = new Data.Settings.EnergyBlockParameters();
+        }
+        private void BuildEnemies()
+        {
+            EnemyEncounter currentEncounter = GameManager.PersistentGameplayData.CurrentEncounter;
 
             int numberOfEnemiesToGenerate = Random.Range(currentEncounter.MinEnemiesSpawn, currentEncounter.MaxEnemiesSpawn + 1);
             List<EnemyCharacterData> enemyList = GetRandom.GetRandomItems(currentEncounter.AvailableEnemies, numberOfEnemiesToGenerate);
@@ -267,7 +275,6 @@ namespace NueGames.NueDeck.Scripts.Managers
             }
             else
             {
-                GameManager.PersistentGameplayData.CurrentTurn++;
                 UIManager.CombatCanvas.SetTurnsLeft();
                 ScoreManager.TurnsToComplete++;
                 CurrentCombatStateType = CombatStateType.TurnStart;
@@ -276,7 +283,6 @@ namespace NueGames.NueDeck.Scripts.Managers
         private void LoseCombat()
         {
             GameManager.PersistentGameplayData.CanSelectCards = false;
-            GameManager.PersistentGameplayData.CurrentTurn = 1;
             
             CollectionManager.DiscardHand();
             CollectionManager.DiscardPile.Clear();
@@ -299,7 +305,6 @@ namespace NueGames.NueDeck.Scripts.Managers
             CollectionManager.ClearPiles();
             
             CurrentMainAlly.CharacterStats.ClearAllStatus();
-            GameManager.PersistentGameplayData.CurrentTurn = 1;
             UIManager.CombatCanvas.CombatWinPanel.SetActive(true);
         }
         #endregion

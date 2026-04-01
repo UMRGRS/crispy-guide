@@ -24,6 +24,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
             PayCost(context);
             
             context.managersContainer.GameManager.ModifyRemainingTurns(value, type);
+            context.managersContainer.UIManager.CombatCanvas.SetTurnsLeft();
             // Add FX effects
 
             // Add audio effects
