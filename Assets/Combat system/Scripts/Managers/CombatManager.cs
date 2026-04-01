@@ -267,6 +267,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             }
             else
             {
+                GameManager.PersistentGameplayData.CurrentTurn++;
                 UIManager.CombatCanvas.SetTurnsLeft();
                 ScoreManager.TurnsToComplete++;
                 CurrentCombatStateType = CombatStateType.TurnStart;
@@ -275,6 +276,7 @@ namespace NueGames.NueDeck.Scripts.Managers
         private void LoseCombat()
         {
             GameManager.PersistentGameplayData.CanSelectCards = false;
+            GameManager.PersistentGameplayData.CurrentTurn = 1;
             
             CollectionManager.DiscardHand();
             CollectionManager.DiscardPile.Clear();
@@ -297,6 +299,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             CollectionManager.ClearPiles();
             
             CurrentMainAlly.CharacterStats.ClearAllStatus();
+            GameManager.PersistentGameplayData.CurrentTurn = 1;
             UIManager.CombatCanvas.CombatWinPanel.SetActive(true);
         }
         #endregion

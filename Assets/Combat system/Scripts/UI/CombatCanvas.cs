@@ -9,7 +9,7 @@ namespace NueGames.NueDeck.Scripts.UI
     {
         [Header("Texts")]
         [SerializeField] private TextMeshProUGUI turnsLeftTextField;
-        
+
         [Header("Panels")]
         [SerializeField] private GameObject combatWinPanel;
         [SerializeField] private GameObject combatLosePanel;
@@ -17,6 +17,8 @@ namespace NueGames.NueDeck.Scripts.UI
         public TextMeshProUGUI TurnsLeftTextField => turnsLeftTextField;
         public GameObject CombatWinPanel => combatWinPanel;
         public GameObject CombatLosePanel => combatLosePanel;
+
+
 
         #region Setup
         private void Awake()
