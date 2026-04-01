@@ -21,6 +21,7 @@ namespace NueGames.NueDeck.Scripts.Collection
         [SerializeField] private Vector3 curveEnd = new(-2f, -0.7f, 0);
         [SerializeField] private Vector2 handOffset = new(0, -0.3f);
         [SerializeField] private Vector2 handSize = new(9, 1.7f);
+        [SerializeField] private Vector3 handPositionOffset = Vector3.zero;
 
         [Header("References")]
         public Transform discardTransform;
@@ -67,6 +68,7 @@ namespace NueGames.NueDeck.Scripts.Collection
         #endregion
 
         #region Setup
+
         private void Awake()
         {
             _mainCam = Camera.main;
@@ -80,7 +82,7 @@ namespace NueGames.NueDeck.Scripts.Collection
         private void InitHand()
         {
             _a = transform.TransformPoint(curveStart);
-            _b = transform.position;
+            _b = transform.position + handPositionOffset;
             _c = transform.TransformPoint(curveEnd);
             _handBounds = new Rect((handOffset - handSize / 2), handSize);
             _plane = new Plane(-Vector3.forward, transform.position);
@@ -175,7 +177,8 @@ namespace NueGames.NueDeck.Scripts.Collection
                 var p = GetCurvePoint(_a, _b, _c, t);
 
                 var d = (p - _mouseWorldPos).sqrMagnitude;
-                var mouseCloseToCard = d < 0.5f;
+                //Debug.Log($"Distance to card: {d}");
+                var mouseCloseToCard = d < 1.5f;
                 var mouseHoveringOnSelected =
                     onSelectedCard && mouseCloseToCard && _mouseInsideHand; //  && mouseInsideHand
 
@@ -411,6 +414,8 @@ namespace NueGames.NueDeck.Scripts.Collection
             _mouseInsideHand = _handBounds.Contains(point);
 
             mouseButton = Input.GetMouseButton(0);
+
+            //Debug.Log($"Mouse local pos: {point} | HandBounds: {_handBounds} | Inside: {_mouseInsideHand}"); //tests
         }
 
         private void GetDistanceToCurrentSelectedCard(out int count, out float sqrDistance)
