@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deckId: ED
   deckName: Energy deplete
+  floor: 1
   cardList:
   - {fileID: 11400000, guid: aad5695744b678ad3aef0f029bdec344, type: 2}
   - {fileID: 11400000, guid: f4a3c43cfc260a18c942bc0c1828cc0b, type: 2}

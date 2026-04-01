@@ -275,7 +275,8 @@ MonoBehaviour:
   curveStart: {x: 2.5, y: -0.7, z: 0}
   curveEnd: {x: -2.5, y: -0.7, z: 0}
   handOffset: {x: 0, y: -0.3}
-  handSize: {x: 9, y: 1.7}
+  handSize: {x: 9, y: 1.2}
+  handPositionOffset: {x: 0, y: 0, z: 0}
   discardTransform: {fileID: 1301813272609245044}
   exhaustTransform: {fileID: 7325747974993925843}
   drawTransform: {fileID: 236058445813137690}

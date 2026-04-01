@@ -12,7 +12,6 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         [SerializeField] private string id;
         [SerializeField] private string cardName;
         [SerializeField] private Sprite cardSprite;
-        [SerializeField] private RarityType rarity;
         
         [Header("Action Settings")]
         [SerializeField] private bool usableWithoutTarget;
@@ -33,7 +32,6 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public ActionAnimationType AnimationType => animationType;
         public List<SpecialKeywords> KeywordsList => specialKeywordsList;
         public string MyDescription { get; set; }
-        public RarityType Rarity => rarity;
         #endregion
         
         #region public methods

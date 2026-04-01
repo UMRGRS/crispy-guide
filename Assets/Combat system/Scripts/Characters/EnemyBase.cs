@@ -42,6 +42,7 @@ namespace NueGames.NueDeck.Scripts.Characters
             base.OnDeath();
             CombatManager.OnEnemyActionDeclaration -= ShowNextAbility;
             CombatManager.OnEnemyStatusTrigger -= CharacterStats.TriggerAllStatus;
+            EnemyCanvas.gameObject.SetActive(false);
            
             CombatManager.OnEnemyDeath(this);
             AudioManager.PlayOneShot(DeathSoundProfileData.GetRandomClip());

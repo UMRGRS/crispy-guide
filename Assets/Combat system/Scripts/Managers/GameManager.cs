@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using NueGames.NueDeck.Scripts.Card;
 using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Data.Containers;
@@ -67,8 +68,10 @@ namespace NueGames.NueDeck.Scripts.Managers
         public void SetInitialHand()
         {
             PersistentGameplayData.CurrentCardsList.Clear();
+
+            PlayerDeckData usedDeck = GameplayData.AvailableDecks.First(x => x.Floor == PersistentGameplayData.CurrentFloor);
             
-            foreach (var cardData in GameplayData.InitialDeck.CardList)
+            foreach (var cardData in usedDeck.CardList)
                 PersistentGameplayData.CurrentCardsList.Add(cardData);
         }
         public void StartBGM()
@@ -77,8 +80,9 @@ namespace NueGames.NueDeck.Scripts.Managers
         }
         public void ModifyRemainingTurns(int value, RemainingTurnsModificationType type)
         {
-            int modifierValue = type == RemainingTurnsModificationType.Increase ? value : value*-1;
+            int modifierValue = type == RemainingTurnsModificationType.Increase ? value : value * -1;
             PersistentGameplayData.RemainingActiveTurns += modifierValue;
+            
         }
         public void NextFloor()
         {

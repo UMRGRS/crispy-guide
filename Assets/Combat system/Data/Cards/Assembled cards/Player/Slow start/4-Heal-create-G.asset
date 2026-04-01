@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: SS_Heal_Create_G
   cardName: Heal and create green
-  cardSprite: {fileID: 21300000, guid: 07720b55bb7cb3c45a9e509ca5b5e01c, type: 3}
-  rarity: 0
+  cardSprite: {fileID: -1059830207, guid: 85d900617a53ab32a9db8946691b7007, type: 3}
   usableWithoutTarget: 0
   actionTargetType: 1
   cardActionDataList:
   - {fileID: 11400000, guid: 91ffd3f8d3677701a83254b33eb89efe, type: 2}
   - {fileID: 11400000, guid: 983e738bb36777df6b02426cc77902be, type: 2}
+  animationType: 0
   specialKeywordsList: 

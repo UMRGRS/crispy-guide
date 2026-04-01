@@ -74,7 +74,6 @@ namespace NueGames.NueDeck.Scripts.Managers
                 HandPile.Add(randomCard);
                 DrawPile.Remove(randomCard);
                 currentDrawCount++;
-                UIManager.CombatCanvas.SetPileTexts();
             }
 
             var cardContext = new CardExecutionContext(source: CombatManager.CurrentMainAlly);
@@ -94,7 +93,6 @@ namespace NueGames.NueDeck.Scripts.Managers
         {
             HandPile.Remove(targetCard.CardData);
             DiscardPile.Add(targetCard.CardData);
-            UIManager.CombatCanvas.SetPileTexts();
         }
         public void OnCardPlayed(CardBase targetCard)
         {
