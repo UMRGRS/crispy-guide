@@ -123,3 +123,5 @@ google-services.json
 google-services.json.meta
 GoogleService-Info.plist
 Assets/StreamingAssets/
+ProjectSettings/GvhProjectSettings.xml
+Assets/google-services.json.meta

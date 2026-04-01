@@ -8,7 +8,6 @@ using NueGames.NueDeck.Scripts.Characters.Enemies;
 using NueGames.NueDeck.Scripts.Data.Characters;
 using NueGames.NueDeck.Scripts.Data.Containers;
 using NueGames.NueDeck.Scripts.Enums;
-using NueGames.NueDeck.Scripts.Utils.Background;
 using Random = UnityEngine.Random;
 using NueGames.NueDeck.Scripts.Utils;
 
@@ -20,7 +19,6 @@ namespace NueGames.NueDeck.Scripts.Managers
         public static CombatManager Instance { get; private set; }
 
         [Header("References")] 
-        [SerializeField] private BackgroundContainer backgroundContainer;
         [SerializeField] private List<Transform> enemyPosList;
         [SerializeField] private List<Transform> allyPosList;
         
@@ -82,14 +80,12 @@ namespace NueGames.NueDeck.Scripts.Managers
         {
             BuildEnemies();
             BuildAllies();
-
-            backgroundContainer.OpenSelectedBackground();
             
             CollectionManager.SetGameDeck();
             ScoreManager.ClearScore();
             
             UIManager.CombatCanvas.gameObject.SetActive(true);
-            UIManager.InformationCanvas.gameObject.SetActive(true);
+            UIManager.CombatCanvas.SetTurnsLeft();
 
             CurrentCombatStateType = CombatStateType.TurnStart;
         }
@@ -141,7 +137,6 @@ namespace NueGames.NueDeck.Scripts.Managers
             if (GameManager.PersistentGameplayData.AllyList.Count>1)
                 GameManager.PersistentGameplayData.AllyList.Remove(targetAllyData);
             CurrentAlliesList.Remove(targetAlly);
-            UIManager.InformationCanvas.ResetCanvas();
             if (CurrentAlliesList.Count<=0)
                 LoseCombat();
         }
@@ -272,6 +267,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             }
             else
             {
+                UIManager.CombatCanvas.SetTurnsLeft();
                 ScoreManager.TurnsToComplete++;
                 CurrentCombatStateType = CombatStateType.TurnStart;
             }

@@ -10,6 +10,7 @@ namespace NueGames.NueDeck.Scripts.UI
         [Header("Texts")]
         [SerializeField] private TextMeshProUGUI drawPileTextField;
         [SerializeField] private TextMeshProUGUI discardPileTextField;
+        [SerializeField] private TextMeshProUGUI turnsLeftTextField;
         
         [Header("Panels")]
         [SerializeField] private GameObject combatWinPanel;
@@ -17,6 +18,7 @@ namespace NueGames.NueDeck.Scripts.UI
 
         public TextMeshProUGUI DrawPileTextField => drawPileTextField;
         public TextMeshProUGUI DiscardPileTextField => discardPileTextField;
+        public TextMeshProUGUI TurnsLeftTextField => turnsLeftTextField;
         public GameObject CombatWinPanel => combatWinPanel;
         public GameObject CombatLosePanel => combatLosePanel;
 
@@ -33,6 +35,10 @@ namespace NueGames.NueDeck.Scripts.UI
         {
             DrawPileTextField.text = $"{CollectionManager.DrawPile.Count.ToString()}";
             DiscardPileTextField.text = $"{CollectionManager.DiscardPile.Count.ToString()}";
+        }
+        public void SetTurnsLeft()
+        {
+            turnsLeftTextField.text = $"Turns left: {GameManager.PersistentGameplayData.RemainingActiveTurns}";
         }
 
         public override void ResetCanvas()

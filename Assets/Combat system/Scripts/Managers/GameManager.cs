@@ -26,6 +26,7 @@ namespace NueGames.NueDeck.Scripts.Managers
         public GameplayData GameplayData => gameplayData;
         public PersistentGameplayData PersistentGameplayData { get; private set; }
         protected UIManager UIManager => UIManager.Instance;
+        protected AudioManager AudioManager => AudioManager.Instance;
         #endregion
         
         #region Setup
@@ -46,15 +47,16 @@ namespace NueGames.NueDeck.Scripts.Managers
                 SetInitialHand();
             }
         }
+        public void Start()
+        {
+          StartBGM();  
+        }
         #endregion
-        
+
         #region Public Methods
         public void InitGameplayData()
         { 
             PersistentGameplayData = new PersistentGameplayData(gameplayData);
-            if (UIManager)
-                UIManager.InformationCanvas.ResetCanvas();
-           
         } 
         public CardBase BuildAndGetCard(CardData targetData, Transform parent)
         {
@@ -68,6 +70,10 @@ namespace NueGames.NueDeck.Scripts.Managers
             
             foreach (var cardData in GameplayData.InitialDeck.CardList)
                 PersistentGameplayData.CurrentCardsList.Add(cardData);
+        }
+        public void StartBGM()
+        {
+            AudioManager.PlayMusic(AudioActionType.MenuMusic);
         }
         public void ModifyRemainingTurns(int value, RemainingTurnsModificationType type)
         {

@@ -46,6 +46,8 @@ namespace NueGames.NueDeck.Scripts.Managers
         public void PlayMusic(AudioClip clip)
         {
             if (!clip) return;
+
+            if(musicSource.clip == clip) return;
             
             musicSource.clip = clip;
             musicSource.Play();
