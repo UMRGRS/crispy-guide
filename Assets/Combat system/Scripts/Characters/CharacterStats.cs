@@ -120,6 +120,12 @@ namespace NueGames.NueDeck.Scripts.Characters
             }
             OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
         }
+
+        public void Kill()
+        {
+            OnDeath?.Invoke();
+            IsDeath = true;
+        }
         public void ClearAllStatus()
         {
             foreach (var status in StatusDict)

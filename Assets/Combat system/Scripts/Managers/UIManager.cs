@@ -16,9 +16,6 @@ namespace NueGames.NueDeck.Scripts.Managers
 
         [Header("Canvases")]
         [SerializeField] private CombatCanvas combatCanvas;
-        [SerializeField] private RewardCanvas rewardCanvas;
-        [SerializeField] private InventoryCanvas inventoryCanvas;
-        
 
         [Header("Fader")]
         [SerializeField] private CanvasGroup fader;
@@ -27,8 +24,6 @@ namespace NueGames.NueDeck.Scripts.Managers
 
         #region Cache
         public CombatCanvas CombatCanvas => combatCanvas;
-        public RewardCanvas RewardCanvas => rewardCanvas;
-        public InventoryCanvas InventoryCanvas => inventoryCanvas;
         #endregion
 
         #region Setup
@@ -50,14 +45,7 @@ namespace NueGames.NueDeck.Scripts.Managers
 
         #region Public Methods
 
-        public void OpenInventory(List<CardData> cardList,string title)
-        {
-           SetCanvas(InventoryCanvas,true,true);
-           InventoryCanvas.ChangeTitle(title);
-           InventoryCanvas.SetCards(cardList);
-        }
-        
-        public void SetCanvas(CanvasBase targetCanvas,bool open,bool reset = false)
+        public void SetCanvas(CanvasBase targetCanvas, bool open,bool reset = false)
         {
             if (reset)
                 targetCanvas.ResetCanvas();

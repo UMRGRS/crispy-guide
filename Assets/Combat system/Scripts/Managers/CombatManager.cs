@@ -271,6 +271,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             EnergyPoolManager.OnBlockEnergy?.Invoke();
             if(GameManager.PersistentGameplayData.RemainingActiveTurns-- <= 0 && EnergyPoolManager.CurrentEnergyInPool.Count == 0)
             {
+                RemoveAllEnemies();
                 WinCombat();
             }
             else
@@ -289,10 +290,10 @@ namespace NueGames.NueDeck.Scripts.Managers
             CollectionManager.DrawPile.Clear();
             CollectionManager.HandPile.Clear();
             CollectionManager.HandController.hand.Clear();
-            UIManager.CombatCanvas.gameObject.SetActive(true);
-            UIManager.CombatCanvas.CombatLosePanel.SetActive(true);
+            UIManager.CombatCanvas.ShowEndGamePanel();
         }
-        private void WinCombat()
+        //Return to private
+        public void WinCombat()
         {
             GameManager.PersistentGameplayData.CanSelectCards = false;
            
@@ -305,8 +306,19 @@ namespace NueGames.NueDeck.Scripts.Managers
             CollectionManager.ClearPiles();
             
             CurrentMainAlly.CharacterStats.ClearAllStatus();
-            UIManager.CombatCanvas.CombatWinPanel.SetActive(true);
+
+            UIManager.CombatCanvas.ShowEndGamePanel();
         }
+
+        private void RemoveAllEnemies()
+        {
+            var enemiesList = new List<EnemyBase>(CurrentEnemiesList);
+            foreach(EnemyBase enemy in enemiesList)
+            {
+                enemy.CharacterStats.Kill();
+            }
+        }
+
         #endregion
         
         #region Routines
