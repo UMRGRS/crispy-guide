@@ -12,18 +12,22 @@ namespace NueGames.NueDeck.Scripts.UI
     {
         [Header("Texts")]
         [SerializeField] private TextMeshProUGUI turnsLeftTextField;
-        [SerializeField] private List<Button> buttonsToDisable;
-        [SerializeField] private SceneChanger sceneChanger;
+        [SerializeField] private TextMeshProUGUI inputErrorText;
+        [SerializeField] private TextMeshProUGUI registerScoreText;
 
         [Header("Panels")]
         [SerializeField] private GameObject combatEndPanel;
         [SerializeField] private GameObject combatPausePanel;
 
-        public TextMeshProUGUI TurnsLeftTextField => turnsLeftTextField;
-        public GameObject CombatEndPanel => combatEndPanel;
-        public GameObject CombatPausePanel => combatPausePanel;
+        [Header("Components")]
+        [SerializeField] private List<Button> buttonsToDisable;
+        [SerializeField] private SceneChanger sceneChanger;
+        [SerializeField] private TMP_InputField scoreInput;
+        [SerializeField] private Button registerScoreButton;
+        
 
-
+        private ScoreManager ScoreManager => ScoreManager.Instance;
+        private FirebaseManager FirebaseManager => FirebaseManager.Instance;
 
         #region Setup
         private void Awake()
@@ -42,7 +46,9 @@ namespace NueGames.NueDeck.Scripts.UI
         public override void ResetCanvas()
         {
             base.ResetCanvas();
-            TogglePauseButtons();
+            registerScoreText.text = "Register score";
+            registerScoreButton.interactable = true;
+            ToggleButtons(true);
             combatEndPanel.SetActive(false);
             combatPausePanel.SetActive(false);
         }
@@ -63,14 +69,34 @@ namespace NueGames.NueDeck.Scripts.UI
         {
             PauseManager.TogglePause();
             combatPausePanel.SetActive(PauseManager.IsPaused);
-            TogglePauseButtons();
+            ToggleButtons(!PauseManager.IsPaused);
+        }
+        public void ShowEndGamePanel()
+        {
+            ToggleButtons(false);
+            combatEndPanel.SetActive(true);
         }
 
-        private void TogglePauseButtons()
+        public void RegisterScore()
+        {
+            if(scoreInput.text.Length < scoreInput.characterLimit)
+            {
+                inputErrorText.gameObject.SetActive(true);
+                return;
+            }
+            FirebaseManager.SaveScore(ScoreManager.GetScoreObject(scoreInput.text));
+            inputErrorText.gameObject.SetActive(false);
+            registerScoreText.text = "Registered!!";   
+            registerScoreButton.interactable = false;
+        }
+        #endregion
+
+        #region  Private methods
+        private void ToggleButtons(bool state)
         {
             foreach(var button in buttonsToDisable)
             {
-                button.interactable = !PauseManager.IsPaused;
+                button.interactable = state;
             }
         }
         #endregion
