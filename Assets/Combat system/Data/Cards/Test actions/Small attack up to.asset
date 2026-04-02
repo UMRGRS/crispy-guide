@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Small attack up to
   m_EditorClassIdentifier: 
   actionDelay: 0.1
-  optional: 0
   costData:
-    redCost: 0
+    redCost: 3
     blueCost: 0
     greenCost: 0
-  isCostUpToValue: 0
-  usableWithoutCost: 1
+  isCostUpToValue: 1
+  usableWithoutCost: 0
   audioType: 0
   value: 2
+  isSelfDamage: 0

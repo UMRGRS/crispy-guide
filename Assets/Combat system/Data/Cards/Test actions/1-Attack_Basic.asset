@@ -18,6 +18,6 @@ MonoBehaviour:
   usableWithoutTarget: 0
   actionTargetType: 0
   cardActionDataList:
-  - {fileID: 11400000, guid: abfbd7d96e81807babf6f89fc72cfe89, type: 2}
+  - {fileID: 11400000, guid: 16bbcef5d04525395a21170112826083, type: 2}
   animationType: 1
   specialKeywordsList: 
