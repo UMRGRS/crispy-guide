@@ -26,12 +26,12 @@ namespace NueGames.NueDeck.Scripts.Card
 
         private void OnChoice()
         {
-            if (GameManager != null)
-                GameManager.PersistentGameplayData.CurrentCardsList.Add(_cardBase.CardData);
-
-            if (UIManager != null)
-                UIManager.RewardCanvas.ChoicePanel.DisablePanel();
-            OnCardChose?.Invoke();
+            //if (GameManager != null)
+            //    GameManager.PersistentGameplayData.CurrentCardsList.Add(_cardBase.CardData);
+//
+            //if (UIManager != null)
+            //    UIManager.RewardCanvas.ChoicePanel.DisablePanel();
+            //OnCardChose?.Invoke();
         }
 
 

@@ -99,7 +99,7 @@ namespace NueGames.NueDeck.Scripts.Collection
             // HANDLE MOUSE & RAYCAST POSITION
             // --------------------------------------------------------
 
-            if (!IsDraggingActive) return;
+            if (!IsDraggingActive || PauseManager.IsPaused) return;
            
             var mousePos = HandleMouseInput(out var count, out var sqrDistance, out var mouseButton);
 
