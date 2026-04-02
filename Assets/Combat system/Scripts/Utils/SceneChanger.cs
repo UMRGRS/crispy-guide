@@ -41,7 +41,6 @@ namespace NueGames.NueDeck.Scripts.Utils
         }
         private IEnumerator DelaySceneChange(SceneType type, AudioActionType musicType)
         {
-            UIManager.SetCanvas(UIManager.Instance.InventoryCanvas,false,true);
             yield return StartCoroutine(UIManager.Instance.Fade(true));
 
             switch (type)
@@ -49,20 +48,17 @@ namespace NueGames.NueDeck.Scripts.Utils
                 case SceneType.MainMenu:
                     UIManager.ChangeScene(GameManager.SceneData.mainMenuSceneIndex);
                     UIManager.SetCanvas(UIManager.CombatCanvas,false,true);
-                    UIManager.SetCanvas(UIManager.RewardCanvas,false,true);
                    
                     GameManager.InitGameplayData();
                     break;
                 case SceneType.Map:
                     UIManager.ChangeScene(GameManager.SceneData.mapSceneIndex);
                     UIManager.SetCanvas(UIManager.CombatCanvas,false,true);
-                    UIManager.SetCanvas(UIManager.RewardCanvas,false,true);
                    
                     break;
                 case SceneType.Combat:
                     UIManager.ChangeScene(GameManager.SceneData.combatSceneIndex);
                     UIManager.SetCanvas(UIManager.CombatCanvas,false,true);
-                    UIManager.SetCanvas(UIManager.RewardCanvas,false,true);
                     GameManager.SetInitialHand();
                     break;
                 default:
