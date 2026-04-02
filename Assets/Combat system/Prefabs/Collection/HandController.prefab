@@ -269,8 +269,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34484b9e4c8699c4cae91a78013d51a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardUprightWhenSelected: 1
-  cardTilt: 1
+  cardUprightWhenSelected: 0
+  cardTilt: 0
   selectionSpacing: 1
   curveStart: {x: 2.5, y: -0.7, z: 0}
   curveEnd: {x: -2.5, y: -0.7, z: 0}

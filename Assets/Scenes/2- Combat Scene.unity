@@ -416,11 +416,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7048625806080352387, guid: 5e81fa3d17dd2f6478c49d213ec328b0, type: 3}
       propertyPath: cardTilt
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7048625806080352387, guid: 5e81fa3d17dd2f6478c49d213ec328b0, type: 3}
       propertyPath: curveEnd.y
       value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7048625806080352387, guid: 5e81fa3d17dd2f6478c49d213ec328b0, type: 3}
+      propertyPath: handSize.x
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7048625806080352387, guid: 5e81fa3d17dd2f6478c49d213ec328b0, type: 3}
       propertyPath: handSize.y
@@ -432,7 +436,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7048625806080352387, guid: 5e81fa3d17dd2f6478c49d213ec328b0, type: 3}
       propertyPath: handOffset.y
-      value: 0.05
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7048625806080352387, guid: 5e81fa3d17dd2f6478c49d213ec328b0, type: 3}
       propertyPath: selectionSpacing
@@ -441,6 +445,10 @@ PrefabInstance:
     - target: {fileID: 7048625806080352387, guid: 5e81fa3d17dd2f6478c49d213ec328b0, type: 3}
       propertyPath: handPositionOffset.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7048625806080352388, guid: 5e81fa3d17dd2f6478c49d213ec328b0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.46
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

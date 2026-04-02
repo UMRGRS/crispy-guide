@@ -178,7 +178,7 @@ namespace NueGames.NueDeck.Scripts.Collection
 
                 var d = (p - _mouseWorldPos).sqrMagnitude;
                 //Debug.Log($"Distance to card: {d}");
-                var mouseCloseToCard = d < 1.5f;
+                var mouseCloseToCard = d < 2.5f;
                 var mouseHoveringOnSelected =
                     onSelectedCard && mouseCloseToCard && _mouseInsideHand; //  && mouseInsideHand
 
@@ -210,15 +210,12 @@ namespace NueGames.NueDeck.Scripts.Collection
                     Quaternion.LookRotation(cardForward, cardUp), 80f * Time.deltaTime);
 
                 // Handle Start Dragging
-                if (mouseHoveringOnSelected)
+                if (Input.GetMouseButtonDown(0) && mouseCloseToCard)
                 {
-                    var mouseButtonDown = Input.GetMouseButtonDown(0);
-                    if (mouseButtonDown)
-                    {
-                        _dragged = i;
-                        _heldCardOffset = cardTransform.position - _mouseWorldPos;
-                        _heldCardOffset.z = -0.1f;
-                    }
+                    _dragged = i;
+                    _selected = i;
+                    _heldCardOffset = cardTransform.position - _mouseWorldPos;
+                    _heldCardOffset.z = -0.1f;
                 }
 
                 // Handle Card Position

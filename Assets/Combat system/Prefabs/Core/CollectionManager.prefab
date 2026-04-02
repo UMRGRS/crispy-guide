@@ -91,8 +91,16 @@ PrefabInstance:
       value: HandController
       objectReference: {fileID: 0}
     - target: {fileID: 7827608652126751339, guid: a45e8add0d26bd5499f54577a1579ee7, type: 3}
+      propertyPath: cardTilt
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7827608652126751339, guid: a45e8add0d26bd5499f54577a1579ee7, type: 3}
       propertyPath: handSize.y
       value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7827608652126751339, guid: a45e8add0d26bd5499f54577a1579ee7, type: 3}
+      propertyPath: cardUprightWhenSelected
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7827608652126751340, guid: a45e8add0d26bd5499f54577a1579ee7, type: 3}
       propertyPath: m_RootOrder
