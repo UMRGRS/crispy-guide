@@ -3,15 +3,19 @@
     public enum AudioActionType
     {
         Attack,
-        Bite,
-        Block,
-        Button,
-        Draw,
-        Drink,
-        EnemyDeath,
         Heal,
-        Poison,
-        Power,
-        Swing
+        EnemyDeath,
+        BuffDamage,
+        BuffEnergyGen,
+        Burn,
+        BlockEnergyGen,
+        BlockEnergyUsage,
+        ConvertEnergy,
+        CreateEnergy,
+        ModifyEnergyStrength,
+        ModifyGenPool,
+        ModifyRemainingTurns,
+        MenuMusic,
+        BattleMusic
     }
 }

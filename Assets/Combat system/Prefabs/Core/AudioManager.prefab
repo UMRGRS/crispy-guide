@@ -27,12 +27,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7710606986531930515}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7710606986531930543
 MonoBehaviour:
@@ -51,14 +52,20 @@ MonoBehaviour:
   buttonSource: {fileID: 3673619364212810684}
   soundProfileDataList:
   - {fileID: 11400000, guid: 9c4dc29fc2148ed43a7e14bb55832e50, type: 2}
-  - {fileID: 11400000, guid: ff6628141ca0c2b47ae1c7ef0636513c, type: 2}
-  - {fileID: 11400000, guid: 2d30565e54caf3e40a21dfdac091b79e, type: 2}
-  - {fileID: 11400000, guid: 9a62c3aa28304334598d169ef4aa0c3c, type: 2}
+  - {fileID: 11400000, guid: 609cca088f87e5eaabff4d4807432660, type: 2}
+  - {fileID: 11400000, guid: b4944c8ab9bd2b7fab83e343aeac7c93, type: 2}
+  - {fileID: 11400000, guid: 7d5a4dda6b72691c7906f91b41c89b6a, type: 2}
+  - {fileID: 11400000, guid: 81ab8cfc8ffc5f4db930265d3ca276cd, type: 2}
+  - {fileID: 11400000, guid: e46d168b1c1571b719999cece7eebea7, type: 2}
+  - {fileID: 11400000, guid: d0c3c598b39db265a9ba633e283fab1c, type: 2}
+  - {fileID: 11400000, guid: ba91bd7f6cc7723debb80ec5070a73bd, type: 2}
   - {fileID: 11400000, guid: 7e15e2a10065ab54c8eaf26154af0156, type: 2}
   - {fileID: 11400000, guid: 5e1ae36013818124e8f86d99922c0cca, type: 2}
-  - {fileID: 11400000, guid: c558e0a45b0633a4d9313997a50bb80a, type: 2}
-  - {fileID: 11400000, guid: 426f246404d64304f9887eb7ac6a418e, type: 2}
-  - {fileID: 11400000, guid: 174dd891f1656d4488dcd1af19c8cbe2, type: 2}
+  - {fileID: 11400000, guid: 1ad354eb682ffc6bc9a27f78d398fe91, type: 2}
+  - {fileID: 11400000, guid: 3cfd4602f20d78b68ac147b365a7892e, type: 2}
+  - {fileID: 11400000, guid: 9d64bca4166ce39fbb401defd4cf13b7, type: 2}
+  - {fileID: 11400000, guid: ade976899d7bd24049535f49c0afac6e, type: 2}
+  - {fileID: 11400000, guid: cb722ab108c3f0eee98c0b49375c0d55, type: 2}
 --- !u!82 &7710606986531930512
 AudioSource:
   m_ObjectHideFlags: 0

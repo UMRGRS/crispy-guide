@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a3027a71e82ef99ca463013f5692220, type: 3}
+  m_Name: Change all energy to B 1
+  m_EditorClassIdentifier: 
+  actionDelay: 0.1
+  optional: 0
+  costData:
+    redCost: 1
+    blueCost: 1
+    greenCost: 1
+  isCostUpToValue: 0
+  usableWithoutCost: 0
+  audioType: 11
+  turns: 1
+  maxEnergiesSpawn: 4
+  minEnergiesSpawn: 4
+  availableEnergies:
+  - {fileID: 11400000, guid: a1a6f141bf73b779ca86f93b21b8d3dd, type: 2}

@@ -16,7 +16,7 @@ namespace NueGames.NueDeck.Editor
             CardData obj = EditorUtility.InstanceIDToObject(instanceId) as CardData;
             if (obj != null)
             {
-                CardEditorWindow.OpenCardEditor(obj);
+                //CardEditorWindow.OpenCardEditor(obj);
                 return true;
             }
             return false;
@@ -28,15 +28,13 @@ namespace NueGames.NueDeck.Editor
     public class CardDataCustomEditor : UnityEditor.Editor
     {
 #if UNITY_EDITOR
-        
-
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            if (GUILayout.Button("Open in editor"))
+            /*if (GUILayout.Button("Open in editor"))
             {
-                CardEditorWindow.OpenCardEditor((CardData)target);
-            }
+                //CardEditorWindow.OpenCardEditor((CardData)target);
+            }*/
         }
 #endif
     }

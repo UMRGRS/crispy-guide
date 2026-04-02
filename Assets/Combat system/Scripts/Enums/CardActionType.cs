@@ -9,10 +9,6 @@
         IncreaseMaxHealth,
         Draw,
         LifeSteal,
-        Stun,
-        Exhaust,
-        CreateEnergy,
-        ConvertEnergy,
-        ModifyEnergyStrength,
+        Stun
     }
 }

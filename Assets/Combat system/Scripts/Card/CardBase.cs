@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using NueGames.NueDeck.Scripts.Characters;
 using NueGames.NueDeck.Scripts.Data.Collection;
-using NueGames.NueDeck.Scripts.Enums;
+using NueGames.NueDeck.Scripts.Data.Energy;
 using NueGames.NueDeck.Scripts.Managers;
-using NueGames.NueDeck.Scripts.NueExtentions;
 using NueGames.NueDeck.Scripts.Utils;
 using NueGames.NueDeck.ThirdParty.NueTooltip.Core;
 using NueGames.NueDeck.ThirdParty.NueTooltip.CursorSystem;
@@ -24,11 +23,13 @@ namespace NueGames.NueDeck.Scripts.Card
         [SerializeField] protected Transform descriptionRoot;
         [SerializeField] protected Image cardImage;
         [SerializeField] protected Image passiveImage;
-        [SerializeField] protected TextMeshProUGUI nameTextField;
         [SerializeField] protected TextMeshProUGUI descTextField;
-        [SerializeField] protected TextMeshProUGUI manaTextField;
-        [SerializeField] protected List<RarityRoot> rarityRootList;
-        
+        [SerializeField] private Image redCostImage;
+        [SerializeField] private Image blueCostImage;
+        [SerializeField] private Image greenCostImage;
+        [SerializeField] private TextMeshProUGUI redCostValue;
+        [SerializeField] private TextMeshProUGUI blueCostValue;
+        [SerializeField] private TextMeshProUGUI greenCostValue;
 
         #region Cache
         public CardData CardData { get; private set; }
@@ -37,7 +38,6 @@ namespace NueGames.NueDeck.Scripts.Card
         protected WaitForEndOfFrame CachedWaitFrame { get; set; }
         public bool IsPlayable { get; protected set; } = true;
 
-        public List<RarityRoot> RarityRootList => rarityRootList;
         protected FxManager FxManager => FxManager.Instance;
         protected AudioManager AudioManager => AudioManager.Instance;
         protected GameManager GameManager => GameManager.Instance;
@@ -56,92 +56,58 @@ namespace NueGames.NueDeck.Scripts.Card
             CachedWaitFrame = new WaitForEndOfFrame();
         }
 
-        public virtual void SetCard(CardData targetProfile,bool isPlayable = true)
+        public virtual void SetCard(CardData targetProfile, bool isPlayable = true)
         {
             CardData = targetProfile;
             IsPlayable = isPlayable;
-            nameTextField.text = CardData.CardName;
             descTextField.text = CardData.MyDescription;
-             // ---------------
-            // Change to display the cost correctly
-             // ---------------
-            //manaTextField.text = CardData.CostDataList.ToString();
+            SetCardCosts();
             cardImage.sprite = CardData.CardSprite;
-            foreach (var rarityRoot in RarityRootList)
-                rarityRoot.gameObject.SetActive(rarityRoot.Rarity == CardData.Rarity);
+        }
+
+        public void SetCardCosts()
+        {
+            ActionCostData totalEnergyCost = CardData.GatherCardCosts();
+
+            redCostValue.text = totalEnergyCost.RedCost.ToString();
+            redCostImage.gameObject.SetActive(totalEnergyCost.RedCost > 0);
+
+            blueCostValue.text = totalEnergyCost.BlueCost.ToString();
+            blueCostImage.gameObject.SetActive(totalEnergyCost.BlueCost > 0);
+
+            greenCostValue.text = totalEnergyCost.GreenCost.ToString();
+            greenCostImage.gameObject.SetActive(totalEnergyCost.GreenCost > 0);
         }
         
         #endregion
         
         #region Card Methods
-        public virtual void Use(CharacterBase self,CharacterBase targetCharacter, List<EnemyBase> allEnemies, List<AllyBase> allAllies)
+        public virtual void Use(CharacterBase self,CharacterBase targetCharacter)
         {
             if (!IsPlayable) return;
          
-            StartCoroutine(CardUseRoutine(self, targetCharacter, allEnemies, allAllies));
+            StartCoroutine(CardUseRoutine(self, targetCharacter));
         }
 
-        private IEnumerator CardUseRoutine(CharacterBase self,CharacterBase targetCharacter, List<EnemyBase> allEnemies, List<AllyBase> allAllies)
+        private IEnumerator CardUseRoutine(CharacterBase self, CharacterBase targetCharacter)
         {
+            CardExecutionContext context = new(self, targetCharacter, true);
+
+            if(CardData.AnimationType != Enums.ActionAnimationType.Hurt)
+                self.TriggerAnimation(CardData.AnimationType);
+
+            foreach (CardActionData action in CardData.CardActionDataList)
+            {
+                if(!action.CanExecute(context)) continue;
+                
+                action.Execute(context);
+
+                if (action.ActionDelay > 0)
+                    yield return new WaitForSeconds(action.ActionDelay);
+            }
             
-            //Modify to spend the cost from the pool
-            SpendEnergy(CardData.CostDataList);
-
-            foreach (CardActionData playerAction in CardData.CardActionDataList)
-            {
-                yield return new WaitForSeconds(playerAction.ActionDelay);
-                List<CharacterBase> targetList = DetermineTargets(targetCharacter, allEnemies, allAllies, playerAction);
-                foreach (var target in targetList)
-                    CardActionProcessor.GetAction(playerAction.CardActionType)
-                        .DoAction(new CardActionParameters(playerAction.ActionValue,
-                            target,self,CardData,this));
-            }
-
-            foreach (CardEnergyActionData energyAction in CardData.CardEnergyActionDataList)
-            {
-                yield return new WaitForSeconds(energyAction.ActionDelay);
-                CardActionProcessor.GetAction(energyAction.CardActionType)
-                    .DoAction(new CardEnergyActionParameters(energyAction.EnergyToCreate,energyAction.EnergyToConvert, energyAction.EnergyToModifyStrength));
-            }
             CollectionManager.OnCardPlayed(this);
         }
-
-        private static List<CharacterBase> DetermineTargets(CharacterBase targetCharacter, List<EnemyBase> allEnemies, List<AllyBase> allAllies,
-            CardActionData playerAction)
-        {
-            List<CharacterBase> targetList = new();
-            switch (playerAction.ActionTargetType)
-            {
-                case ActionTargetType.Enemy:
-                    targetList.Add(targetCharacter);
-                    break;
-                case ActionTargetType.Ally:
-                    targetList.Add(targetCharacter);
-                    break;
-                case ActionTargetType.AllEnemies:
-                    foreach (var enemyBase in allEnemies)
-                        targetList.Add(enemyBase);
-                    break;
-                case ActionTargetType.AllAllies:
-                    foreach (var allyBase in allAllies)
-                        targetList.Add(allyBase);
-                    break;
-                case ActionTargetType.RandomEnemy:
-                    if (allEnemies.Count>0)
-                        targetList.Add(allEnemies.RandomItem());
-                    
-                    break;
-                case ActionTargetType.RandomAlly:
-                    if (allAllies.Count>0)
-                        targetList.Add(allAllies.RandomItem());
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            return targetList;
-        }
-        
         public virtual void Discard()
         {
             if (IsExhausted) return;
@@ -149,17 +115,7 @@ namespace NueGames.NueDeck.Scripts.Card
             CollectionManager.OnCardDiscarded(this);
             StartCoroutine(DiscardRoutine());
         }
-        
-        public virtual void Exhaust(bool destroy = true)
-        {
-            if (IsExhausted) return;
-            if (!IsPlayable) return;
-            IsExhausted = true;
-            CollectionManager.OnCardExhausted(this);
-            StartCoroutine(ExhaustRoutine(destroy));
-        }
-
-        protected virtual void SpendEnergy(List<EnergyQuantityData> cost)
+        protected virtual void SpendEnergy(List<EnergyQuantityContainer> cost)
         {
             if (!IsPlayable) return;
             EnergyPoolManager.ConsumeEnergyCost(cost);
@@ -174,15 +130,11 @@ namespace NueGames.NueDeck.Scripts.Card
             passiveImage.gameObject.SetActive(isInactive);
         }
         
-        public virtual void UpdateCardText()
+        public virtual void UpdateCardText(CardExecutionContext context)
         {
-            CardData.UpdateDescription();
-            nameTextField.text = CardData.CardName;
+            CardData.UpdateDescription(context);
+            
             descTextField.text = CardData.MyDescription;
-            // ---------------
-            // Modify to show the text correctly
-             // ---------------
-            manaTextField.text = CardData.CostDataList.ToString();
         }
         
         #endregion
@@ -219,45 +171,12 @@ namespace NueGames.NueDeck.Scripts.Card
                 Destroy(gameObject);
            
         }
-        
-        protected virtual IEnumerator ExhaustRoutine(bool destroy = true)
-        {
-            var timer = 0f;
-            transform.SetParent(CollectionManager.HandController.exhaustTransform);
-            
-            var startPos = CachedTransform.localPosition;
-            var endPos = Vector3.zero;
-
-            var startScale = CachedTransform.localScale;
-            var endScale = Vector3.zero;
-
-            var startRot = CachedTransform.localRotation;
-            var endRot = Quaternion.Euler(Random.value * 360, Random.value * 360, Random.value * 360);
-            
-            while (true)
-            {
-                timer += Time.deltaTime*5;
-
-                CachedTransform.localPosition = Vector3.Lerp(startPos, endPos, timer);
-                CachedTransform.localRotation = Quaternion.Lerp(startRot,endRot,timer);
-                CachedTransform.localScale = Vector3.Lerp(startScale, endScale, timer);
-                
-                if (timer>=1f)  break;
-                
-                yield return CachedWaitFrame;
-            }
-
-            if (destroy)
-                Destroy(gameObject);
-           
-        }
-
         #endregion
 
         #region Pointer Events
         public virtual void OnPointerEnter(PointerEventData eventData)
         {
-            ShowTooltipInfo();
+            //ShowTooltipInfo();
         }
 
         public virtual void OnPointerExit(PointerEventData eventData)
@@ -300,6 +219,6 @@ namespace NueGames.NueDeck.Scripts.Card
             tooltipManager.HideTooltip();
         }
         #endregion
-       
+
     }
 }

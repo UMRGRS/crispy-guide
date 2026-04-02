@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using NueGames.NueDeck.Scripts.Data.Characters;
+using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Data.Containers;
-using NueGames.NueDeck.Scripts.EnemyBehaviour;
 using NueGames.NueDeck.Scripts.Enums;
 using NueGames.NueDeck.Scripts.Interfaces;
 using NueGames.NueDeck.Scripts.Managers;
@@ -17,7 +19,7 @@ namespace NueGames.NueDeck.Scripts.Characters
         [SerializeField] protected EnemyCanvas enemyCanvas;
         [SerializeField] protected SoundProfileData deathSoundProfileData;
         protected EnemyAbilityData NextAbility;
-        
+        protected string lastAbilityID = "";
         public EnemyCharacterData EnemyCharacterData => enemyCharacterData;
         public EnemyCanvas EnemyCanvas => enemyCanvas;
         public SoundProfileData DeathSoundProfileData => deathSoundProfileData;
@@ -25,46 +27,51 @@ namespace NueGames.NueDeck.Scripts.Characters
         #region Setup
         public override void BuildCharacter()
         {
+            
             base.BuildCharacter();
             EnemyCanvas.InitCanvas();
             CharacterStats = new CharacterStats(EnemyCharacterData.MaxHealth,EnemyCanvas);
             CharacterStats.OnDeath += OnDeath;
+            CharacterStats.OnTakeDamageAction += RunDamageAnimation;
             CharacterStats.SetCurrentHealth(CharacterStats.CurrentHealth);
-            CombatManager.OnAllyTurnStarted += ShowNextAbility;
-            CombatManager.OnEnemyTurnStarted += CharacterStats.TriggerAllStatus;
+            CombatManager.OnEnemyActionDeclaration += ShowNextAbility;
+            CombatManager.OnEnemyStatusTrigger += CharacterStats.TriggerAllStatus;
         }
         protected override void OnDeath()
         {
             base.OnDeath();
-            CombatManager.OnAllyTurnStarted -= ShowNextAbility;
-            CombatManager.OnEnemyTurnStarted -= CharacterStats.TriggerAllStatus;
+            CombatManager.OnEnemyActionDeclaration -= ShowNextAbility;
+            CombatManager.OnEnemyStatusTrigger -= CharacterStats.TriggerAllStatus;
+            EnemyCanvas.gameObject.SetActive(false);
            
             CombatManager.OnEnemyDeath(this);
             AudioManager.PlayOneShot(DeathSoundProfileData.GetRandomClip());
-            Destroy(gameObject);
         }
         #endregion
         
         #region Private Methods
-
-        private int _usedAbilityCount;
         private void ShowNextAbility()
         {
-            NextAbility = EnemyCharacterData.GetAbility(_usedAbilityCount);
-            EnemyCanvas.IntentImage.sprite = NextAbility.Intention.IntentionSprite;
-            
-            if (NextAbility.HideActionValue)
+            NextAbility = SelectUsableCard();
+            EnemyCanvas.SetEnemyIntention(NextAbility);
+        }
+
+        private EnemyAbilityData SelectUsableCard()
+        {
+            List<EnemyAbilityData> availableAbilities = new();
+
+            foreach(EnemyAbilityData ability in EnemyCharacterData.EnemyDeck.CardList)
             {
-                EnemyCanvas.NextActionValueText.gameObject.SetActive(false);
-            }
-            else
-            {
-                EnemyCanvas.NextActionValueText.gameObject.SetActive(true);
-                EnemyCanvas.NextActionValueText.text = NextAbility.ActionList[0].ActionValue.ToString();
+                if(EnergyPoolManager.CanPayCosts(ability.Card.CardActionDataList) && lastAbilityID != ability.Card.Id)
+                    availableAbilities.Add(ability);    
             }
 
-            _usedAbilityCount++;
-            EnemyCanvas.IntentImage.gameObject.SetActive(true);
+            var selectedAbility = EnemyCharacterData.EnemyDeck.DefaultAbility;
+            if(availableAbilities.Count > 0)
+                selectedAbility = availableAbilities.RandomItem();
+
+            lastAbilityID = selectedAbility.Card.Id;
+            return selectedAbility;
         }
         #endregion
         
@@ -74,77 +81,34 @@ namespace NueGames.NueDeck.Scripts.Characters
             if (CharacterStats.IsStunned)
                 yield break;
             
-            EnemyCanvas.IntentImage.gameObject.SetActive(false);
-            if (NextAbility.Intention.EnemyIntentionType == EnemyIntentionType.Attack || NextAbility.Intention.EnemyIntentionType == EnemyIntentionType.Debuff)
-            {
-                yield return StartCoroutine(AttackRoutine(NextAbility));
-            }
-            else
-            {
-                yield return StartCoroutine(BuffRoutine(NextAbility));
-            }
+            EnemyCanvas.SetIntentionVisibility(false);
+            yield return StartCoroutine(RunAbilityRoutine(NextAbility));
         }
-        
-        protected virtual IEnumerator AttackRoutine(EnemyAbilityData targetAbility)
-        {
-            var waitFrame = new WaitForEndOfFrame();
 
+        protected virtual IEnumerator RunAbilityRoutine(EnemyAbilityData targetAbility)
+        {
             if (CombatManager == null) yield break;
             
-            var target = CombatManager.CurrentAlliesList.RandomItem();
-            
-            var startPos = transform.position;
-            var endPos = target.transform.position;
-
-            var startRot = transform.localRotation;
-            var endRot = Quaternion.Euler(60, 0, 60);
-            
-            yield return StartCoroutine(MoveToTargetRoutine(waitFrame, startPos, endPos, startRot, endRot, 5));
-          
-            targetAbility.ActionList.ForEach(x=>EnemyActionProcessor.GetAction(x.ActionType).DoAction(new EnemyActionParameters(x.ActionValue,target,this)));
-            
-            yield return StartCoroutine(MoveToTargetRoutine(waitFrame, endPos, startPos, endRot, startRot, 5));
-        }
-        
-        protected virtual IEnumerator BuffRoutine(EnemyAbilityData targetAbility)
-        {
-            var waitFrame = new WaitForEndOfFrame();
-            
-            var target = CombatManager.CurrentEnemiesList.RandomItem();
-            
-            var startPos = transform.position;
-            var endPos = startPos+new Vector3(0,0.2f,0);
-            
-            var startRot = transform.localRotation;
-            var endRot = transform.localRotation;
-            
-            yield return StartCoroutine(MoveToTargetRoutine(waitFrame, startPos, endPos, startRot, endRot, 5));
-            
-            targetAbility.ActionList.ForEach(x=>EnemyActionProcessor.GetAction(x.ActionType).DoAction(new EnemyActionParameters(x.ActionValue,target,this)));
-            
-            yield return StartCoroutine(MoveToTargetRoutine(waitFrame, endPos, startPos, endRot, startRot, 5));
-        }
-        #endregion
-        
-        #region Other Routines
-        private IEnumerator MoveToTargetRoutine(WaitForEndOfFrame waitFrame,Vector3 startPos, Vector3 endPos, Quaternion startRot, Quaternion endRot, float speed)
-        {
-            var timer = 0f;
-            while (true)
+            CardExecutionContext context = new(this, CombatManager.CurrentMainAlly);
+            foreach (CardActionData action in targetAbility.Card.CardActionDataList)
             {
-                timer += Time.deltaTime*speed;
-
-                transform.position = Vector3.Lerp(startPos, endPos, timer);
-                transform.localRotation = Quaternion.Lerp(startRot,endRot,timer);
-                if (timer>=1f)
+                if (!action.CanExecute(context))
                 {
-                    break;
-                }
+                    yield return WaitForAnimationEnd(ActionAnimationType.Interruption);
+                    yield break;
+                }                
+            }
 
-                yield return waitFrame;
+            yield return WaitForAnimationEnd(targetAbility.Card.AnimationType);
+
+            foreach (CardActionData action in targetAbility.Card.CardActionDataList)
+            {
+                action.Execute(context);
+
+                if (action.ActionDelay > 0)
+                    yield return new WaitForSeconds(action.ActionDelay);              
             }
         }
-
         #endregion
     }
 }

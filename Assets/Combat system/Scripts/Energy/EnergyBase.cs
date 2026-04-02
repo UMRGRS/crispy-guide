@@ -11,29 +11,44 @@ namespace NueGames.NueDeck.Scripts.Energy
     {
         [Header("Energy references")]
         [SerializeField] private EnergyData activeEnergyData;
+        [SerializeField] private Animator energyAnimator;
 
         public EnergyData ActiveEnergyData => activeEnergyData;
         public EnergyStats EnergyStats { get; protected set; }
         public EnergyPoolManager EnergyPoolManager => EnergyPoolManager.Instance;
-
-
         public void BuildEnergy()
         {
-            EnergyStats = new EnergyStats(activeEnergyData.EnergyType, activeEnergyData.StartingStrength);
+            EnergyStats = new EnergyStats(activeEnergyData.EnergyColor, activeEnergyData.StartingStrength, 0);
             EnergyStats.OnInert += OnDestroy;
+            EnergyStats.OnEnergyUnblock += UnblockEnergy;
+            EnergyStats.OnEnergyStrengthModification += TriggerStrengthChangeAnimation;
         }
 
         public void BuildEnergy(EnergyStrength startingStrength)
         {
-            EnergyStats = new EnergyStats(activeEnergyData.EnergyType, startingStrength);
+            EnergyStats = new EnergyStats(activeEnergyData.EnergyColor, startingStrength, 0);
             EnergyStats.OnInert += OnDestroy;
+            EnergyStats.OnEnergyUnblock += UnblockEnergy;
+            EnergyStats.OnEnergyStrengthModification += TriggerStrengthChangeAnimation;
         }
-
+        public void BlockEnergy(int blockTurns)
+        {
+            EnergyStats.ModifyBlockTurns(blockTurns, BlockTurnsModificationType.Increase);
+            EnergyPoolManager.OnBlockEnergy += EnergyStats.ReduceBlockTurns;
+        }
+        public void UnblockEnergy()
+        {
+            EnergyPoolManager.OnBlockEnergy -= EnergyStats.ReduceBlockTurns;
+        }
         public void OnDestroy()
         {
             //Add sound if necessary
             EnergyPoolManager.RemoveEnergyFromPool(this);
             Destroy(gameObject);
+        }
+        public void TriggerStrengthChangeAnimation()
+        {
+            energyAnimator.SetTrigger(EnergyStats.EnergyStrength.ToString());
         }
     }
 }

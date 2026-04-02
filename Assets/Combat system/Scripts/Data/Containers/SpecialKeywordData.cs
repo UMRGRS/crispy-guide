@@ -18,6 +18,7 @@ namespace NueGames.NueDeck.Scripts.Data.Containers
     public class SpecialKeywordBase
     {
         [SerializeField] private SpecialKeywords specialKeyword;
+        [SerializeField] private string KeywordName;
         [SerializeField][TextArea] private string contentText;
 
         public SpecialKeywords SpecialKeyword => specialKeyword;
@@ -25,7 +26,7 @@ namespace NueGames.NueDeck.Scripts.Data.Containers
         
         public string GetHeader(string overrideKeywordHeader = "")
         {
-            return string.IsNullOrEmpty(overrideKeywordHeader) ? specialKeyword.ToString() : overrideKeywordHeader;
+            return string.IsNullOrEmpty(overrideKeywordHeader) ? KeywordName : overrideKeywordHeader;
         }
 
         public string GetContent(string overrideContent = "")

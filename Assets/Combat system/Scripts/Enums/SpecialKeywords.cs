@@ -2,11 +2,12 @@
 {
     public enum SpecialKeywords
     {
-        Block,
-        Strength,
-        Poison,
-        Exhaust,
-        Dexterity,
-        Stun
+        EnergyGenBlock,
+        EnergyUsgBlock,
+        BuffEnergyGen,
+        Burn,
+        PermanentDamageBoost,
+        TemporalDamageBoost,
+        NextCardDamageBoost
     }
 }

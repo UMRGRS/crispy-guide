@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Characters
 {
-    public abstract class AllyBase : CharacterBase,IAlly
+    public abstract class AllyBase : CharacterBase, IAlly
     {
         [Header("Ally Base Settings")]
         [SerializeField] private AllyCanvas allyCanvas;
@@ -37,10 +37,11 @@ namespace NueGames.NueDeck.Scripts.Characters
             }
             
             CharacterStats.OnDeath += OnDeath;
+            CharacterStats.OnTakeDamageAction += RunDamageAnimation;
             CharacterStats.SetCurrentHealth(CharacterStats.CurrentHealth);
             
             if (CombatManager != null)
-                CombatManager.OnAllyTurnStarted += CharacterStats.TriggerAllStatus;
+                CombatManager.OnAllyStatusTrigger += CharacterStats.TriggerAllStatus;
         }
         
         protected override void OnDeath()
@@ -48,7 +49,7 @@ namespace NueGames.NueDeck.Scripts.Characters
             base.OnDeath();
             if (CombatManager != null)
             {
-                CombatManager.OnAllyTurnStarted -= CharacterStats.TriggerAllStatus;
+                CombatManager.OnAllyStatusTrigger -= CharacterStats.TriggerAllStatus;
                 CombatManager.OnAllyDeath(this);
             }
 

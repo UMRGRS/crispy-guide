@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6903f06e96c43789549f142f8956d64, type: 3}
+  m_Name: 4-Heal-create-G
+  m_EditorClassIdentifier: 
+  id: SS_Heal_Create_G
+  cardName: Heal and create green
+  cardSprite: {fileID: -1059830207, guid: 85d900617a53ab32a9db8946691b7007, type: 3}
+  usableWithoutTarget: 0
+  actionTargetType: 1
+  cardActionDataList:
+  - {fileID: 11400000, guid: 91ffd3f8d3677701a83254b33eb89efe, type: 2}
+  - {fileID: 11400000, guid: 983e738bb36777df6b02426cc77902be, type: 2}
+  animationType: 0
+  specialKeywordsList: 

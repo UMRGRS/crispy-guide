@@ -13,16 +13,24 @@ MonoBehaviour:
   m_Name: Special Keyword
   m_EditorClassIdentifier: 
   specialKeywordBaseList:
-  - specialKeyword: 0
-    contentText: Block damages
   - specialKeyword: 1
-    contentText: Increase your attack damage
-  - specialKeyword: 4
-    contentText: Increase your block amount
-  - specialKeyword: 2
-    contentText: Damage per round. Ignores <color=blue>block</color>.
+    KeywordName: Energy usage block
+    contentText: Affected energies cannot be used
   - specialKeyword: 3
-    contentText: After using <color=yellow>Exhaust</color>, remove it from your deck
-      for this combat
+    KeywordName: Burn
+    contentText: Deal damage over time
+  - specialKeyword: 4
+    KeywordName: Permanent damage boost
+    contentText: Add damage equal to the value for the rest of the combat
   - specialKeyword: 5
-    contentText: Can not use any action
+    KeywordName: Temporal damage boost
+    contentText: Add damage equal to the value for the specified amount of turns
+  - specialKeyword: 6
+    KeywordName: Next card damage boost
+    contentText: Add damage equal to the value to your next attack action
+  - specialKeyword: 1
+    KeywordName: Energy generation block
+    contentText: Any card card that would create energy will create 0 instead
+  - specialKeyword: 3
+    KeywordName: Buff energy generation
+    contentText: Your next card will create extra energy equal to the value

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using NueGames.NueDeck.Scripts.Card;
 using NueGames.NueDeck.Scripts.Collection;
@@ -8,14 +7,11 @@ using UnityEngine;
 namespace NueGames.NueDeck.Scripts.Managers
 {
     public class CollectionManager : MonoBehaviour
-    {
-        public CollectionManager(){}
-      
+    {      
         public static CollectionManager Instance { get; private set; }
 
         [Header("Controllers")] 
         [SerializeField] private HandController handController;
-
 
         #region Cache
 
@@ -78,11 +74,12 @@ namespace NueGames.NueDeck.Scripts.Managers
                 HandPile.Add(randomCard);
                 DrawPile.Remove(randomCard);
                 currentDrawCount++;
-                UIManager.CombatCanvas.SetPileTexts();
             }
+
+            var cardContext = new CardExecutionContext(source: CombatManager.CurrentMainAlly);
             
             foreach (var cardObject in HandController.hand)
-                cardObject.UpdateCardText();
+                cardObject.UpdateCardText(cardContext);
         }
         public void DiscardHand()
         {
@@ -96,24 +93,15 @@ namespace NueGames.NueDeck.Scripts.Managers
         {
             HandPile.Remove(targetCard.CardData);
             DiscardPile.Add(targetCard.CardData);
-            UIManager.CombatCanvas.SetPileTexts();
-        }
-        
-        public void OnCardExhausted(CardBase targetCard)
-        {
-            HandPile.Remove(targetCard.CardData);
-            ExhaustPile.Add(targetCard.CardData);
-            UIManager.CombatCanvas.SetPileTexts();
         }
         public void OnCardPlayed(CardBase targetCard)
         {
-            if (targetCard.CardData.ExhaustAfterPlay)
-                targetCard.Exhaust();
-            else
-                targetCard.Discard();
+            targetCard.Discard();
+
+            var cardContext = new CardExecutionContext(source: CombatManager.CurrentMainAlly);
           
             foreach (var cardObject in HandController.hand)
-                cardObject.UpdateCardText();
+                cardObject.UpdateCardText(cardContext);
             
             GameManager.PersistentGameplayData.CanUseCards = true;
         }

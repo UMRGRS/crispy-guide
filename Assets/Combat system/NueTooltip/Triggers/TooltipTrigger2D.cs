@@ -4,11 +4,11 @@ using UnityEngine.EventSystems;
 
 namespace NueGames.NueDeck.ThirdParty.NueTooltip.Triggers
 {
-    public class TooltipTrigger2D : TooltipTriggerBase,I2DTooltipTarget
+    public class TooltipTrigger2D : TooltipTriggerBase, I2DTooltipTarget
     {
         public void OnPointerEnter(PointerEventData eventData)
         {
-           ShowTooltipInfo();
+           //ShowTooltipInfo();
         }
 
         public void OnPointerExit(PointerEventData eventData)

@@ -2,8 +2,8 @@
 {
     public enum BackgroundTypes
     {
-        Profile1,
-        Profile2,
-        Profile3
+        Campo,
+        Fabrica,
+        Cueva
     }
 }

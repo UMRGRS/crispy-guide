@@ -1,12 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
 using NueGames.NueDeck.Scripts.Card;
 using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Data.Containers;
 using NueGames.NueDeck.Scripts.Data.Settings;
-using NueGames.NueDeck.Scripts.EnemyBehaviour;
 using NueGames.NueDeck.Scripts.Enums;
 using NueGames.NueDeck.Scripts.Floors;
-using NueGames.NueDeck.Scripts.NueExtentions;
 using UnityEngine;
 
 namespace NueGames.NueDeck.Scripts.Managers
@@ -28,6 +27,7 @@ namespace NueGames.NueDeck.Scripts.Managers
         public GameplayData GameplayData => gameplayData;
         public PersistentGameplayData PersistentGameplayData { get; private set; }
         protected UIManager UIManager => UIManager.Instance;
+        protected AudioManager AudioManager => AudioManager.Instance;
         #endregion
         
         #region Setup
@@ -44,21 +44,20 @@ namespace NueGames.NueDeck.Scripts.Managers
                 transform.parent = null;
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
-                CardActionProcessor.Initialize();
-                EnemyActionProcessor.Initialize();
                 InitGameplayData();
                 SetInitialHand();
             }
         }
+        public void Start()
+        {
+          StartBGM();  
+        }
         #endregion
-        
+
         #region Public Methods
         public void InitGameplayData()
         { 
             PersistentGameplayData = new PersistentGameplayData(gameplayData);
-            if (UIManager)
-                UIManager.InformationCanvas.ResetCanvas();
-           
         } 
         public CardBase BuildAndGetCard(CardData targetData, Transform parent)
         {
@@ -69,9 +68,21 @@ namespace NueGames.NueDeck.Scripts.Managers
         public void SetInitialHand()
         {
             PersistentGameplayData.CurrentCardsList.Clear();
+
+            PlayerDeckData usedDeck = GameplayData.AvailableDecks.First(x => x.Floor == PersistentGameplayData.CurrentFloor);
             
-            foreach (var cardData in GameplayData.InitialDeck.CardList)
+            foreach (var cardData in usedDeck.CardList)
                 PersistentGameplayData.CurrentCardsList.Add(cardData);
+        }
+        public void StartBGM()
+        {
+            AudioManager.PlayMusic(AudioActionType.MenuMusic);
+        }
+        public void ModifyRemainingTurns(int value, RemainingTurnsModificationType type)
+        {
+            int modifierValue = type == RemainingTurnsModificationType.Increase ? value : value * -1;
+            PersistentGameplayData.RemainingActiveTurns += modifierValue;
+            
         }
         public void NextFloor()
         {

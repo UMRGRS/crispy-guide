@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using NueGames.NueDeck.Scripts.Card;
 using NueGames.NueDeck.Scripts.Characters;
-using NueGames.NueDeck.Scripts.Data.Collection;
 using NueGames.NueDeck.Scripts.Enums;
 using NueGames.NueDeck.Scripts.Interfaces;
 using NueGames.NueDeck.Scripts.Managers;
@@ -23,6 +21,7 @@ namespace NueGames.NueDeck.Scripts.Collection
         [SerializeField] private Vector3 curveEnd = new(-2f, -0.7f, 0);
         [SerializeField] private Vector2 handOffset = new(0, -0.3f);
         [SerializeField] private Vector2 handSize = new(9, 1.7f);
+        [SerializeField] private Vector3 handPositionOffset = Vector3.zero;
 
         [Header("References")]
         public Transform discardTransform;
@@ -41,6 +40,7 @@ namespace NueGames.NueDeck.Scripts.Collection
         protected CollectionManager CollectionManager => CollectionManager.Instance;
         protected UIManager UIManager => UIManager.Instance;
         protected EnergyPoolManager EnergyPoolManager => EnergyPoolManager.Instance;
+        protected ScoreManager ScoreManager => ScoreManager.Instance;
         
         private Plane _plane; // world XY plane, used for mouse position raycasts
         private Vector3 _a, _b, _c; // Used for shaping hand into curve
@@ -68,6 +68,7 @@ namespace NueGames.NueDeck.Scripts.Collection
         #endregion
 
         #region Setup
+
         private void Awake()
         {
             _mainCam = Camera.main;
@@ -81,7 +82,7 @@ namespace NueGames.NueDeck.Scripts.Collection
         private void InitHand()
         {
             _a = transform.TransformPoint(curveStart);
-            _b = transform.position;
+            _b = transform.position + handPositionOffset;
             _c = transform.TransformPoint(curveEnd);
             _handBounds = new Rect((handOffset - handSize / 2), handSize);
             _plane = new Plane(-Vector3.forward, transform.position);
@@ -176,7 +177,8 @@ namespace NueGames.NueDeck.Scripts.Collection
                 var p = GetCurvePoint(_a, _b, _c, t);
 
                 var d = (p - _mouseWorldPos).sqrMagnitude;
-                var mouseCloseToCard = d < 0.5f;
+                //Debug.Log($"Distance to card: {d}");
+                var mouseCloseToCard = d < 1.5f;
                 var mouseHoveringOnSelected =
                     onSelectedCard && mouseCloseToCard && _mouseInsideHand; //  && mouseInsideHand
 
@@ -281,7 +283,8 @@ namespace NueGames.NueDeck.Scripts.Collection
                     Quaternion.LookRotation(cardForward, cardUp), 80f * Time.deltaTime);
                 cardTransform.position = cardPos;
 
-                CombatManager.HighlightCardTarget(_heldCard.CardData.CardActionDataList[0].ActionTargetType);
+                if(!_heldCard.CardData.UsableWithoutTarget)
+                    CombatManager.HighlightCardTarget(_heldCard.CardData.ActionTargetType);
 
                 //if (!canSelectCards || cardTransform.position.y <= transform.position.y + 0.5f) {
                 if (!GameManager.PersistentGameplayData.CanSelectCards || _mouseInsideHand)
@@ -324,11 +327,12 @@ namespace NueGames.NueDeck.Scripts.Collection
                 {
                     GameManager.PersistentGameplayData.CanUseCards = false;
                     backToHand = false;
-                    _heldCard.Use(selfCharacter,targetCharacter,CombatManager.CurrentEnemiesList,CombatManager.CurrentAlliesList);
+                    ScoreManager.UsedCards++;
+                    _heldCard.Use(selfCharacter, targetCharacter);
                 }
             }
 
-            if (backToHand) // Cannot use card / Not enough mana! Return card to hand!
+            if (backToHand) // Cannot use card / Not enough energy! Return card to hand!
                 AddCardToHand(_heldCard, _selected);
 
             _heldCard = null;
@@ -341,8 +345,7 @@ namespace NueGames.NueDeck.Scripts.Collection
 
         private bool IsCardCostMeet(CardBase card)
         {
-            List<EnergyQuantityData> costs = card.CardData.GatherEnergyCosts(); 
-            return EnergyPoolManager.TryToFindEnergyOnPool(costs, out _);
+            return EnergyPoolManager.CanPayCosts(card.CardData.CardActionDataList);
         }
 
         private bool CheckPlayOnCharacter(Ray mainRay, bool _canUse, ref CharacterBase selfCharacter,
@@ -355,11 +358,11 @@ namespace NueGames.NueDeck.Scripts.Collection
 
                 if (character != null)
                 {
-                    bool checkEnemy = (_heldCard.CardData.CardActionDataList[0].ActionTargetType == ActionTargetType.Enemy &&
+                    bool checkEnemy = (_heldCard.CardData.ActionTargetType == ActionTargetType.Enemy &&
                                       character.GetCharacterType() == CharacterType.Enemy);
-                    bool checkAlly = (_heldCard.CardData.CardActionDataList[0].ActionTargetType == ActionTargetType.Ally &&
+                    bool checkAlly = (_heldCard.CardData.ActionTargetType == ActionTargetType.Ally &&
                                      character.GetCharacterType() == CharacterType.Ally);
-
+                    
                     if (checkEnemy || checkAlly)
                     {
                         _canUse = true;
@@ -411,6 +414,8 @@ namespace NueGames.NueDeck.Scripts.Collection
             _mouseInsideHand = _handBounds.Contains(point);
 
             mouseButton = Input.GetMouseButton(0);
+
+            //Debug.Log($"Mouse local pos: {point} | HandBounds: {_handBounds} | Inside: {_mouseInsideHand}"); //tests
         }
 
         private void GetDistanceToCurrentSelectedCard(out int count, out float sqrDistance)

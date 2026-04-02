@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a3027a71e82ef99ca463013f5692220, type: 3}
+  m_Name: Modify gen pool simple
+  m_EditorClassIdentifier: 
+  actionDelay: 0
+  optional: 0
+  costDataList: []
+  isCostUpToValue: 0
+  usableWithoutCost: 0
+  audioType: 0
+  turns: 2
+  maxEnergiesSpawn: 3
+  minEnergiesSpawn: 3
+  availableEnergies:
+  - {fileID: 11400000, guid: a1a6f141bf73b779ca86f93b21b8d3dd, type: 2}
+  - {fileID: 11400000, guid: c1fe76b1e1f1fe15785b788636587766, type: 2}
+  - {fileID: 11400000, guid: 9729e17d189b30d61ba312c3b1a446ee, type: 2}

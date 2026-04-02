@@ -14,7 +14,7 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
         [SerializeField] private List<AllyBase> initialAllyList;
         
         [Header("Decks")] 
-        [SerializeField] private DeckData initialDeck;
+        [SerializeField] private List<PlayerDeckData> availableDecks;
         [SerializeField] [Range(1,20)] private int maxCardOnHand;
         
         [Header("Card Settings")] 
@@ -27,7 +27,7 @@ namespace NueGames.NueDeck.Scripts.Data.Settings
         #region Encapsulation
         public int DrawCount => drawCount;
         public List<AllyBase> InitialAllyList => initialAllyList;
-        public DeckData InitialDeck => initialDeck;
+        public List<PlayerDeckData> AvailableDecks => availableDecks;
         public int MaxCardOnHand => maxCardOnHand;
         public List<CardData> AllCardsList => allCardsList;
         public CardBase CardPrefab => cardPrefab;

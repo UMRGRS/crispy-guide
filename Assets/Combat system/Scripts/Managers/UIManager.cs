@@ -16,7 +16,6 @@ namespace NueGames.NueDeck.Scripts.Managers
 
         [Header("Canvases")]
         [SerializeField] private CombatCanvas combatCanvas;
-        [SerializeField] private InformationCanvas informationCanvas;
         [SerializeField] private RewardCanvas rewardCanvas;
         [SerializeField] private InventoryCanvas inventoryCanvas;
         
@@ -28,7 +27,6 @@ namespace NueGames.NueDeck.Scripts.Managers
 
         #region Cache
         public CombatCanvas CombatCanvas => combatCanvas;
-        public InformationCanvas InformationCanvas => informationCanvas;
         public RewardCanvas RewardCanvas => rewardCanvas;
         public InventoryCanvas InventoryCanvas => inventoryCanvas;
         #endregion
