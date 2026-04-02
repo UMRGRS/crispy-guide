@@ -64,7 +64,7 @@ namespace NueGames.NueDeck.Scripts.Characters
             {
                 if(EnergyPoolManager.CanPayCosts(ability.Card.CardActionDataList) && lastAbilityID != ability.Card.Id)
                     availableAbilities.Add(ability);    
-            }
+            }  
 
             var selectedAbility = EnemyCharacterData.EnemyDeck.DefaultAbility;
             if(availableAbilities.Count > 0)

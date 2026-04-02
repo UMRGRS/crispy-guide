@@ -9,7 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0048712ec52e0f739d26732756ccd49, type: 3}
-  m_Name: Default status database
+  m_Script: {fileID: 11500000, guid: 51f1cb11a5f68cec28446cb667afead8, type: 3}
+  m_Name: Small attack up to
   m_EditorClassIdentifier: 
-  statuses: []
+  actionDelay: 0.1
+  optional: 0
+  costData:
+    redCost: 0
+    blueCost: 0
+    greenCost: 0
+  isCostUpToValue: 0
+  usableWithoutCost: 1
+  audioType: 0
+  value: 2
