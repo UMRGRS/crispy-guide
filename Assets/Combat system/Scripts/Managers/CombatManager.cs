@@ -292,8 +292,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             CollectionManager.HandController.hand.Clear();
             UIManager.CombatCanvas.ShowEndGamePanel();
         }
-        //Return to private
-        public void WinCombat()
+        private void WinCombat()
         {
             GameManager.PersistentGameplayData.CanSelectCards = false;
            
