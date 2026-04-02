@@ -805,7 +805,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Combat select
+  m_text: Resume
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 015203a2203e6994ba644ce1d31e4738, type: 2}
   m_sharedMaterial: {fileID: -5568854834890810349, guid: 015203a2203e6994ba644ce1d31e4738, type: 2}

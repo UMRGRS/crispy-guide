@@ -1,7 +1,10 @@
-﻿using NueGames.NueDeck.Scripts.Enums;
+﻿using System.Collections.Generic;
+using NueGames.NueDeck.Scripts.Enums;
 using NueGames.NueDeck.Scripts.Managers;
+using NueGames.NueDeck.Scripts.Utils;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace NueGames.NueDeck.Scripts.UI
 {
@@ -9,22 +12,24 @@ namespace NueGames.NueDeck.Scripts.UI
     {
         [Header("Texts")]
         [SerializeField] private TextMeshProUGUI turnsLeftTextField;
+        [SerializeField] private List<Button> buttonsToDisable;
+        [SerializeField] private SceneChanger sceneChanger;
 
         [Header("Panels")]
-        [SerializeField] private GameObject combatWinPanel;
-        [SerializeField] private GameObject combatLosePanel;
+        [SerializeField] private GameObject combatEndPanel;
+        [SerializeField] private GameObject combatPausePanel;
 
         public TextMeshProUGUI TurnsLeftTextField => turnsLeftTextField;
-        public GameObject CombatWinPanel => combatWinPanel;
-        public GameObject CombatLosePanel => combatLosePanel;
+        public GameObject CombatEndPanel => combatEndPanel;
+        public GameObject CombatPausePanel => combatPausePanel;
 
 
 
         #region Setup
         private void Awake()
         {
-            CombatWinPanel.SetActive(false);
-            CombatLosePanel.SetActive(false);
+            combatEndPanel.SetActive(false);
+            combatPausePanel.SetActive(false);
         }   
         #endregion
 
@@ -37,14 +42,36 @@ namespace NueGames.NueDeck.Scripts.UI
         public override void ResetCanvas()
         {
             base.ResetCanvas();
-            CombatWinPanel.SetActive(false);
-            CombatLosePanel.SetActive(false);
+            TogglePauseButtons();
+            combatEndPanel.SetActive(false);
+            combatPausePanel.SetActive(false);
         }
 
         public void EndTurn()
         {
             if (CombatManager.CurrentCombatStateType == CombatStateType.AllyTurn)
                 CombatManager.EndAllyTurn();
+        }
+
+        public void ToCombatSelect()
+        {
+            PauseManager.TogglePause();
+            sceneChanger.OpenMapScene();
+        }
+
+        public void TogglePause()
+        {
+            PauseManager.TogglePause();
+            combatPausePanel.SetActive(PauseManager.IsPaused);
+            TogglePauseButtons();
+        }
+
+        private void TogglePauseButtons()
+        {
+            foreach(var button in buttonsToDisable)
+            {
+                button.interactable = !PauseManager.IsPaused;
+            }
         }
         #endregion
     }

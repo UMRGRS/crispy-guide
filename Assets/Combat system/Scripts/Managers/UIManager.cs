@@ -45,7 +45,7 @@ namespace NueGames.NueDeck.Scripts.Managers
 
         #region Public Methods
 
-        public void SetCanvas(CanvasBase targetCanvas,bool open,bool reset = false)
+        public void SetCanvas(CanvasBase targetCanvas, bool open,bool reset = false)
         {
             if (reset)
                 targetCanvas.ResetCanvas();

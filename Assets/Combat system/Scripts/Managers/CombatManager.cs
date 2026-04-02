@@ -290,7 +290,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             CollectionManager.HandPile.Clear();
             CollectionManager.HandController.hand.Clear();
             UIManager.CombatCanvas.gameObject.SetActive(true);
-            UIManager.CombatCanvas.CombatLosePanel.SetActive(true);
+            UIManager.CombatCanvas.CombatEndPanel.SetActive(true);
         }
         private void WinCombat()
         {
@@ -305,7 +305,7 @@ namespace NueGames.NueDeck.Scripts.Managers
             CollectionManager.ClearPiles();
             
             CurrentMainAlly.CharacterStats.ClearAllStatus();
-            UIManager.CombatCanvas.CombatWinPanel.SetActive(true);
+            UIManager.CombatCanvas.CombatEndPanel.SetActive(true);
         }
         #endregion
         
