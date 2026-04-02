@@ -1,0 +1,228 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using NueGames.NueDeck.Scripts.Characters;
+using NueGames.NueDeck.Scripts.Data.Collection;
+using NueGames.NueDeck.Scripts.Data.Energy;
+using NueGames.NueDeck.Scripts.Managers;
+using NueGames.NueDeck.Scripts.Utils;
+using NueGames.NueDeck.ThirdParty.NueTooltip.Core;
+using NueGames.NueDeck.ThirdParty.NueTooltip.CursorSystem;
+using NueGames.NueDeck.ThirdParty.NueTooltip.Interfaces;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
+
+namespace NueGames.NueDeck.Scripts.Card
+{
+    public class CardBase : MonoBehaviour, I2DTooltipTarget, IPointerDownHandler, IPointerUpHandler
+    {
+        [Header("Base References")]
+        [SerializeField] protected Transform descriptionRoot;
+        [SerializeField] protected Image cardImage;
+        [SerializeField] protected Image passiveImage;
+        [SerializeField] protected TextMeshProUGUI descTextField;
+        [SerializeField] protected List<RarityRoot> rarityRootList;
+        [SerializeField] private Image redCostImage;
+        [SerializeField] private Image blueCostImage;
+        [SerializeField] private Image greenCostImage;
+        [SerializeField] private TextMeshProUGUI redCostValue;
+        [SerializeField] private TextMeshProUGUI blueCostValue;
+        [SerializeField] private TextMeshProUGUI greenCostValue;
+
+        #region Cache
+        public CardData CardData { get; private set; }
+        public bool IsInactive { get; protected set; }
+        protected Transform CachedTransform { get; set; }
+        protected WaitForEndOfFrame CachedWaitFrame { get; set; }
+        public bool IsPlayable { get; protected set; } = true;
+
+        public List<RarityRoot> RarityRootList => rarityRootList;
+        protected FxManager FxManager => FxManager.Instance;
+        protected AudioManager AudioManager => AudioManager.Instance;
+        protected GameManager GameManager => GameManager.Instance;
+        protected CombatManager CombatManager => CombatManager.Instance;
+        protected CollectionManager CollectionManager => CollectionManager.Instance;
+        protected EnergyPoolManager EnergyPoolManager => EnergyPoolManager.Instance;
+
+        public bool IsExhausted { get; private set; }
+
+        #endregion
+        
+        #region Setup
+        protected virtual void Awake()
+        {
+            CachedTransform = transform;
+            CachedWaitFrame = new WaitForEndOfFrame();
+        }
+
+        public virtual void SetCard(CardData targetProfile, bool isPlayable = true)
+        {
+            CardData = targetProfile;
+            IsPlayable = isPlayable;
+            descTextField.text = CardData.MyDescription;
+            SetCardCosts();
+            cardImage.sprite = CardData.CardSprite;
+            foreach (var rarityRoot in RarityRootList)
+                rarityRoot.gameObject.SetActive(rarityRoot.Rarity == CardData.Rarity);
+        }
+
+        public void SetCardCosts()
+        {
+            ActionCostData totalEnergyCost = CardData.GatherCardCosts();
+
+            redCostValue.text = totalEnergyCost.RedCost.ToString();
+            redCostImage.gameObject.SetActive(totalEnergyCost.RedCost > 0);
+
+            blueCostValue.text = totalEnergyCost.BlueCost.ToString();
+            blueCostImage.gameObject.SetActive(totalEnergyCost.BlueCost > 0);
+
+            greenCostValue.text = totalEnergyCost.GreenCost.ToString();
+            greenCostImage.gameObject.SetActive(totalEnergyCost.GreenCost > 0);
+        }
+        
+        #endregion
+        
+        #region Card Methods
+        public virtual void Use(CharacterBase self,CharacterBase targetCharacter)
+        {
+            if (!IsPlayable) return;
+         
+            StartCoroutine(CardUseRoutine(self, targetCharacter));
+        }
+
+        private IEnumerator CardUseRoutine(CharacterBase self, CharacterBase targetCharacter)
+        {
+            CardExecutionContext context = new(self, targetCharacter);
+
+            if(CardData.AnimationType != Enums.ActionAnimationType.Hurt)
+                self.TriggerAnimation(CardData.AnimationType);
+
+            foreach (CardActionData action in CardData.CardActionDataList)
+            {
+                if(!action.CanExecute(context)) continue;
+                
+                action.Execute(context);
+
+                if (action.ActionDelay > 0)
+                    yield return new WaitForSeconds(action.ActionDelay);
+            }
+            
+            CollectionManager.OnCardPlayed(this);
+        }
+        public virtual void Discard()
+        {
+            if (IsExhausted) return;
+            if (!IsPlayable) return;
+            CollectionManager.OnCardDiscarded(this);
+            StartCoroutine(DiscardRoutine());
+        }
+        protected virtual void SpendEnergy(List<EnergyQuantityContainer> cost)
+        {
+            if (!IsPlayable) return;
+            EnergyPoolManager.ConsumeEnergyCost(cost);
+        }
+        
+        public virtual void SetInactiveMaterialState(bool isInactive) 
+        {
+            if (!IsPlayable) return;
+            if (isInactive == this.IsInactive) return; 
+            
+            IsInactive = isInactive;
+            passiveImage.gameObject.SetActive(isInactive);
+        }
+        
+        public virtual void UpdateCardText(CardExecutionContext context)
+        {
+            CardData.UpdateDescription(context);
+            
+            descTextField.text = CardData.MyDescription;
+        }
+        
+        #endregion
+        
+        #region Routines
+        protected virtual IEnumerator DiscardRoutine(bool destroy = true)
+        {
+            var timer = 0f;
+            transform.SetParent(CollectionManager.HandController.discardTransform);
+            
+            var startPos = CachedTransform.localPosition;
+            var endPos = Vector3.zero;
+
+            var startScale = CachedTransform.localScale;
+            var endScale = Vector3.zero;
+
+            var startRot = CachedTransform.localRotation;
+            var endRot = Quaternion.Euler(Random.value * 360, Random.value * 360, Random.value * 360);
+            
+            while (true)
+            {
+                timer += Time.deltaTime*5;
+
+                CachedTransform.localPosition = Vector3.Lerp(startPos, endPos, timer);
+                CachedTransform.localRotation = Quaternion.Lerp(startRot,endRot,timer);
+                CachedTransform.localScale = Vector3.Lerp(startScale, endScale, timer);
+                
+                if (timer>=1f)  break;
+                
+                yield return CachedWaitFrame;
+            }
+
+            if (destroy)
+                Destroy(gameObject);
+           
+        }
+        #endregion
+
+        #region Pointer Events
+        public virtual void OnPointerEnter(PointerEventData eventData)
+        {
+            //ShowTooltipInfo();
+        }
+
+        public virtual void OnPointerExit(PointerEventData eventData)
+        {
+            HideTooltipInfo(TooltipManager.Instance);
+        }
+
+        public virtual void OnPointerDown(PointerEventData eventData)
+        {
+            HideTooltipInfo(TooltipManager.Instance);
+        }
+
+        public virtual void OnPointerUp(PointerEventData eventData)
+        {
+            ShowTooltipInfo();
+        }
+        #endregion
+
+        #region Tooltip
+        protected virtual void ShowTooltipInfo()
+        {
+            if (!descriptionRoot) return;
+            if (CardData.KeywordsList.Count<=0) return;
+           
+            var tooltipManager = TooltipManager.Instance;
+            foreach (var cardDataSpecialKeyword in CardData.KeywordsList)
+            {
+                var specialKeyword = tooltipManager.SpecialKeywordData.SpecialKeywordBaseList.Find(x=>x.SpecialKeyword == cardDataSpecialKeyword);
+                if (specialKeyword != null)
+                    ShowTooltipInfo(tooltipManager,specialKeyword.GetContent(),specialKeyword.GetHeader(),descriptionRoot,CursorType.Default,CollectionManager ? CollectionManager.HandController.cam : Camera.main);
+            }
+        }
+        public virtual void ShowTooltipInfo(TooltipManager tooltipManager, string content, string header = "", Transform tooltipStaticTransform = null, CursorType targetCursor = CursorType.Default,Camera cam = null, float delayShow =0)
+        {
+            tooltipManager.ShowTooltip(content,header,tooltipStaticTransform,targetCursor,cam,delayShow);
+        }
+
+        public virtual void HideTooltipInfo(TooltipManager tooltipManager)
+        {
+            tooltipManager.HideTooltip();
+        }
+        #endregion
+
+    }
+}

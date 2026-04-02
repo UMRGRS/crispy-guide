@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e1a0f60abaa4759878657d50d70b112, type: 3}
+  m_Name: Special Keyword
+  m_EditorClassIdentifier: 
+  specialKeywordBaseList:
+  - specialKeyword: 1
+    KeywordName: Energy usage block
+    contentText: Affected energies cannot be used
+  - specialKeyword: 3
+    KeywordName: Burn
+    contentText: Deal damage over time
+  - specialKeyword: 4
+    KeywordName: Permanent damage boost
+    contentText: Add damage equal to the value for the rest of the combat
+  - specialKeyword: 5
+    KeywordName: Temporal damage boost
+    contentText: Add damage equal to the value for the specified amount of turns
+  - specialKeyword: 6
+    KeywordName: Next card damage boost
+    contentText: Add damage equal to the value to your next attack action
+  - specialKeyword: 1
+    KeywordName: Energy generation block
+    contentText: Any card card that would create energy will create 0 instead
+  - specialKeyword: 3
+    KeywordName: Buff energy generation
+    contentText: Your next card will create extra energy equal to the value

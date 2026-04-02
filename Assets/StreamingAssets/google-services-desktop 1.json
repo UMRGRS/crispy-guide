@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "181323439639",
+    "project_id": "th-quarter-pwa",
+    "storage_bucket": "th-quarter-pwa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:181323439639:android:7062cb2bfd76e51c738652",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.crispyguide"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwNrvEw9XT_vEgsFQFf8meNSKvPZil2ag"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

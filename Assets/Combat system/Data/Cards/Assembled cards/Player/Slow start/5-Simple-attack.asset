@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6903f06e96c43789549f142f8956d64, type: 3}
+  m_Name: 5-Simple-attack
+  m_EditorClassIdentifier: 
+  id: SS_Simple_Attack
+  cardName: Simple attack
+  cardSprite: {fileID: 21300000, guid: 07720b55bb7cb3c45a9e509ca5b5e01c, type: 3}
+  rarity: 0
+  usableWithoutTarget: 0
+  actionTargetType: 0
+  cardActionDataList:
+  - {fileID: 11400000, guid: e8b90877e9439e1718548365c7565e8c, type: 2}
+  animationType: 1
+  specialKeywordsList: 
