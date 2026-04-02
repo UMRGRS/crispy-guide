@@ -102,6 +102,7 @@ InitTestScene*.unity*
 #Settings
 # =========================
 *.dwlt
+.vscode
 
 # =========================
 # Firebase / Android
