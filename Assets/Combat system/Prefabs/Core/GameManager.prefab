@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameplayData: {fileID: 11400000, guid: 1ff5bb128064a2d449207d35299f803a, type: 2}
   encounterData:
-  - {fileID: 11400000, guid: 27cd98ae3fa734d0d92c819e4fd9e31f, type: 2}
+  - {fileID: 11400000, guid: bb786b8bf3a0bcb85b365f3a5950ff0b, type: 2}
   - {fileID: 11400000, guid: f3a2d3fc9d2af02958e63bdfcbd09f95, type: 2}
   - {fileID: 11400000, guid: c5d10cc425a4fe71bb6ce39fcc180a9f, type: 2}
   sceneData: {fileID: 11400000, guid: 5ae2ae3ff5f3b8349b31eea9f8fd748e, type: 2}

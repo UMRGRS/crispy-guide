@@ -152,13 +152,14 @@ namespace NueGames.NueDeck.Scripts.Managers
                 foreach (EnergyQuantityContainer cost in action.GetTotalCost())
                 {
                     int currentAmount = simulatedPool[cost.Color];
-                    int lastValue = currentAmount;
-        
+                    
                     currentAmount -= cost.Quantity;
+
+                    int lastValue = currentAmount;
         
                     if (currentAmount < 0)
                     {
-                        if (action.IsCostUpToValue && lastValue == 0)
+                        if (action.IsCostUpToValue && lastValue <= 0)
                         {
                             currentAmount = 0;
                         }
@@ -175,12 +176,12 @@ namespace NueGames.NueDeck.Scripts.Managers
             return true;
         }
 
-        public bool IsEnergyOnPool(List<EnergyQuantityContainer> neededEnergy)
+        public bool IsEnergyOnPool(List<EnergyQuantityContainer> neededEnergy, bool costIsUpTo = false)
         {
             foreach(EnergyQuantityContainer cost in neededEnergy)
             {
                 var energies = FindEnergyOnPool(cost);
-                if(energies.Count() < cost.Quantity) return false;
+                if(energies.Count() < cost.Quantity && !costIsUpTo) return false;
             }
             return true;
         }

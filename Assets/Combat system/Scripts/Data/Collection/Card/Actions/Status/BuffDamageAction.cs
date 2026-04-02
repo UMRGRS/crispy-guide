@@ -24,7 +24,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         {
             if(!context.source) return false;
 
-            if(!context.managersContainer.EnergyPoolManager.IsEnergyOnPool(GetTotalCost())) return false;
+            if(!context.managersContainer.EnergyPoolManager.IsEnergyOnPool(GetTotalCost(), isCostUpToValue)) return false;
 
             return true; 
         }

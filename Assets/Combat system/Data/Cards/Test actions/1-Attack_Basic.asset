@@ -15,14 +15,9 @@ MonoBehaviour:
   id: 1_attack_basic
   cardName: Enemy
   cardSprite: {fileID: 21300000, guid: 8510ca3a47f6c23479e9992c04455698, type: 3}
-  rarity: 0
   usableWithoutTarget: 0
   actionTargetType: 0
   cardActionDataList:
   - {fileID: 11400000, guid: abfbd7d96e81807babf6f89fc72cfe89, type: 2}
-  - {fileID: 11400000, guid: 5c77a43419c0bea61b521df7450acd88, type: 2}
-  - {fileID: 11400000, guid: 0be697cb868337216b4fb3c878871e3a, type: 2}
-  - {fileID: 11400000, guid: 95afe7b95f8723a30b51133aeadab2c0, type: 2}
-  - {fileID: 11400000, guid: c3af39809f5b83ae4a4b60bda3b34983, type: 2}
   animationType: 1
   specialKeywordsList: 

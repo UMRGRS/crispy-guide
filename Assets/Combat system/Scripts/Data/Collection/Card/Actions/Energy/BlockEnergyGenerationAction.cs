@@ -12,7 +12,7 @@ namespace NueGames.NueDeck.Scripts.Data.Collection
         public int Turns => turns;
         public override bool CanExecute(CardExecutionContext context)
         {
-            if(!context.managersContainer.EnergyPoolManager.IsEnergyOnPool(GetTotalCost())) return false;
+            if(!context.managersContainer.EnergyPoolManager.IsEnergyOnPool(GetTotalCost(), isCostUpToValue)) return false;
 
             return true; 
         }
