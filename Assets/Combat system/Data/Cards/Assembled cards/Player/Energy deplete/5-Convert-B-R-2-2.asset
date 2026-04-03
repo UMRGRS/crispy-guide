@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6903f06e96c43789549f142f8956d64, type: 3}
+  m_Name: 5-Convert-B-R-2-2
+  m_EditorClassIdentifier: 
+  id: ED_Convert_B_R_2_2
+  cardName: Convert blue to red
+  cardSprite: {fileID: -1244816844, guid: 85d900617a53ab32a9db8946691b7007, type: 3}
+  usableWithoutTarget: 1
+  actionTargetType: 0
+  cardActionDataList:
+  - {fileID: 11400000, guid: feeaf923fb2215c989bf809a6e11b53d, type: 2}
+  animationType: 2
+  specialKeywordsList: 

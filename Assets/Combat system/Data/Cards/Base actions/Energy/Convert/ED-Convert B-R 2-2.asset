@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2575e02075ee92a1bbb4fba3c5c7fe53, type: 3}
+  m_Name: ED-Convert B-R 2-2
+  m_EditorClassIdentifier: 
+  actionDelay: 0.1
+  optional: 0
+  costData:
+    redCost: 0
+    blueCost: 0
+    greenCost: 0
+  isCostUpToValue: 0
+  usableWithoutCost: 1
+  audioType: 8
+  from:
+    color: 1
+    quantity: 2
+  to:
+    color: 0
+    quantity: 2

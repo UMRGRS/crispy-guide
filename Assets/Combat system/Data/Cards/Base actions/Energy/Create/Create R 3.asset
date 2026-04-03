@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Create R 3
   m_EditorClassIdentifier: 
   actionDelay: 0.1
-  optional: 0
   costData:
     redCost: 0
     blueCost: 0

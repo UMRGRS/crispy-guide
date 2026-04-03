@@ -18,7 +18,7 @@ MonoBehaviour:
   usableWithoutTarget: 0
   actionTargetType: 1
   cardActionDataList:
-  - {fileID: 11400000, guid: 91ffd3f8d3677701a83254b33eb89efe, type: 2}
-  - {fileID: 11400000, guid: 983e738bb36777df6b02426cc77902be, type: 2}
+  - {fileID: 11400000, guid: 540925c0354ca7fe0a7f09b15f9895be, type: 2}
+  - {fileID: 11400000, guid: 46fe4a5c0dda605edb65bbc5d588761e, type: 2}
   animationType: 0
   specialKeywordsList: 

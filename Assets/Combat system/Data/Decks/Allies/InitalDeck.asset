@@ -16,4 +16,4 @@ MonoBehaviour:
   deckName: 
   floor: 0
   cardList:
-  - {fileID: 11400000, guid: 1e43cdb39f5836b44942f367125cadde, type: 2}
+  - {fileID: 11400000, guid: 9548759b556434d0e924e0eabff311f0, type: 2}

@@ -15,10 +15,9 @@ MonoBehaviour:
   id: HO_Create_R
   cardName: Create red
   cardSprite: {fileID: -1513487178384027574, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
-  rarity: 0
   usableWithoutTarget: 1
   actionTargetType: 0
   cardActionDataList:
-  - {fileID: 11400000, guid: 2827f381b4f5f6f2a9829bbe2a73d882, type: 2}
+  - {fileID: 11400000, guid: 9a557daa333f4d67ebfa6ccd1ebad4a0, type: 2}
   animationType: 2
   specialKeywordsList: 

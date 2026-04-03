@@ -22,7 +22,9 @@ MonoBehaviour:
     maxEnemiesSpawn: 1
     availableEnergies:
     - {fileID: 11400000, guid: c1fe76b1e1f1fe15785b788636587766, type: 2}
-    minEnergySpawn: 2
-    maxEnergySpawn: 2
+    - {fileID: 11400000, guid: a1a6f141bf73b779ca86f93b21b8d3dd, type: 2}
+    - {fileID: 11400000, guid: 9729e17d189b30d61ba312c3b1a446ee, type: 2}
+    minEnergySpawn: 10
+    maxEnergySpawn: 10
     energyGenerationTurns: 10
     targetBackgroundType: 0

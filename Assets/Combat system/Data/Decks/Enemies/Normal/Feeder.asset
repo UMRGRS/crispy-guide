@@ -23,8 +23,6 @@ MonoBehaviour:
     hideActionValue: 0
   - card: {fileID: 11400000, guid: 5ff8f0df26d0e67b1ab118cbd818aec8, type: 2}
     hideActionValue: 0
-  - card: {fileID: 11400000, guid: c1c5cc5d5201f2436b92340c2e6ee59a, type: 2}
-    hideActionValue: 0
   - card: {fileID: 11400000, guid: f79465b20ea6d6bc6894772e688ac77d, type: 2}
     hideActionValue: 0
   - card: {fileID: 11400000, guid: 825394f0141e73eabb75cd3430cc64e2, type: 2}

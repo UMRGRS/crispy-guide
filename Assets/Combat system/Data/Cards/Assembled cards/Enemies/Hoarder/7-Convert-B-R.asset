@@ -15,10 +15,9 @@ MonoBehaviour:
   id: HO_Convert_B_R
   cardName: Convert blue to red
   cardSprite: {fileID: -1513487178384027574, guid: a707003c96586cc41b22ae32a9cdb636, type: 3}
-  rarity: 0
   usableWithoutTarget: 1
   actionTargetType: 0
   cardActionDataList:
-  - {fileID: 11400000, guid: feeaf923fb2215c989bf809a6e11b53d, type: 2}
+  - {fileID: 11400000, guid: cef277c9604649bf2a83e380078ac004, type: 2}
   animationType: 2
   specialKeywordsList: 
