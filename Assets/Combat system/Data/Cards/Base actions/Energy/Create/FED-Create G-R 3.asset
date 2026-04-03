@@ -18,7 +18,7 @@ MonoBehaviour:
     blueCost: 4
     greenCost: 0
   isCostUpToValue: 0
-  usableWithoutCost: 1
+  usableWithoutCost: 0
   audioType: 9
   energyToCreate:
   - color: 0
